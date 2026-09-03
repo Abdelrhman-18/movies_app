@@ -1,0 +1,65 @@
+{
+  "@@locale": "ar",
+
+  "appTitle": "أفلام",
+
+  "englishShort": "EN",
+  "arabicShort": "ع",
+
+  "exploreNow": "ابدأ الاستكشاف",
+  "next": "التالي",
+  "back": "رجوع",
+
+  "login": "تسجيل الدخول",
+  "register": "إنشاء حساب",
+  "logout": "تسجيل الخروج",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "name": "الاسم",
+  "phoneNumber": "رقم الهاتف",
+  "forgetPassword": "نسيت كلمة المرور ؟",
+  "resetPassword": "إعادة تعيين كلمة المرور",
+  "loginWithGoogle": "الدخول بحساب Google",
+  "dontHaveAccount": "ليس لديك حساب ؟",
+  "alreadyHaveAccount": "لديك حساب بالفعل ؟",
+
+  "home": "الرئيسية",
+  "search": "البحث",
+  "browse": "التصفح",
+  "profile": "حسابي",
+
+  "searchMovies": "ابحث",
+  "moviesFound": "{count, plural, =0{لا توجد أفلام} =1{فيلم واحد} =2{فيلمان} few{{count} أفلام} many{{count} فيلمًا} other{{count} فيلم}}",
+  "@moviesFound": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "watch": "مشاهدة",
+  "similar": "أفلام مشابهة",
+  "cast": "طاقم العمل",
+  "summary": "الملخص",
+  "genres": "التصنيفات",
+  "screenShots": "لقطات",
+  "seeMore": "عرض المزيد",
+
+  "wishList": "المفضلة",
+  "history": "السجل",
+  "editProfile": "تعديل الحساب",
+  "updateData": "حفظ التعديلات",
+  "deleteAccount": "حذف الحساب",
+  "language": "اللغة",
+
+  "emptyWishList": "لا توجد أفلام في قائمة المفضلة",
+  "noResults": "لا توجد نتائج",
+  "somethingWentWrong": "حدث خطأ ما",
+  "retry": "إعادة المحاولة",
+
+  "designSystem": "نظام التصميم",
+  "colors": "الألوان",
+  "typography": "الخطوط",
+  "buttons": "الأزرار",
+  "textFields": "حقول الإدخال",
+  "loading": "جارٍ التحميل",
+  "disabled": "غير مفعّل"
+}

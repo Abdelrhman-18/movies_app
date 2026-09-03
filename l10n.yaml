@@ -1,0 +1,8 @@
+# flutter gen-l10n configuration.
+# Runs automatically on `flutter pub get` because pubspec has `generate: true`.
+arb-dir: lib/core/localization/arb
+template-arb-file: app_en.arb
+output-dir: lib/core/localization/gen
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+nullable-getter: false

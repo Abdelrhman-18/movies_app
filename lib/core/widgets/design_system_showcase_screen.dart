@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:movies_app/core/localization/l10n.dart';
+import 'package:movies_app/core/localization/locale_cubit.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/theme/app_radius.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
@@ -7,6 +11,7 @@ import 'package:movies_app/core/theme/app_theme.dart';
 import 'package:movies_app/core/widgets/app_app_bar.dart';
 import 'package:movies_app/core/widgets/app_button.dart';
 import 'package:movies_app/core/widgets/app_text_field.dart';
+import 'package:movies_app/core/widgets/language_switch.dart';
 
 /// A dev-only gallery of the shared design-system tokens and widgets.
 /// Wired as the app's initial route while Phase 1 is UI-only, so every
@@ -36,18 +41,26 @@ class _DesignSystemShowcaseScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppAppBar(title: _Copy.title),
+      appBar: AppAppBar(title: context.l10n.designSystem),
       body: ListView(
         padding: EdgeInsetsDirectional.all(AppSpacing.screenPadding),
         children: [
-          const _Section(title: _Copy.colors, child: _ColorsGallery()),
+          _Section(
+            title: context.l10n.language,
+            child: const _LanguageGallery(),
+          ),
           _gap,
-          const _Section(title: _Copy.typography, child: _TypographyGallery()),
-          _gap,
-          const _Section(title: _Copy.buttons, child: _ButtonsGallery()),
+          _Section(title: context.l10n.colors, child: const _ColorsGallery()),
           _gap,
           _Section(
-            title: _Copy.textFields,
+            title: context.l10n.typography,
+            child: const _TypographyGallery(),
+          ),
+          _gap,
+          _Section(title: context.l10n.buttons, child: const _ButtonsGallery()),
+          _gap,
+          _Section(
+            title: context.l10n.textFields,
             child: _FieldsGallery(
               searchController: _searchController,
               emailController: _emailController,
@@ -186,14 +199,18 @@ class _ButtonsGallery extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AppButton(label: _Copy.primary, onPressed: _noop),
+        AppButton(label: context.l10n.login, onPressed: _noop),
         SizedBox(height: AppSpacing.md),
-        AppButton(label: _Copy.loading, onPressed: _noop, isLoading: true),
-        SizedBox(height: AppSpacing.md),
-        AppButton(label: _Copy.disabled, onPressed: _noop, isEnabled: false),
+        AppButton(label: context.l10n.loading, onPressed: _noop, isLoading: true),
         SizedBox(height: AppSpacing.md),
         AppButton(
-          label: _Copy.danger,
+          label: context.l10n.disabled,
+          onPressed: _noop,
+          isEnabled: false,
+        ),
+        SizedBox(height: AppSpacing.md),
+        AppButton(
+          label: context.l10n.deleteAccount,
           onPressed: _noop,
           variant: AppButtonVariant.danger,
         ),
@@ -218,19 +235,19 @@ class _FieldsGallery extends StatelessWidget {
     return Column(
       children: [
         AppTextField(
-          hint: _Copy.searchHint,
+          hint: context.l10n.searchMovies,
           controller: searchController,
           prefixIcon: Icons.search,
         ),
         SizedBox(height: AppSpacing.md),
         AppTextField(
-          hint: _Copy.emailHint,
+          hint: context.l10n.email,
           controller: emailController,
           prefixIcon: Icons.mail_outline,
         ),
         SizedBox(height: AppSpacing.md),
         AppTextField(
-          hint: _Copy.passwordHint,
+          hint: context.l10n.password,
           controller: passwordController,
           prefixIcon: Icons.lock_outline,
           isPassword: true,
@@ -240,23 +257,24 @@ class _FieldsGallery extends StatelessWidget {
   }
 }
 
-/// Showcase-only copy. Real screens pull strings from localization; this
-/// dev gallery never ships, so plain constants are fine here.
-abstract final class _Copy {
-  static const String title = 'Design System';
-  static const String colors = 'Colors';
-  static const String typography = 'Typography';
-  static const String buttons = 'Buttons';
-  static const String textFields = 'Text Fields';
+/// Flips the app locale live so the team can eyeball every widget in RTL
+/// without restarting. Real screens read the locale the same way.
+class _LanguageGallery extends StatelessWidget {
+  const _LanguageGallery();
 
-  static const String primary = 'Primary';
-  static const String loading = 'Loading';
-  static const String disabled = 'Disabled';
-  static const String danger = 'Delete Account';
-
-  static const String searchHint = 'Search movies';
-  static const String emailHint = 'Email';
-  static const String passwordHint = 'Password';
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<LocaleCubit, Locale>(
+      builder: (context, locale) => Align(
+        alignment: AlignmentDirectional.centerStart,
+        child: LanguageSwitch(
+          isArabic: locale.languageCode == LocaleCubit.arabic.languageCode,
+          onChanged: (isArabic) =>
+              context.read<LocaleCubit>().setArabic(isArabic: isArabic),
+        ),
+      ),
+    );
+  }
 }
 
 abstract final class _Data {
