@@ -33,6 +33,9 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Local onboarding flow test
+/test/features/onboarding/presentation/screens/onboarding_screen_test.dart
+
 # Symbolication related
 app.*.symbols
 

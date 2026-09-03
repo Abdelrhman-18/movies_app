@@ -36,7 +36,7 @@ abstract final class AppTheme {
           minimumSize: Size.fromHeight(AppSizes.buttonHeight),
           padding: EdgeInsetsDirectional.symmetric(horizontal: AppSpacing.md),
           shape: buttonShape,
-          textStyle: AppTextStyles.titleSmall,
+          textStyle: AppTextStyles.buttonLabel,
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -49,7 +49,7 @@ abstract final class AppTheme {
             color: AppColors.primary,
             width: AppSizes.categoryBorderWidth,
           ),
-          textStyle: AppTextStyles.titleSmall,
+          textStyle: AppTextStyles.buttonLabel,
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -60,7 +60,9 @@ abstract final class AppTheme {
         ),
         filled: true,
         fillColor: AppColors.surface,
-        hintStyle: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
+        hintStyle: AppTextStyles.bodyMedium.copyWith(
+          color: AppColors.textSecondary,
+        ),
         prefixIconColor: AppColors.textSecondary,
         suffixIconColor: AppColors.textSecondary,
         border: OutlineInputBorder(
