@@ -20,17 +20,20 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       toolbarHeight: AppSizes.appBarHeight,
       leadingWidth: AppSizes.appBarLeadingWidth,
-      leading: IconButton(
-        onPressed:
-            onBack ??
-            () {
-              if (context.canPop()) {
-                context.pop();
-              }
-            },
-        color: AppColors.primary,
-        iconSize: AppSizes.iconSmall,
-        icon: const BackButtonIcon(),
+      leading: Padding(
+        padding: EdgeInsets.symmetric(horizontal: AppSizes.appBarLeadingWidth),
+        child: IconButton(
+          onPressed:
+              onBack ??
+              () {
+                if (context.canPop()) {
+                  context.pop();
+                }
+              },
+          color: AppColors.primary,
+          iconSize: AppSizes.icon,
+          icon: const BackButtonIcon(),
+        ),
       ),
       title: Text(
         title,

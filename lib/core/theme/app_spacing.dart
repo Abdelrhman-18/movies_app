@@ -32,7 +32,7 @@ abstract final class AppSizes {
   static double get avatar => 118.r;
 
   static double get appBarHeight => 48.h;
-  static double get appBarLeadingWidth => 48.w;
+  static double get appBarLeadingWidth => 25.w;
 
   static double get categoryBorderWidth => 2.w;
   static double get tabIndicatorThickness => 2.h;
