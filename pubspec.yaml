@@ -8,6 +8,8 @@ environment:
   sdk: ^3.13.1
 
 dependencies:
+  dotted_border: ^2.1.0
+  image_picker: ^1.2.1
   flutter:
     sdk: flutter
   flutter_localizations:
