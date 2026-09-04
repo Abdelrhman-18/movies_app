@@ -15,6 +15,14 @@ abstract final class AppSizes {
   static double get buttonHeight => 56.h;
   static double get fieldHeight => 56.h;
 
+  static double get between => 19.h;
+  static double get space => 30.h;
+  static double get gridWidth => 18.w;
+  static double get gridRaduis => 30.r;
+  static double get height => 25.h;
+  static double get avatarGrid => 109.r;
+
+
   static double get navBarHeight => 61.h;
   static double get navBarMargin => 9.w;
 

@@ -7,7 +7,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies_app/core/constants/app_assets.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/theme/app_radius.dart';
+import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/theme/app_text_styles.dart';
+import 'package:movies_app/core/widgets/app_app_bar.dart';
 import 'package:movies_app/core/widgets/gird_avatar.dart';
 
 class UpdateProfile extends StatefulWidget {
@@ -71,25 +73,27 @@ class _UpdateProfileState extends State<UpdateProfile> {
     return Scaffold(
       backgroundColor: AppColors.background,
 
-      appBar: AppBar(
-        leading: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 34.w),
-          child: Icon(
-            Icons.arrow_back_outlined,
-            color: AppColors.primary,
-            size: 24.sp,
-          ),
-        ),
-        title: Text(
-          "Pick Avatar",
-          style: TextStyle(
-            color: AppColors.primary,
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w400,
-            fontFamily: 'Roboto',
-          ),
-        ),
-      ),
+      appBar:AppAppBar( title: "Pick Avatar"),
+
+      // AppBar(
+      //   leading: Padding(
+      //     padding: EdgeInsets.symmetric(horizontal: 34.w),
+      //     child: Icon(
+      //       Icons.arrow_back_outlined,
+      //       color: AppColors.primary,
+      //       size:AppSizes.icon,
+      //     ),
+      //   ),
+      //   title: Text(
+      //     "Pick Avatar",
+      //     style: TextStyle(
+      //       color: AppColors.primary,
+      //       fontSize: 14.sp,
+      //       fontWeight: FontWeight.w400,
+      //       fontFamily: 'Roboto',
+      //     ),
+      //   ),
+      // ),
 
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -132,7 +136,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
 
               SizedBox(
                 width: double.infinity,
-                height: 55.72.h,
+                height: AppSizes.fieldHeight,
                 child: TextFormField(
                   decoration: InputDecoration(
                     prefixIcon: Padding(
@@ -158,11 +162,11 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   ),
                 ),
               ),
-              SizedBox(height: 19.28.h),
+              SizedBox(height:AppSizes.between),
 
               SizedBox(
                 width: double.infinity,
-                height: 55.72.h,
+                height: AppSizes.fieldHeight,
                 child: TextFormField(
                   decoration: InputDecoration(
                     prefixIcon: Padding(
@@ -188,7 +192,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   ),
                 ),
               ),
-              SizedBox(height: 30.28.h),
+              SizedBox(height: AppSizes.space),
               Align(
                 alignment: Alignment.centerLeft,
                 child: TextButton(
@@ -202,7 +206,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
               Spacer(),
               SizedBox(
                 width: double.infinity,
-                height: 55.72.h,
+                height:AppSizes.buttonHeight,
                 child: TextButton(
                   onPressed: () {
                   },
@@ -223,11 +227,11 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   ),
                 ),
               ),
-              SizedBox(height: 19.h),
+              SizedBox(height:AppSizes.between),
 
               SizedBox(
                 width: double.infinity,
-                height: 55.72.h,
+                height: AppSizes.buttonHeight,
                 child: TextButton(
                   onPressed: () {
                   },
@@ -242,13 +246,13 @@ class _UpdateProfileState extends State<UpdateProfile> {
                       child: Text(
 
                           "Update Data",
-                          style: AppTextStyles.titleSmall
+                          style: AppTextStyles.titleSmall.copyWith(color: AppColors.primaryText)
                       ),
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 33.56.h),
+              SizedBox(height: AppSizes.genreChipHeight),
 
 
 

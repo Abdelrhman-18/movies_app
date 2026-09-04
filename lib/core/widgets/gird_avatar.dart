@@ -6,6 +6,8 @@ import 'package:movies_app/core/constants/app_assets.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:movies_app/core/theme/app_radius.dart';
+import 'package:movies_app/core/theme/app_spacing.dart';
 class GirdAvatar extends StatefulWidget {
   final Function(int) onAvatarSelected;
   final Function(File) onGalleryImageSelected;
@@ -57,273 +59,48 @@ class _GirdAvatarState extends State<GirdAvatar> {
       padding: const EdgeInsets.all(19.0),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: (){
-                  setState(() {
-                    selectedAvatar=0;
-                  });
-                  widget.onAvatarSelected(0);
+      GridView.builder(
+      shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: AppAssets.avatars.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: AppSizes.gridWidth,
+          mainAxisSpacing: AppSizes.between,
+          mainAxisExtent: AppSizes.avatarGrid,
+        ),
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                selectedAvatar = index;
+              });
 
-
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                   borderRadius: BorderRadius.circular(20),
-
-                      color: selectedAvatar == 0
-                          ? AppColors.primary.withValues(alpha: 0.56)
-                          : Colors.transparent,
-                    border: BoxBorder.all(color: AppColors.primary)
-
-
-                  ),
-                  child: CircleAvatar(
-                    radius:42.r ,
-                    backgroundImage: AssetImage(AppAssets.avatars[0]),
-                  ),
+              widget.onAvatarSelected(index);
+            },
+            child: Container(
+              padding: EdgeInsets.only(top: 8,bottom: 10,right: 9,left: 13),
+              decoration: BoxDecoration(
+                borderRadius: AppRadius.large,
+                color: selectedAvatar == index
+                    ? AppColors.primary.withValues(alpha: 0.56)
+                    : Colors.transparent,
+                border: BoxBorder.all(
+                  color: AppColors.primary,
                 ),
               ),
-              SizedBox(width: 18.w),
-              GestureDetector(
-                onTap: (){
-                  setState(() {
-                    selectedAvatar=1;
-                  });
-                  widget.onAvatarSelected(1);
-
-
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-
-                      color: selectedAvatar == 1
-                          ? AppColors.primary.withValues(alpha: 0.56)
-                          : Colors.transparent,
-                      border: BoxBorder.all(color: AppColors.primary)
-
-
-                  ),
-                  child: CircleAvatar(
-                    radius:42.r ,
-                    backgroundImage: AssetImage(AppAssets.avatars[1]),
-                  ),
+              child: CircleAvatar(
+                radius: AppSizes.gridRaduis,
+                backgroundImage: AssetImage(
+                  AppAssets.avatars[index],
                 ),
               ),
-              SizedBox(width: 18.w),
-              GestureDetector(
-                onTap: (){
-                  setState(() {
-                    selectedAvatar=2;
-                  });
-                  widget.onAvatarSelected(2);
+            ),
+          );
+        },
+      ),
 
-
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-
-                      color: selectedAvatar == 2
-                          ? AppColors.primary.withValues(alpha: 0.56)
-                          : Colors.transparent,
-                      border: BoxBorder.all(color: AppColors.primary)
-
-
-                  ),
-                  child: CircleAvatar(
-                    radius:42.r ,
-                    backgroundImage: AssetImage(AppAssets.avatars[2]),
-
-                  ),
-                ),
-              ),
-
-            ],
-          ),
-          SizedBox(height: 19.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: (){
-                  setState(() {
-                    selectedAvatar=3;
-                  });
-                  widget.onAvatarSelected(3);
-
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-
-                      color: selectedAvatar == 3
-                          ? AppColors.primary.withValues(alpha: 0.56)
-                          : Colors.transparent,
-                      border: BoxBorder.all(color: AppColors.primary)
-
-
-                  ),
-                  child: CircleAvatar(
-                    radius:42.r ,
-                    backgroundImage: AssetImage(AppAssets.avatars[3]),
-                  ),
-                ),
-              ),
-              SizedBox(width: 18.w),
-              GestureDetector(
-                onTap: (){
-                  setState(() {
-                    selectedAvatar=4;
-                  });
-                  widget.onAvatarSelected(4);
-
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-
-                      color: selectedAvatar == 4
-                          ? AppColors.primary.withValues(alpha: 0.56)
-                          : Colors.transparent,
-                      border: BoxBorder.all(color: AppColors.primary)
-
-
-                  ),
-                  child: CircleAvatar(
-                    radius:42.r ,
-                    backgroundImage: AssetImage(AppAssets.avatars[4]),
-                  ),
-                ),
-              ),
-              SizedBox(width: 18.w),
-              GestureDetector(
-                onTap: (){
-                  setState(() {
-                    selectedAvatar=5;
-                  });
-                  widget.onAvatarSelected(5);
-
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-
-                      color: selectedAvatar == 5
-                          ? AppColors.primary.withValues(alpha: 0.56)
-                          : Colors.transparent,
-                      border: BoxBorder.all(color: AppColors.primary)
-
-
-                  ),
-                  child: CircleAvatar(
-                    radius:42.r ,
-                    backgroundImage: AssetImage(AppAssets.avatars[5]),
-
-                  ),
-                ),
-              ),
-
-            ],
-          ),
-          SizedBox(height: 19.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: (){
-                  setState(() {
-                    selectedAvatar=6;
-                  });
-                  widget.onAvatarSelected(6);
-
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-
-                      color: selectedAvatar == 6
-                          ? AppColors.primary.withValues(alpha: 0.56)
-                          : Colors.transparent,
-                      border: BoxBorder.all(color: AppColors.primary)
-
-
-                  ),
-                  child: CircleAvatar(
-                    radius:42.r ,
-                    backgroundImage: AssetImage(AppAssets.avatars[6]),
-                  ),
-                ),
-              ),
-              SizedBox(width: 18.w),
-              GestureDetector(
-                onTap: (){
-                  setState(() {
-                    selectedAvatar=7;
-                  });
-                  widget.onAvatarSelected(7);
-
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-
-                      color: selectedAvatar == 7
-                          ? AppColors.primary.withValues(alpha: 0.56)
-                          : Colors.transparent,
-                      border: BoxBorder.all(color: AppColors.primary)
-
-
-                  ),
-                  child: CircleAvatar(
-                    radius:42.r ,
-                    backgroundImage: AssetImage(AppAssets.avatars[7]),
-                  ),
-                ),
-              ),
-              SizedBox(width: 18.w),
-              GestureDetector(
-                onTap: (){
-                  setState(() {
-                    selectedAvatar=8;
-                  });
-                  widget.onAvatarSelected(8);
-
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-
-                      color: selectedAvatar == 8
-                          ? AppColors.primary.withValues(alpha: 0.56)
-                          : Colors.transparent,
-                      border: BoxBorder.all(color: AppColors.primary)
-
-
-                  ),
-                  child: CircleAvatar(
-                    radius:42.r ,
-                    backgroundImage: AssetImage(AppAssets.avatars[8]),
-
-                  ),
-                ),
-              ),
-
-            ],
-          ),
-          SizedBox(height: 25.h),
+        SizedBox(height:AppSizes.height),
 
           GestureDetector(
             onTap: () {
@@ -350,7 +127,7 @@ class _GirdAvatarState extends State<GirdAvatar> {
                       size: 31.sp,
                     ),
 
-                    SizedBox(width: 12.w),
+                    SizedBox(width: AppSpacing.lg),
 
                     Text(
                       "Choose from Gallery",
