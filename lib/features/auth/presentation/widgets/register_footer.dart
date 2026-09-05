@@ -1,9 +1,6 @@
-﻿import 'package:flutter/material.dart';
-
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
 
 import 'package:movies_app/core/localization/l10n.dart';
-import 'package:movies_app/core/localization/locale_cubit.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/theme/app_text_styles.dart';
@@ -16,7 +13,6 @@ class RegisterFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isArabic = context.watch<LocaleCubit>().isArabic;
     return Column(
       children: [
         TextButton(
@@ -29,7 +25,8 @@ class RegisterFooter extends StatelessWidget {
                 TextSpan(
                   text: context.l10n.login,
                   style: AppTextStyles.bodySmall.copyWith(
-                    color: AppColors.primary, fontWeight: FontWeight.w700,
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ],
@@ -38,10 +35,7 @@ class RegisterFooter extends StatelessWidget {
           ),
         ),
         SizedBox(height: AppSpacing.xs),
-        LanguageSwitch(
-          isArabic: isArabic,
-          onChanged: (arabic) => context.read<LocaleCubit>().setArabic(isArabic: arabic),
-        ),
+        const LanguageSwitch(),
       ],
     );
   }

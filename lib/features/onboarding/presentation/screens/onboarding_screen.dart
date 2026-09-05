@@ -20,15 +20,6 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  static const _shadowColors = [
-    Color(0xFF121312),
-    Color(0xFF084250),
-    Color(0xFF85210D),
-    Color(0xFF4C1B63),
-    Color(0xFF561625),
-    Color(0xFF525A5D),
-  ];
-
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
@@ -100,8 +91,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            _shadowColors[index].withValues(alpha: 0),
-                            _shadowColors[index],
+                            AppColors.onboardingShadows[index].withValues(
+                              alpha: 0,
+                            ),
+                            AppColors.onboardingShadows[index],
                           ],
                         ),
                       ),

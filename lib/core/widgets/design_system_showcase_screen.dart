@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:movies_app/core/localization/l10n.dart';
-import 'package:movies_app/core/localization/locale_cubit.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/theme/app_radius.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
@@ -20,10 +17,12 @@ class DesignSystemShowcaseScreen extends StatefulWidget {
   const DesignSystemShowcaseScreen({super.key});
 
   @override
-  State<DesignSystemShowcaseScreen> createState() => _DesignSystemShowcaseScreenState();
+  State<DesignSystemShowcaseScreen> createState() =>
+      _DesignSystemShowcaseScreenState();
 }
 
-class _DesignSystemShowcaseScreenState extends State<DesignSystemShowcaseScreen> {
+class _DesignSystemShowcaseScreenState
+    extends State<DesignSystemShowcaseScreen> {
   final TextEditingController _searchController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -43,11 +42,17 @@ class _DesignSystemShowcaseScreenState extends State<DesignSystemShowcaseScreen>
       body: ListView(
         padding: EdgeInsetsDirectional.all(AppSpacing.screenPadding),
         children: [
-          _Section(title: context.l10n.language, child: const _LanguageGallery()),
+          _Section(
+            title: context.l10n.language,
+            child: const _LanguageGallery(),
+          ),
           _gap,
           _Section(title: context.l10n.colors, child: const _ColorsGallery()),
           _gap,
-          _Section(title: context.l10n.typography, child: const _TypographyGallery()),
+          _Section(
+            title: context.l10n.typography,
+            child: const _TypographyGallery(),
+          ),
           _gap,
           _Section(title: context.l10n.buttons, child: const _ButtonsGallery()),
           _gap,
@@ -99,7 +104,10 @@ class _ColorsGallery extends StatelessWidget {
     return Wrap(
       spacing: AppSpacing.sm,
       runSpacing: AppSpacing.md,
-      children: [for (final (name, color) in _Data.swatches) _Swatch(name: name, color: color)],
+      children: [
+        for (final (name, color) in _Data.swatches)
+          _Swatch(name: name, color: color),
+      ],
     );
   }
 }
@@ -167,7 +175,12 @@ class _TypographyGallery extends StatelessWidget {
         for (final (name, style) in samples)
           Padding(
             padding: EdgeInsetsDirectional.only(bottom: AppSpacing.sm),
-            child: Text(name, style: style, maxLines: 1, overflow: TextOverflow.ellipsis),
+            child: Text(
+              name,
+              style: style,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
       ],
     );
@@ -185,9 +198,17 @@ class _ButtonsGallery extends StatelessWidget {
       children: [
         AppButton(label: context.l10n.login, onPressed: _noop),
         SizedBox(height: AppSpacing.md),
-        AppButton(label: context.l10n.loading, onPressed: _noop, isLoading: true),
+        AppButton(
+          label: context.l10n.loading,
+          onPressed: _noop,
+          isLoading: true,
+        ),
         SizedBox(height: AppSpacing.md),
-        AppButton(label: context.l10n.disabled, onPressed: _noop, isEnabled: false),
+        AppButton(
+          label: context.l10n.disabled,
+          onPressed: _noop,
+          isEnabled: false,
+        ),
         SizedBox(height: AppSpacing.md),
         AppButton(
           label: context.l10n.deleteAccount,
@@ -244,14 +265,9 @@ class _LanguageGallery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LocaleCubit, Locale>(
-      builder: (context, locale) => Align(
-        alignment: AlignmentDirectional.centerStart,
-        child: LanguageSwitch(
-          isArabic: locale.languageCode == LocaleCubit.arabic.languageCode,
-          onChanged: (isArabic) => context.read<LocaleCubit>().setArabic(isArabic: isArabic),
-        ),
-      ),
+    return const Align(
+      alignment: AlignmentDirectional.centerStart,
+      child: LanguageSwitch(),
     );
   }
 }

@@ -71,7 +71,7 @@ void main() {
           matchesGoldenFile('../build/register-preview.png'),
         );
       }
-      await tester.tap(find.byTooltip('AR'));
+      await tester.tap(find.bySemanticsLabel('AR'));
       await tester.pumpAndSettle();
       expect(find.text('التسجيل'), findsOneWidget);
       expect(
