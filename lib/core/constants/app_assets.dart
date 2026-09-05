@@ -7,6 +7,7 @@ abstract final class AppAssets {
   static const String personIcon = 'assets/icons/icon_person.svg';
   static const String phoneIcon = 'assets/icons/icon_phone.svg';
   static const String emailIcon = 'assets/icons/icon_email.svg';
+  static const String userIcon = 'assets/icons/User-4.svg';
 
   // Branding
   static const String appLogo = 'assets/images/app_logo.png';
@@ -23,6 +24,8 @@ abstract final class AppAssets {
     'assets/images/onboarding_collage_4.jpg',
     'assets/images/onboarding_collage_5.jpg',
     'assets/images/onboarding_collage_6.jpg',
+
+
   ];
 
   // Avatars

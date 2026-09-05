@@ -24,7 +24,7 @@ abstract final class AppTextStyles {
 
   static TextStyle get bodyLarge => _style(20, FontWeight.w400, height: 1.6);
 
-  static TextStyle get bodyMedium => _style(16, FontWeight.w400);
+  static TextStyle get bodyMedium => _style(16, FontWeight.w400 , );
 
   static TextStyle get bodySmall => _style(14, FontWeight.w400);
 

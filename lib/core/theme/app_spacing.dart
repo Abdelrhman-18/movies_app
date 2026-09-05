@@ -48,4 +48,8 @@ abstract final class AppSizes {
   static double get languageSwitchHeight => 36.h;
 
   static double get emptyIllustration => avatar;
+
+  static double get avatarGridItem => 42.r;
+  static double get profileAvatarPreview => 150.r;
+  static double get avatarPickerSheetHeight => 500.h;
 }

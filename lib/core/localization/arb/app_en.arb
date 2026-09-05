@@ -147,5 +147,8 @@
   "phoneInvalid": "Enter a valid phone number",
   "@phoneInvalid": { "description": "Validation: phone format is invalid" },
   "registrationUnavailable": "Your details are valid. Account creation will be available soon.",
-  "@registrationUnavailable": { "description": "Register: submit placeholder before Firebase is wired" }
+  "@registrationUnavailable": { "description": "Register: submit placeholder before Firebase is wired" },
+
+  "chooseFromGallery": "Choose from Gallery",
+  "@chooseFromGallery": { "description": "Update Profile: pick an avatar image from the device gallery" }
 }

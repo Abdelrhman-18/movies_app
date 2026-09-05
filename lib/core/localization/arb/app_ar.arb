@@ -86,5 +86,7 @@
   "fieldRequired": "هذا الحقل مطلوب",
   "passwordMismatch": "كلمتا المرور غير متطابقتين",
   "phoneInvalid": "أدخل رقم هاتف صحيحًا",
-  "registrationUnavailable": "بياناتك صحيحة. إنشاء الحساب سيتوفر قريبًا."
+  "registrationUnavailable": "بياناتك صحيحة. إنشاء الحساب سيتوفر قريبًا.",
+
+  "chooseFromGallery": "اختر من المعرض"
 }
