@@ -38,6 +38,7 @@ abstract final class AppSizes {
   static double get badgeVerticalPadding => 8.h;
 
   static double get languageOptionWidth => 48.w;
+  static double get languageFlag => 28.w;
 
   static double get emptyIllustration => avatar;
 }

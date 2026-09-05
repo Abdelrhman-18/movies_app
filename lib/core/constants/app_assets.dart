@@ -1,4 +1,7 @@
 abstract final class AppAssets {
+  static const String egyptFlag = 'assets/icons/flag_egypt.svg';
+  static const String usaFlag = 'assets/icons/flag_usa.svg';
+
   // Icons
   static const String googleIcon = 'assets/icons/icon_google.svg';
   static const String personIcon = 'assets/icons/icon_person.svg';

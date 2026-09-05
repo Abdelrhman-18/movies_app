@@ -7,10 +7,17 @@ import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/theme/app_theme.dart';
 import 'package:movies_app/core/widgets/design_system_showcase_screen.dart';
 
+import 'package:movies_app/features/auth/presentation/screens/register_screen.dart';
+
 abstract final class AppRouter {
   static final GoRouter router = GoRouter(
-    initialLocation: AppRoutes.showcasePath,
+    initialLocation: AppRoutes.registerPath,
     routes: [
+      GoRoute(
+        name: AppRoutes.registerName,
+        path: AppRoutes.registerPath,
+        builder: (_, _) => const RegisterScreen(),
+      ),
       GoRoute(
         name: AppRoutes.showcaseName,
         path: AppRoutes.showcasePath,

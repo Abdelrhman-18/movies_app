@@ -110,5 +110,15 @@
   "loading": "Loading",
   "@loading": { "description": "Showcase button state label" },
   "disabled": "Disabled",
-  "@disabled": { "description": "Showcase button state label" }
+  "@disabled": { "description": "Showcase button state label" },
+
+"registerTitle":  "Register",
+    "avatar":  "Avatar",
+    "fieldRequired":  "This field is required",
+    "emailInvalid":  "Enter a valid email address",
+    "passwordTooShort":  "Use at least 6 characters",
+    "passwordMismatch":  "Passwords do not match",
+    "phoneInvalid":  "Enter a valid phone number",
+    "registrationUnavailable":  "Your details are valid. Account creation will be available soon.",
+    "loginUnavailable":  "Login will be connected when the login feature is merged."
 }

@@ -61,5 +61,15 @@
   "buttons": "الأزرار",
   "textFields": "حقول الإدخال",
   "loading": "جارٍ التحميل",
-  "disabled": "غير مفعّل"
+  "disabled": "غير مفعّل",
+
+"registerTitle":  "التسجيل",
+    "avatar":  "الصورة الشخصية",
+    "fieldRequired":  "هذا الحقل مطلوب",
+    "emailInvalid":  "أدخل بريدًا إلكترونيًا صحيحًا",
+    "passwordTooShort":  "استخدم 6 أحرف على الأقل",
+    "passwordMismatch":  "كلمتا المرور غير متطابقتين",
+    "phoneInvalid":  "أدخل رقم هاتف صحيحًا",
+    "registrationUnavailable":  "بياناتك صحيحة. إنشاء الحساب سيتوفر قريبًا.",
+    "loginUnavailable":  "سيتم ربط تسجيل الدخول بعد دمج الميزة."
 }
