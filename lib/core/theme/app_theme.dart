@@ -20,7 +20,9 @@ abstract final class AppTheme {
     );
 
     final base = ThemeData.dark(useMaterial3: true);
-    final buttonShape = RoundedRectangleBorder(borderRadius: AppRadius.medium);
+    final buttonShape = RoundedRectangleBorder(
+      borderRadius: AppRadius.medium,
+    );
 
     return base.copyWith(
       colorScheme: colorScheme,
@@ -34,7 +36,9 @@ abstract final class AppTheme {
           elevation: 0,
           foregroundColor: AppColors.primaryText,
           minimumSize: Size.fromHeight(AppSizes.buttonHeight),
-          padding: EdgeInsetsDirectional.symmetric(horizontal: AppSpacing.md),
+          padding: EdgeInsetsDirectional.symmetric(
+            horizontal: AppSpacing.md,
+          ),
           shape: buttonShape,
           textStyle: AppTextStyles.titleSmall,
         ),
@@ -43,7 +47,9 @@ abstract final class AppTheme {
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.primary,
           minimumSize: Size.fromHeight(AppSizes.buttonHeight),
-          padding: EdgeInsetsDirectional.symmetric(horizontal: AppSpacing.md),
+          padding: EdgeInsetsDirectional.symmetric(
+            horizontal: AppSpacing.md,
+          ),
           shape: buttonShape,
           side: BorderSide(
             color: AppColors.primary,
@@ -53,14 +59,18 @@ abstract final class AppTheme {
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
-        constraints: BoxConstraints(minHeight: AppSizes.fieldHeight),
+        constraints: BoxConstraints(
+          minHeight: AppSizes.fieldHeight,
+        ),
         contentPadding: EdgeInsetsDirectional.symmetric(
           horizontal: AppSpacing.md,
           vertical: AppSpacing.md,
         ),
         filled: true,
         fillColor: AppColors.surface,
-        hintStyle: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
+        hintStyle: AppTextStyles.bodyMedium.copyWith(
+          color: AppColors.textSecondary,
+        ),
         prefixIconColor: AppColors.textSecondary,
         suffixIconColor: AppColors.textSecondary,
         border: OutlineInputBorder(
@@ -115,6 +125,8 @@ abstract final class AppTheme {
 
 extension ThemeContext on BuildContext {
   ThemeData get theme => Theme.of(this);
+
   ColorScheme get colorScheme => theme.colorScheme;
+
   TextTheme get textTheme => theme.textTheme;
 }

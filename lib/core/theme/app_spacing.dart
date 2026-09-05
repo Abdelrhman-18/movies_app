@@ -39,5 +39,13 @@ abstract final class AppSizes {
 
   static double get languageOptionWidth => 48.w;
 
+  static double get loginLogoWidth => 121.w;
+  static double get loginLogoHeight => 118.h;
+  static double get loginDividerWidth => 230.w;
+  static double get forgotPasswordIllustration => 350.r;
+  static double get languageSwitchWidth => 89.w;
+  static double get languageSwitchHeight => 36.h;
+  static double get languageFlag => 28.r;
+
   static double get emptyIllustration => avatar;
 }
