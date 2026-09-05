@@ -40,7 +40,7 @@ abstract final class AppTheme {
             horizontal: AppSpacing.md,
           ),
           shape: buttonShape,
-          textStyle: AppTextStyles.titleSmall,
+          textStyle: AppTextStyles.buttonLabel,
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -55,7 +55,7 @@ abstract final class AppTheme {
             color: AppColors.primary,
             width: AppSizes.categoryBorderWidth,
           ),
-          textStyle: AppTextStyles.titleSmall,
+          textStyle: AppTextStyles.buttonLabel,
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(

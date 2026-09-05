@@ -1,4 +1,7 @@
 abstract final class AppRoutes {
+  static const String onboardingName = 'onboarding';
+  static const String onboardingPath = '/';
+
   static const String loginName = 'login';
   static const String loginPath = '/login';
 
@@ -6,5 +9,5 @@ abstract final class AppRoutes {
   static const String forgotPasswordPath = '/forgot-password';
 
   static const String showcaseName = 'designSystemShowcase';
-  static const String showcasePath = '/';
+  static const String showcasePath = '/showcase';
 }

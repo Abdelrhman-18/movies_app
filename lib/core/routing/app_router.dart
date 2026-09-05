@@ -9,11 +9,18 @@ import 'package:movies_app/core/widgets/design_system_showcase_screen.dart';
 
 import 'package:movies_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:movies_app/features/auth/presentation/screens/reset_password_screen.dart';
+import 'package:movies_app/features/onboarding/presentation/screens/onboarding_screen.dart';
 
 abstract final class AppRouter {
   static final GoRouter router = GoRouter(
-    initialLocation: AppRoutes.loginPath,
+    initialLocation: AppRoutes.onboardingPath,
     routes: [
+      GoRoute(
+        name: AppRoutes.onboardingName,
+        path: AppRoutes.onboardingPath,
+        builder: (context, _) =>
+            OnboardingScreen(onFinished: () => context.go(AppRoutes.loginPath)),
+      ),
       GoRoute(
         name: AppRoutes.loginName,
         path: AppRoutes.loginPath,
