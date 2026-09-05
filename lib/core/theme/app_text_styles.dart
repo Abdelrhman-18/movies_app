@@ -29,6 +29,8 @@ abstract final class AppTextStyles {
 
   static TextStyle get bodySmall => _style(14, FontWeight.w400);
 
+  static TextStyle get labelSmall => _style(12, FontWeight.w400);
+
   static TextStyle get onboardingTitle =>
       _style(24, FontWeight.w700, height: 1, fontFamily: _interFontFamily);
 
@@ -57,6 +59,7 @@ abstract final class AppTextStyles {
     bodyLarge: bodyLarge,
     bodyMedium: bodyMedium,
     bodySmall: bodySmall,
+    labelSmall: labelSmall,
   );
 
   static TextStyle _style(
