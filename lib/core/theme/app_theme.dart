@@ -20,9 +20,7 @@ abstract final class AppTheme {
     );
 
     final base = ThemeData.dark(useMaterial3: true);
-    final buttonShape = RoundedRectangleBorder(
-      borderRadius: AppRadius.medium,
-    );
+    final buttonShape = RoundedRectangleBorder(borderRadius: AppRadius.medium);
 
     return base.copyWith(
       colorScheme: colorScheme,
@@ -36,9 +34,7 @@ abstract final class AppTheme {
           elevation: 0,
           foregroundColor: AppColors.primaryText,
           minimumSize: Size.fromHeight(AppSizes.buttonHeight),
-          padding: EdgeInsetsDirectional.symmetric(
-            horizontal: AppSpacing.md,
-          ),
+          padding: EdgeInsetsDirectional.symmetric(horizontal: AppSpacing.md),
           shape: buttonShape,
           textStyle: AppTextStyles.buttonLabel,
         ),
@@ -47,60 +43,39 @@ abstract final class AppTheme {
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.primary,
           minimumSize: Size.fromHeight(AppSizes.buttonHeight),
-          padding: EdgeInsetsDirectional.symmetric(
-            horizontal: AppSpacing.md,
-          ),
+          padding: EdgeInsetsDirectional.symmetric(horizontal: AppSpacing.md),
           shape: buttonShape,
-          side: BorderSide(
-            color: AppColors.primary,
-            width: AppSizes.categoryBorderWidth,
-          ),
+          side: BorderSide(color: AppColors.primary, width: AppSizes.categoryBorderWidth),
           textStyle: AppTextStyles.buttonLabel,
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
-        constraints: BoxConstraints(
-          minHeight: AppSizes.fieldHeight,
-        ),
+        constraints: BoxConstraints(minHeight: AppSizes.fieldHeight),
         contentPadding: EdgeInsetsDirectional.symmetric(
           horizontal: AppSpacing.md,
           vertical: AppSpacing.md,
         ),
         filled: true,
         fillColor: AppColors.surface,
-        hintStyle: AppTextStyles.bodyMedium.copyWith(
-          color: AppColors.textSecondary,
-        ),
+        hintStyle: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
         prefixIconColor: AppColors.textSecondary,
         suffixIconColor: AppColors.textSecondary,
-        border: OutlineInputBorder(
-          borderRadius: AppRadius.medium,
-          borderSide: BorderSide.none,
-        ),
+        border: OutlineInputBorder(borderRadius: AppRadius.medium, borderSide: BorderSide.none),
         enabledBorder: OutlineInputBorder(
           borderRadius: AppRadius.medium,
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: AppRadius.medium,
-          borderSide: BorderSide(
-            color: AppColors.primary,
-            width: AppSizes.categoryBorderWidth,
-          ),
+          borderSide: BorderSide(color: AppColors.primary, width: AppSizes.categoryBorderWidth),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: AppRadius.medium,
-          borderSide: BorderSide(
-            color: AppColors.error,
-            width: AppSizes.categoryBorderWidth,
-          ),
+          borderSide: BorderSide(color: AppColors.error, width: AppSizes.categoryBorderWidth),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: AppRadius.medium,
-          borderSide: BorderSide(
-            color: AppColors.error,
-            width: AppSizes.categoryBorderWidth,
-          ),
+          borderSide: BorderSide(color: AppColors.error, width: AppSizes.categoryBorderWidth),
         ),
       ),
       appBarTheme: AppBarTheme(

@@ -1,11 +1,12 @@
 abstract final class AppAssets {
+  static const String egyptFlag = 'assets/icons/flag_egypt.svg';
+  static const String usaFlag = 'assets/icons/flag_usa.svg';
+
   // Icons
   static const String googleIcon = 'assets/icons/icon_google.svg';
   static const String personIcon = 'assets/icons/icon_person.svg';
   static const String phoneIcon = 'assets/icons/icon_phone.svg';
   static const String emailIcon = 'assets/icons/icon_email.svg';
-  static const String usaFlag = 'assets/icons/flag_usa.svg';
-  static const String egyptFlag = 'assets/icons/flag_egypt.svg';
 
   // Branding
   static const String appLogo = 'assets/images/app_logo.png';

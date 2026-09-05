@@ -12,8 +12,7 @@ abstract final class AppTextStyles {
 
   static TextStyle get displayMedium => _style(36, FontWeight.w700);
 
-  static TextStyle get headlineSmall =>
-      _style(24, FontWeight.w700, height: 1.39);
+  static TextStyle get headlineSmall => _style(24, FontWeight.w700, height: 1.39);
 
   static TextStyle get titleLarge => _style(24, FontWeight.w700);
 
@@ -40,13 +39,8 @@ abstract final class AppTextStyles {
   static TextStyle get onboardingBody =>
       _style(20, FontWeight.w400, height: 1.6, fontFamily: _interFontFamily);
 
-  static TextStyle get buttonLabel => _style(
-    20,
-    FontWeight.w600,
-    height: 1,
-    fontFamily: _interFontFamily,
-    color: null,
-  );
+  static TextStyle get buttonLabel =>
+      _style(20, FontWeight.w600, height: 1, fontFamily: _interFontFamily, color: null);
 
   static TextTheme get textTheme => TextTheme(
     displayLarge: displayLarge,

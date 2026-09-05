@@ -58,10 +58,7 @@ class AppButton extends StatelessWidget {
       width: double.infinity,
       height: AppSizes.buttonHeight,
       child: isOutlined
-          ? OutlinedButton(
-              onPressed: isEnabled && !isLoading ? onPressed : null,
-              child: child,
-            )
+          ? OutlinedButton(onPressed: isEnabled && !isLoading ? onPressed : null, child: child)
           : ElevatedButton(
               onPressed: isEnabled && !isLoading ? onPressed : null,
               style: isDanger

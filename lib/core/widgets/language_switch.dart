@@ -1,21 +1,16 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
+import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:movies_app/core/constants/app_assets.dart';
 import 'package:movies_app/core/localization/l10n.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/theme/app_radius.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
-import 'package:movies_app/core/theme/app_theme.dart';
 
-/// Two-option language toggle used on OnBoarding, Login and Profile.
-///
-/// TODO(design): the Figma shows two flag icons. Swap the short labels for
-/// `SvgPicture.asset` once the flag assets land in `AppAssets`.
+/// Shared language control; locale state is owned by the caller.
 class LanguageSwitch extends StatelessWidget {
-  const LanguageSwitch({
-    required this.isArabic,
-    required this.onChanged,
-    super.key,
-  });
+  const LanguageSwitch({required this.isArabic, required this.onChanged, super.key});
 
   final bool isArabic;
   final ValueChanged<bool> onChanged;
@@ -24,69 +19,39 @@ class LanguageSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: AppRadius.medium,
+        borderRadius: AppRadius.large,
+        border: Border.all(color: AppColors.primary, width: AppSizes.categoryBorderWidth),
       ),
-      child: Padding(
-        padding: EdgeInsetsDirectional.all(AppSpacing.xs),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _LanguageOption(
-              label: context.l10n.englishShort,
-              isSelected: !isArabic,
-              onTap: () => onChanged(false),
-            ),
-            SizedBox(width: AppSpacing.xs),
-            _LanguageOption(
-              label: context.l10n.arabicShort,
-              isSelected: isArabic,
-              onTap: () => onChanged(true),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _LanguageOption extends StatelessWidget {
-  const _LanguageOption({
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: AppRadius.small,
-      child: SizedBox(
-        width: AppSizes.languageOptionWidth,
-        height: AppSizes.languageOptionWidth,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: isSelected ? AppColors.primary : Colors.transparent,
-            borderRadius: AppRadius.small,
-          ),
-          child: Center(
-            child: Text(
-              label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: context.textTheme.bodyMedium?.copyWith(
-                color: isSelected
-                    ? AppColors.primaryText
-                    : AppColors.textSecondary,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        textDirection: TextDirection.ltr,
+        children: [
+          for (final arabic in [false, true])
+            Semantics(
+              selected: isArabic == arabic,
+              child: IconButton(
+                tooltip: arabic ? context.l10n.arabicShort : context.l10n.englishShort,
+                constraints: BoxConstraints.tightFor(
+                  width: AppSizes.languageOptionWidth,
+                  height: AppSizes.languageOptionWidth,
+                ),
+                padding: EdgeInsets.zero,
+                style: IconButton.styleFrom(
+                  backgroundColor: isArabic == arabic ? AppColors.primary : null,
+                ),
+                onPressed: () => onChanged(arabic),
+                icon: ClipOval(
+                  child: SvgPicture.asset(
+                    arabic ? AppAssets.egyptFlag : AppAssets.usaFlag,
+                    width: AppSizes.languageFlag,
+                    height: AppSizes.languageFlag,
+                    fit: BoxFit.cover,
+                    excludeFromSemantics: true,
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
+        ],
       ),
     );
   }

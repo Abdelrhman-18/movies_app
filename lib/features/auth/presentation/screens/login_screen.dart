@@ -47,9 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
             onLogin: _login,
             onForgotPassword: () =>
                 context.pushNamed(AppRoutes.forgotPasswordName),
-            onCreateAccount: () {
-              // TODO(phase-2): navigate to the register screen.
-            },
+            onCreateAccount: () => context.pushNamed(AppRoutes.registerName),
             onGoogleLogin: () {
               // TODO(phase-2): authenticate with Google.
             },

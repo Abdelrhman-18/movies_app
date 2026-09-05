@@ -8,8 +8,5 @@ abstract final class AppRadius {
   static BorderRadius get large => BorderRadius.circular(20.r);
 
   static BorderRadiusDirectional get topMedium =>
-      BorderRadiusDirectional.only(
-        topStart: Radius.circular(16.r),
-        topEnd: Radius.circular(16.r),
-      );
+      BorderRadiusDirectional.only(topStart: Radius.circular(16.r), topEnd: Radius.circular(16.r));
 }
