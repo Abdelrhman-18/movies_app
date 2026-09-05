@@ -61,5 +61,7 @@
   "buttons": "الأزرار",
   "textFields": "حقول الإدخال",
   "loading": "جارٍ التحميل",
-  "disabled": "غير مفعّل"
+  "disabled": "غير مفعّل",
+
+  "chooseFromGallery": "اختر من المعرض"
 }

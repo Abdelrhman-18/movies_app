@@ -5,39 +5,22 @@ import 'package:go_router/go_router.dart';
 import 'package:movies_app/core/routing/app_routes.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/theme/app_theme.dart';
-import 'package:movies_app/core/widgets/design_system_showcase_screen.dart';
-import 'package:movies_app/features/presentation/screens/update_profile/update_profile.dart';
+import 'package:movies_app/features/profile/presentation/screens/update_profile_screen.dart';
 
 abstract final class AppRouter {
   static final GoRouter router = GoRouter(
-    initialLocation: AppRoutes.upDateProfile,
+    initialLocation: AppRoutes.updateProfilePath,
     routes: [
       GoRoute(
-        name: AppRoutes.upDateProfile,
-        path: AppRoutes.upDateProfile,
-        builder: (_, _) =>  UpdateProfile(),
+        name: AppRoutes.updateProfileName,
+        path: AppRoutes.updateProfilePath,
+        builder: (_, _) => const UpdateProfileScreen(),
       ),
-
     ],
     errorBuilder: (_, state) => _RouteErrorScreen(
       message: state.error?.toString() ?? state.uri.toString(),
     ),
   );
-  static final GoRouter updateProfile = GoRouter(
-    initialLocation: AppRoutes.upDateProfile,
-    routes: [
-      GoRoute(
-        name: AppRoutes.showcaseName,
-        path: AppRoutes.showcasePath,
-        builder: (_, _) =>  UpdateProfile(),
-      ),
-
-    ],
-    errorBuilder: (_, state) => _RouteErrorScreen(
-      message: state.error?.toString() ?? state.uri.toString(),
-    ),
-  );
-
 }
 
 class _RouteErrorScreen extends StatelessWidget {

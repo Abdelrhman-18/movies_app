@@ -9,6 +9,9 @@ class AppTextField extends StatefulWidget {
     this.prefixIcon,
     this.isPassword = false,
     this.validator,
+    this.keyboardType,
+    this.textInputAction,
+    this.onFieldSubmitted,
     super.key,
   });
 
@@ -17,6 +20,9 @@ class AppTextField extends StatefulWidget {
   final bool isPassword;
   final TextEditingController controller;
   final FormFieldValidator<String>? validator;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onFieldSubmitted;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -37,6 +43,9 @@ class _AppTextFieldState extends State<AppTextField> {
       controller: widget.controller,
       obscureText: _isObscured,
       validator: widget.validator,
+      keyboardType: widget.keyboardType,
+      textInputAction: widget.textInputAction,
+      onFieldSubmitted: widget.onFieldSubmitted,
       maxLines: 1,
       decoration: InputDecoration(
         hintText: widget.hint,

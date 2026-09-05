@@ -110,5 +110,8 @@
   "loading": "Loading",
   "@loading": { "description": "Showcase button state label" },
   "disabled": "Disabled",
-  "@disabled": { "description": "Showcase button state label" }
+  "@disabled": { "description": "Showcase button state label" },
+
+  "chooseFromGallery": "Choose from Gallery",
+  "@chooseFromGallery": { "description": "Update Profile: pick an avatar image from the device gallery" }
 }
