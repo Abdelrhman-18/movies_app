@@ -6,13 +6,13 @@ import 'package:movies_app/core/theme/app_colors.dart';
 
 abstract final class AppTextStyles {
   static const String _fontFamily = 'Roboto';
+  static const String _interFontFamily = 'Inter';
 
   static TextStyle get displayLarge => _style(36, FontWeight.w500);
 
   static TextStyle get displayMedium => _style(36, FontWeight.w700);
 
-  static TextStyle get headlineSmall =>
-      _style(24, FontWeight.w700, height: 1.39);
+  static TextStyle get headlineSmall => _style(24, FontWeight.w700, height: 1.39);
 
   static TextStyle get titleLarge => _style(24, FontWeight.w700);
 
@@ -28,6 +28,20 @@ abstract final class AppTextStyles {
 
   static TextStyle get bodySmall => _style(14, FontWeight.w400);
 
+  static TextStyle get labelSmall => _style(12, FontWeight.w400);
+
+  static TextStyle get onboardingTitle =>
+      _style(24, FontWeight.w700, height: 1, fontFamily: _interFontFamily);
+
+  static TextStyle get onboardingWelcomeTitle =>
+      _style(36, FontWeight.w500, height: 1, fontFamily: _interFontFamily);
+
+  static TextStyle get onboardingBody =>
+      _style(20, FontWeight.w400, height: 1.6, fontFamily: _interFontFamily);
+
+  static TextStyle get buttonLabel =>
+      _style(20, FontWeight.w600, height: 1, fontFamily: _interFontFamily, color: null);
+
   static TextTheme get textTheme => TextTheme(
     displayLarge: displayLarge,
     displayMedium: displayMedium,
@@ -39,15 +53,18 @@ abstract final class AppTextStyles {
     bodyLarge: bodyLarge,
     bodyMedium: bodyMedium,
     bodySmall: bodySmall,
+    labelSmall: labelSmall,
   );
 
   static TextStyle _style(
     double size,
     FontWeight weight, {
     double height = 1.2,
+    String fontFamily = _fontFamily,
+    Color? color = AppColors.textPrimary,
   }) => TextStyle(
-    color: AppColors.textPrimary,
-    fontFamily: _fontFamily,
+    color: color,
+    fontFamily: fontFamily,
     fontSize: size.sp,
     fontWeight: weight,
     height: height,

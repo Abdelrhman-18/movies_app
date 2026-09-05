@@ -5,7 +5,7 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.13.1
+  sdk: ^3.12.1
 
 dependencies:
   dotted_border: ^2.1.0
@@ -28,6 +28,23 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^6.0.0
+  flutter_native_splash: ^2.4.8
+
+flutter_native_splash:
+  color: "#121312"
+  image: assets/images/app_logo.png
+  branding: assets/images/splash_branding.png
+  branding_mode: bottom
+  branding_bottom_padding: 24
+  android: true
+  ios: true
+  web: false
+  fullscreen: true
+
+  android_12:
+    color: "#121312"
+    image: assets/images/app_logo.png
+    branding: assets/images/splash_branding.png
 
 flutter:
   uses-material-design: true
