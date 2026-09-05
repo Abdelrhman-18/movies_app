@@ -8,14 +8,12 @@ import 'package:movies_app/core/routing/app_routes.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/widgets/app_app_bar.dart';
 
-
 import 'package:movies_app/features/auth/presentation/widgets/register_avatar_picker.dart';
 import 'package:movies_app/features/auth/presentation/widgets/register_footer.dart';
 import 'package:movies_app/features/auth/presentation/widgets/register_form.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -38,14 +36,9 @@ class RegisterScreen extends StatelessWidget {
               SizedBox(height: AppSpacing.sm),
               const RegisterForm(),
               RegisterFooter(
-                onLogin: () {
-                  // TODO(phase-1): Wire the login route after the login branch merges.
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(context.l10n.loginUnavailable),
-                    ),
-                  );
-                },
+                onLogin: () => context.canPop()
+                    ? context.pop()
+                    : context.go(AppRoutes.loginPath),
               ),
               SizedBox(height: AppSpacing.xl),
             ],

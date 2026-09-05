@@ -1,4 +1,4 @@
-﻿import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:movies_app/core/localization/l10n.dart';
 
@@ -12,16 +12,23 @@ abstract final class Validators {
     final error = required(context, value);
     if (error != null) return error;
     return RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(value!.trim())
-        ? null : context.l10n.emailInvalid;
+        ? null
+        : context.l10n.emailInvalid;
   }
 
   static String? password(BuildContext context, String? value) {
     final error = required(context, value);
     if (error != null) return error;
-    return value!.length < minPasswordLength ? context.l10n.passwordTooShort : null;
+    return value!.length < minPasswordLength
+        ? context.l10n.passwordTooShort
+        : null;
   }
 
-  static String? confirmPassword(BuildContext context, String? value, String password) {
+  static String? confirmPassword(
+    BuildContext context,
+    String? value,
+    String password,
+  ) {
     final error = required(context, value);
     if (error != null) return error;
     return value == password ? null : context.l10n.passwordMismatch;
@@ -32,6 +39,7 @@ abstract final class Validators {
     if (error != null) return error;
     final normalized = value!.replaceAll(RegExp(r'[\s()\-]'), '');
     return RegExp(r'^\+?[0-9]{7,15}$').hasMatch(normalized)
-        ? null : context.l10n.phoneInvalid;
+        ? null
+        : context.l10n.phoneInvalid;
   }
 }
