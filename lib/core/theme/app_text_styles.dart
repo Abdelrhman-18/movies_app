@@ -28,6 +28,8 @@ abstract final class AppTextStyles {
 
   static TextStyle get bodySmall => _style(14, FontWeight.w400);
 
+  static TextStyle get labelSmall => _style(12, FontWeight.w400);
+
   static TextTheme get textTheme => TextTheme(
     displayLarge: displayLarge,
     displayMedium: displayMedium,
@@ -39,6 +41,7 @@ abstract final class AppTextStyles {
     bodyLarge: bodyLarge,
     bodyMedium: bodyMedium,
     bodySmall: bodySmall,
+    labelSmall: labelSmall,
   );
 
   static TextStyle _style(

@@ -10,6 +10,7 @@ class AppButton extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.variant = AppButtonVariant.primary,
+    this.icon,
     this.isLoading = false,
     this.isEnabled = true,
     super.key,
@@ -18,6 +19,7 @@ class AppButton extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
   final AppButtonVariant variant;
+  final Widget? icon;
   final bool isLoading;
   final bool isEnabled;
 
@@ -25,6 +27,8 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDanger = variant == AppButtonVariant.danger;
     final foreground = isDanger ? AppColors.textPrimary : AppColors.primaryText;
+
+    final labelText = Text(label, maxLines: 1, overflow: TextOverflow.ellipsis);
 
     return SizedBox(
       width: double.infinity,
@@ -45,10 +49,15 @@ class AppButton extends StatelessWidget {
                   strokeWidth: AppSizes.categoryBorderWidth,
                 ),
               )
-            : Text(
-                label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+            : icon == null
+            ? labelText
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  icon!,
+                  SizedBox(width: AppSpacing.sm),
+                  labelText,
+                ],
               ),
       ),
     );
