@@ -10,7 +10,6 @@ import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/theme/app_radius.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 
-/// Shared language control; reads and updates [LocaleCubit] itself.
 class LanguageSwitch extends StatelessWidget {
   const LanguageSwitch({super.key});
 

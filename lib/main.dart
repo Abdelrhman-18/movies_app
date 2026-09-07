@@ -1,15 +1,34 @@
 import 'package:flutter/material.dart';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/core/localization/l10n.dart';
 import 'package:movies_app/core/localization/locale_cubit.dart';
 import 'package:movies_app/core/routing/app_router.dart';
 import 'package:movies_app/core/theme/app_theme.dart';
+import 'package:movies_app/firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await _initFirebase();
+  await configureDependencies();
   runApp(const MoviesApp());
+}
+
+Future<void> _initFirebase() async {
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (error) {
+    debugPrint(
+      'Firebase init skipped: $error\n'
+      'Run `flutterfire configure` to enable auth/Firestore.',
+    );
+  }
 }
 
 class MoviesApp extends StatelessWidget {
