@@ -10,9 +10,6 @@ import 'package:movies_app/core/widgets/app_button.dart';
 import 'package:movies_app/core/widgets/app_text_field.dart';
 import 'package:movies_app/core/widgets/language_switch.dart';
 
-/// A dev-only gallery of the shared design-system tokens and widgets.
-/// Wired as the app's initial route while Phase 1 is UI-only, so every
-/// member can eyeball `core/` on a device without building a feature first.
 class DesignSystemShowcaseScreen extends StatefulWidget {
   const DesignSystemShowcaseScreen({super.key});
 
@@ -258,8 +255,6 @@ class _FieldsGallery extends StatelessWidget {
   }
 }
 
-/// Flips the app locale live so the team can eyeball every widget in RTL
-/// without restarting. Real screens read the locale the same way.
 class _LanguageGallery extends StatelessWidget {
   const _LanguageGallery();
 
