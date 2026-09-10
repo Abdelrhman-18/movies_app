@@ -13,6 +13,22 @@ class AuthService {
     );
   }
 
+  Future<UserCredential> register({
+    required String name,
+    required String email,
+    required String password,
+    required String phone,
+  }) async {
+    final credential = await _auth.createUserWithEmailAndPassword(
+      email: email.trim(),
+      password: password,
+    );
+
+    await credential.user?.updateDisplayName(name.trim());
+
+    return credential;
+  }
+
   Future<void> resetPassword(String email) {
     return _auth.sendPasswordResetEmail(
       email: email.trim(),
