@@ -36,9 +36,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
         title,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
-        style: context.textTheme.bodyMedium?.copyWith(
-          color: AppColors.primary,
-        ),
+        style: context.textTheme.bodyMedium?.copyWith(color: AppColors.primary),
       ),
       centerTitle: true,
       backgroundColor: AppColors.background,

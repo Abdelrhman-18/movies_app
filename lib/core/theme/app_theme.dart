@@ -45,10 +45,7 @@ abstract final class AppTheme {
           minimumSize: Size.fromHeight(AppSizes.buttonHeight),
           padding: EdgeInsetsDirectional.symmetric(horizontal: AppSpacing.md),
           shape: buttonShape,
-          side: BorderSide(
-            color: AppColors.primary,
-            width: AppSizes.categoryBorderWidth,
-          ),
+          side: BorderSide(color: AppColors.primary, width: AppSizes.categoryBorderWidth),
           textStyle: AppTextStyles.buttonLabel,
         ),
       ),
@@ -60,39 +57,25 @@ abstract final class AppTheme {
         ),
         filled: true,
         fillColor: AppColors.surface,
-        hintStyle: AppTextStyles.bodyMedium.copyWith(
-          color: AppColors.textSecondary,
-        ),
+        hintStyle: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
         prefixIconColor: AppColors.textSecondary,
         suffixIconColor: AppColors.textSecondary,
-        border: OutlineInputBorder(
-          borderRadius: AppRadius.medium,
-          borderSide: BorderSide.none,
-        ),
+        border: OutlineInputBorder(borderRadius: AppRadius.medium, borderSide: BorderSide.none),
         enabledBorder: OutlineInputBorder(
           borderRadius: AppRadius.medium,
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: AppRadius.medium,
-          borderSide: BorderSide(
-            color: AppColors.primary,
-            width: AppSizes.categoryBorderWidth,
-          ),
+          borderSide: BorderSide(color: AppColors.primary, width: AppSizes.categoryBorderWidth),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: AppRadius.medium,
-          borderSide: BorderSide(
-            color: AppColors.error,
-            width: AppSizes.categoryBorderWidth,
-          ),
+          borderSide: BorderSide(color: AppColors.error, width: AppSizes.categoryBorderWidth),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: AppRadius.medium,
-          borderSide: BorderSide(
-            color: AppColors.error,
-            width: AppSizes.categoryBorderWidth,
-          ),
+          borderSide: BorderSide(color: AppColors.error, width: AppSizes.categoryBorderWidth),
         ),
       ),
       appBarTheme: AppBarTheme(
@@ -117,6 +100,8 @@ abstract final class AppTheme {
 
 extension ThemeContext on BuildContext {
   ThemeData get theme => Theme.of(this);
+
   ColorScheme get colorScheme => theme.colorScheme;
+
   TextTheme get textTheme => theme.textTheme;
 }
