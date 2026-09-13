@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:go_router/go_router.dart';
 
+import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/core/routing/app_routes.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/theme/app_theme.dart';
@@ -11,6 +13,7 @@ import 'package:movies_app/features/auth/presentation/screens/login_screen.dart'
 import 'package:movies_app/features/auth/presentation/screens/register_screen.dart';
 import 'package:movies_app/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:movies_app/features/onboarding/presentation/screens/onboarding_screen.dart';
+import 'package:movies_app/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:movies_app/features/profile/presentation/screens/update_profile_screen.dart';
 
 abstract final class AppRouter {
@@ -21,28 +24,38 @@ abstract final class AppRouter {
         name: AppRoutes.onboardingName,
         path: AppRoutes.onboardingPath,
         builder: (context, _) =>
-            OnboardingScreen(onFinished: () => context.go(AppRoutes.loginPath)),
+            OnboardingScreen(
+              onFinished: () => context.go(AppRoutes.loginPath),
+            ),
       ),
+
       GoRoute(
         name: AppRoutes.loginName,
         path: AppRoutes.loginPath,
         builder: (_, _) => const LoginScreen(),
       ),
+
       GoRoute(
         name: AppRoutes.forgotPasswordName,
         path: AppRoutes.forgotPasswordPath,
         builder: (_, _) => const ResetPasswordScreen(),
       ),
+
       GoRoute(
         name: AppRoutes.registerName,
         path: AppRoutes.registerPath,
         builder: (_, _) => const RegisterScreen(),
       ),
+
       GoRoute(
         name: AppRoutes.updateProfileName,
         path: AppRoutes.updateProfilePath,
-        builder: (_, _) => const UpdateProfileScreen(),
+        builder: (_, _) => BlocProvider(
+          create: (_) => getIt<ProfileCubit>()..getCurrentUser(),
+          child: const UpdateProfileScreen(),
+        ),
       ),
+
       GoRoute(
         name: AppRoutes.showcaseName,
         path: AppRoutes.showcasePath,
@@ -54,9 +67,10 @@ abstract final class AppRouter {
     ),
   );
 }
-
 class _RouteErrorScreen extends StatelessWidget {
-  const _RouteErrorScreen({required this.message});
+  const _RouteErrorScreen({
+    required this.message,
+  });
 
   final String message;
 
@@ -65,13 +79,15 @@ class _RouteErrorScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Padding(
-          padding: EdgeInsetsDirectional.all(AppSpacing.screenPadding),
+          padding: EdgeInsets.all(
+            AppSpacing.screenPadding,
+          ),
           child: Text(
             message,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
-            style: context.textTheme.bodyMedium,
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
         ),
       ),

@@ -8,18 +8,24 @@ import 'package:movies_app/core/theme/app_spacing.dart';
 
 import 'package:movies_app/features/profile/presentation/widgets/avatar_grid_picker.dart';
 
-class ProfileAvatarPicker extends StatefulWidget {
-  const ProfileAvatarPicker({super.key});
+class ProfileAvatarPicker extends StatelessWidget {
+  const ProfileAvatarPicker({
+    super.key,
+    required this.selectedAvatar,
+    required this.selectedImage,
+    required this.onAvatarSelected,
+    required this.onGalleryImageSelected,
+    this.selectedImageUrl,
+  });
 
-  @override
-  State<ProfileAvatarPicker> createState() => _ProfileAvatarPickerState();
-}
+  final int? selectedAvatar;
+  final File? selectedImage;
+  final String? selectedImageUrl;
 
-class _ProfileAvatarPickerState extends State<ProfileAvatarPicker> {
-  int? _selectedAvatar;
-  File? _selectedImage;
+  final ValueChanged<int> onAvatarSelected;
+  final ValueChanged<File> onGalleryImageSelected;
 
-  void _openPicker() {
+  void _openPicker(BuildContext context) {
     showModalBottomSheet(
       context: context,
       backgroundColor: AppColors.background,
@@ -28,15 +34,9 @@ class _ProfileAvatarPickerState extends State<ProfileAvatarPicker> {
         width: double.infinity,
         child: Center(
           child: AvatarGridPicker(
-            selectedAvatar: _selectedAvatar,
-            onAvatarSelected: (index) => setState(() {
-              _selectedAvatar = index;
-              _selectedImage = null;
-            }),
-            onGalleryImageSelected: (file) => setState(() {
-              _selectedImage = file;
-              _selectedAvatar = null;
-            }),
+            selectedAvatar: selectedAvatar,
+            onAvatarSelected: onAvatarSelected,
+            onGalleryImageSelected: onGalleryImageSelected,
           ),
         ),
       ),
@@ -46,24 +46,31 @@ class _ProfileAvatarPickerState extends State<ProfileAvatarPicker> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _openPicker,
+      onTap: () => _openPicker(context),
       child: CircleAvatar(
         backgroundColor: AppColors.background,
         radius: AppSizes.profileAvatarPreview / 2,
         child: ClipOval(
-          child: _selectedImage != null
-              ? Image.file(
-                  _selectedImage!,
-                  width: AppSizes.profileAvatarPreview,
-                  height: AppSizes.profileAvatarPreview,
-                  fit: BoxFit.cover,
-                )
-              : Image.asset(
-                  AppAssets.avatars[_selectedAvatar ?? 0],
-                  width: AppSizes.profileAvatarPreview,
-                  height: AppSizes.profileAvatarPreview,
-                  fit: BoxFit.cover,
-                ),
+          child:  selectedImage != null
+        ? Image.file(
+        selectedImage!,
+          width: AppSizes.profileAvatarPreview,
+          height: AppSizes.profileAvatarPreview,
+          fit: BoxFit.cover,
+        )
+            : selectedImageUrl != null && selectedImageUrl!.isNotEmpty
+      ? Image.network(
+        selectedImageUrl!,
+        width: AppSizes.profileAvatarPreview,
+        height: AppSizes.profileAvatarPreview,
+        fit: BoxFit.cover,
+      )
+          : Image.asset(
+    AppAssets.avatars[selectedAvatar ?? 0],
+      width: AppSizes.profileAvatarPreview,
+      height: AppSizes.profileAvatarPreview,
+      fit: BoxFit.cover,
+    ),
         ),
       ),
     );
