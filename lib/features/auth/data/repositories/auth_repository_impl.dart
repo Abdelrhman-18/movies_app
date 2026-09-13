@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:movies_app/features/auth/data/models/user_model.dart';
 import 'package:movies_app/features/auth/data/repositories/auth_repository.dart';
 
-import 'package:movies_app/core/services/firebase/firebase_execute.dart';
 import 'package:movies_app/core/services/firebase/firestore_service.dart';
 import 'package:movies_app/core/services/firebase/firebase_storage_service.dart';
 
@@ -68,7 +67,6 @@ class AuthRepositoryImpl implements AuthRepository {
       'phone': phone,
     };
 
-    // User selected a new gallery image.
     if (profileImage != null) {
       final profileImageUrl =
       await _storageService.uploadProfileImage(
@@ -79,7 +77,6 @@ class AuthRepositoryImpl implements AuthRepository {
       data['avatarIndex'] = null;
       data['profileImageUrl'] = profileImageUrl;
     }
-    // User selected a preset avatar.
     else if (avatarIndex != null) {
       data['avatarIndex'] = avatarIndex;
       data['profileImageUrl'] = null;

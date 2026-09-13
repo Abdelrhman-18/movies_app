@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/core/routing/app_routes.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
-import 'package:movies_app/core/theme/app_theme.dart';
 import 'package:movies_app/core/widgets/design_system_showcase_screen.dart';
 
 import 'package:movies_app/features/auth/presentation/screens/login_screen.dart';

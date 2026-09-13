@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:movies_app/features/auth/data/models/user_model.dart';
 import 'package:movies_app/features/auth/data/repositories/auth_repository.dart';
 import 'package:movies_app/features/profile/presentation/cubit/profile_state.dart';
 
