@@ -1,21 +1,40 @@
-import 'package:movies_app/features/auth/domain/entities/user.dart';
+import 'package:equatable/equatable.dart';
 
-sealed class ProfileState {}
+import 'package:movies_app/features/profile/domain/entities/user.dart';
 
-class ProfileInitial extends ProfileState {}
+sealed class ProfileState extends Equatable {
+  const ProfileState();
 
-class ProfileLoading extends ProfileState {}
-
-class ProfileUserLoaded extends ProfileState {
-  ProfileUserLoaded(this.user);
-
-  final User user;
+  @override
+  List<Object?> get props => [];
 }
 
-class ProfileSuccess extends ProfileState {}
+final class ProfileInitial extends ProfileState {
+  const ProfileInitial();
+}
 
-class ProfileError extends ProfileState {
-  ProfileError(this.message);
+final class ProfileLoading extends ProfileState {
+  const ProfileLoading();
+}
+
+final class ProfileUserLoaded extends ProfileState {
+  const ProfileUserLoaded(this.user);
+
+  final User user;
+
+  @override
+  List<Object?> get props => [user];
+}
+
+final class ProfileSuccess extends ProfileState {
+  const ProfileSuccess();
+}
+
+final class ProfileError extends ProfileState {
+  const ProfileError(this.message);
 
   final String message;
+
+  @override
+  List<Object?> get props => [message];
 }

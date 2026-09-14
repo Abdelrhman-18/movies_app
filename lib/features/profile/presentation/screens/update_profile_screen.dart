@@ -2,20 +2,21 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:movies_app/core/localization/l10n.dart';
+import 'package:movies_app/core/routing/app_routes.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/theme/app_text_styles.dart';
 import 'package:movies_app/core/widgets/app_app_bar.dart';
 import 'package:movies_app/core/widgets/app_button.dart';
 
+import 'package:movies_app/features/profile/presentation/cubit/profile/profile_cubit.dart';
+import 'package:movies_app/features/profile/presentation/cubit/profile/profile_state.dart';
 import 'package:movies_app/features/profile/presentation/widgets/profile_avatar_picker.dart';
 import 'package:movies_app/features/profile/presentation/widgets/profile_info_fields.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies_app/features/profile/presentation/cubit/profile/profile_cubit.dart';
-
-import '../cubit/profile/profile_state.dart';
-
 
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
@@ -61,9 +62,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
     if (name.isEmpty || phone.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter your name and phone number'),
-        ),
+        SnackBar(content: Text(context.l10n.profileNameAndPhoneRequired)),
       );
       return;
     }
@@ -75,7 +74,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       profileImage: _selectedImage,
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -95,30 +93,22 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
         if (state is ProfileError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-            ),
+            SnackBar(content: Text(context.l10n.somethingWentWrong)),
           );
         }
 
         if (state is ProfileSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Profile updated successfully'),
-            ),
+            SnackBar(content: Text(context.l10n.profileUpdatedSuccessfully)),
           );
         }
       },
       child: Scaffold(
         backgroundColor: AppColors.background,
-        appBar: AppAppBar(
-          title: context.l10n.editProfile,
-        ),
+        appBar: AppAppBar(title: context.l10n.editProfile),
         body: SafeArea(
           child: SingleChildScrollView(
-            padding: EdgeInsetsDirectional.all(
-              AppSpacing.screenPadding,
-            ),
+            padding: EdgeInsetsDirectional.all(AppSpacing.screenPadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -146,7 +136,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () =>
+                        context.pushNamed(AppRoutes.forgotPasswordName),
                     child: Text(
                       context.l10n.resetPassword,
                       style: AppTextStyles.titleSmall,

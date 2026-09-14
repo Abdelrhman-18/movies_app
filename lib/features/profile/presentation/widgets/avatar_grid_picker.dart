@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:movies_app/core/constants/app_assets.dart';
@@ -93,7 +92,7 @@ class _AvatarGridPickerState extends State<AvatarGridPicker> {
               strokeWidth: AppSizes.categoryBorderWidth,
               dashPattern: const [8, 5],
               borderType: BorderType.RRect,
-              radius: Radius.circular(20.r),
+              radius: AppRadius.large.topLeft,
               child: Container(
                 width: double.infinity,
                 padding: EdgeInsetsDirectional.symmetric(

@@ -1,4 +1,4 @@
-import 'package:movies_app/features/auth/domain/entities/user.dart';
+import 'package:movies_app/features/profile/domain/entities/user.dart';
 
 class UserModel {
   final String id;
@@ -17,10 +17,7 @@ class UserModel {
     this.profileImageUrl,
   });
 
-  factory UserModel.fromJson(
-      Map<String, dynamic> json,
-      String id,
-      ) {
+  factory UserModel.fromJson(Map<String, dynamic> json, String id) {
     return UserModel(
       id: id,
       name: json['name'] as String? ?? '',

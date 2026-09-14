@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:movies_app/core/di/service_locator.dart';
@@ -23,9 +23,7 @@ abstract final class AppRouter {
         name: AppRoutes.onboardingName,
         path: AppRoutes.onboardingPath,
         builder: (context, _) =>
-            OnboardingScreen(
-              onFinished: () => context.go(AppRoutes.loginPath),
-            ),
+            OnboardingScreen(onFinished: () => context.go(AppRoutes.loginPath)),
       ),
 
       GoRoute(
@@ -66,10 +64,9 @@ abstract final class AppRouter {
     ),
   );
 }
+
 class _RouteErrorScreen extends StatelessWidget {
-  const _RouteErrorScreen({
-    required this.message,
-  });
+  const _RouteErrorScreen({required this.message});
 
   final String message;
 
@@ -78,9 +75,7 @@ class _RouteErrorScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(
-            AppSpacing.screenPadding,
-          ),
+          padding: EdgeInsets.all(AppSpacing.screenPadding),
           child: Text(
             message,
             maxLines: 3,

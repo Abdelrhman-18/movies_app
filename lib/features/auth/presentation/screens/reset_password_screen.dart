@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:movies_app/core/constants/app_assets.dart';
 import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/core/localization/l10n.dart';
@@ -8,8 +10,9 @@ import 'package:movies_app/core/utils/validators.dart';
 import 'package:movies_app/core/widgets/app_app_bar.dart';
 import 'package:movies_app/core/widgets/app_button.dart';
 import 'package:movies_app/core/widgets/app_text_field.dart';
-import 'package:movies_app/features/profile/presentation/cubit/reset_password/reset_password_cubit.dart';
-import 'package:movies_app/features/profile/presentation/cubit/reset_password/reset_password_state.dart';
+
+import 'package:movies_app/features/auth/presentation/cubit/reset_password/reset_password_cubit.dart';
+import 'package:movies_app/features/auth/presentation/cubit/reset_password/reset_password_state.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
@@ -43,15 +46,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         listener: (context, state) {
           if (state is ResetPasswordSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Password reset email sent successfully.'),
-              ),
+              SnackBar(content: Text(context.l10n.passwordResetEmailSent)),
             );
           }
           if (state is ResetPasswordError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(context.l10n.somethingWentWrong)),
+            );
           }
         },
         builder: (context, state) {
