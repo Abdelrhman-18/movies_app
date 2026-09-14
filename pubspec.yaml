@@ -5,21 +5,30 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.13.1
+  sdk: ^3.12.1
 
 dependencies:
+  dotted_border: ^2.1.0
+  image_picker: ^1.2.1
+  http: ^1.2.2
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
 
   cached_network_image: ^4.0.0
+  cloud_firestore: ^6.9.0
+  dio: ^5.11.1
   equatable: ^2.1.0
+  firebase_auth: ^6.6.1
+  firebase_core: ^4.14.0
   flutter_bloc: ^9.1.1
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.3.0
+  get_it: ^9.2.1
   go_router: ^18.0.0
   intl: any
+  pretty_dio_logger: ^1.4.0
 
 dev_dependencies:
   flutter_test:

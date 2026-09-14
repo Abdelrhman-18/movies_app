@@ -14,4 +14,13 @@ abstract final class AppColors {
   static const Color success = Color(0xFF57AA53);
 
   static const Color posterOverlay = Color(0x99121312);
+
+  static const List<Color> onboardingShadows = [
+    background,
+    Color(0xFF084250),
+    Color(0xFF85210D),
+    Color(0xFF4C1B63),
+    Color(0xFF561625),
+    Color(0xFF525A5D),
+  ];
 }

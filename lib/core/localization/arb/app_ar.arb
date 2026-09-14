@@ -28,13 +28,18 @@
   "logout": "تسجيل الخروج",
   "email": "البريد الإلكتروني",
   "password": "كلمة المرور",
+  "emailInvalid": "أدخل بريدًا إلكترونيًا صحيحًا",
+  "passwordTooShort": "استخدم 6 أحرف على الأقل",
   "confirmPassword": "تأكيد كلمة المرور",
   "name": "الاسم",
   "phoneNumber": "رقم الهاتف",
   "forgetPassword": "نسيت كلمة المرور ؟",
   "resetPassword": "إعادة تعيين كلمة المرور",
+  "verifyEmail": "تحقق من البريد الإلكتروني",
   "loginWithGoogle": "الدخول بحساب Google",
   "dontHaveAccount": "ليس لديك حساب ؟",
+  "createOne": "أنشئ حسابًا",
+  "or": "أو",
   "alreadyHaveAccount": "لديك حساب بالفعل ؟",
 
   "home": "الرئيسية",
@@ -45,7 +50,11 @@
   "searchMovies": "ابحث",
   "moviesFound": "{count, plural, =0{لا توجد أفلام} =1{فيلم واحد} =2{فيلمان} few{{count} أفلام} many{{count} فيلمًا} other{{count} فيلم}}",
   "@moviesFound": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
 
   "watch": "مشاهدة",
@@ -74,5 +83,20 @@
   "buttons": "الأزرار",
   "textFields": "حقول الإدخال",
   "loading": "جارٍ التحميل",
-  "disabled": "غير مفعّل"
+  "disabled": "غير مفعّل",
+
+  "registerTitle": "التسجيل",
+  "avatar": "الصورة الشخصية",
+  "fieldRequired": "هذا الحقل مطلوب",
+  "passwordMismatch": "كلمتا المرور غير متطابقتين",
+  "phoneInvalid": "أدخل رقم هاتف صحيحًا",
+  "registrationUnavailable": "بياناتك صحيحة. إنشاء الحساب سيتوفر قريبًا.",
+
+  "chooseFromGallery": "اختر من المعرض",
+
+  "registrationSuccess": "تم بنجاح",
+  "accountCreatedSuccessfully": "تم إنشاء الحساب بنجاح",
+  "creatingAccount": "جاري إنشاء الحساب...",
+  "registrationFailed": "فشل إنشاء الحساب",
+  "ok": "حسنًا"
 }

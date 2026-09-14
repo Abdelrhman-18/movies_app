@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:movies_app/core/localization/l10n.dart';
-import 'package:movies_app/core/localization/locale_cubit.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/theme/app_radius.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
@@ -13,9 +10,6 @@ import 'package:movies_app/core/widgets/app_button.dart';
 import 'package:movies_app/core/widgets/app_text_field.dart';
 import 'package:movies_app/core/widgets/language_switch.dart';
 
-/// A dev-only gallery of the shared design-system tokens and widgets.
-/// Wired as the app's initial route while Phase 1 is UI-only, so every
-/// member can eyeball `core/` on a device without building a feature first.
 class DesignSystemShowcaseScreen extends StatefulWidget {
   const DesignSystemShowcaseScreen({super.key});
 
@@ -201,7 +195,11 @@ class _ButtonsGallery extends StatelessWidget {
       children: [
         AppButton(label: context.l10n.login, onPressed: _noop),
         SizedBox(height: AppSpacing.md),
-        AppButton(label: context.l10n.loading, onPressed: _noop, isLoading: true),
+        AppButton(
+          label: context.l10n.loading,
+          onPressed: _noop,
+          isLoading: true,
+        ),
         SizedBox(height: AppSpacing.md),
         AppButton(
           label: context.l10n.disabled,
@@ -257,22 +255,14 @@ class _FieldsGallery extends StatelessWidget {
   }
 }
 
-/// Flips the app locale live so the team can eyeball every widget in RTL
-/// without restarting. Real screens read the locale the same way.
 class _LanguageGallery extends StatelessWidget {
   const _LanguageGallery();
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LocaleCubit, Locale>(
-      builder: (context, locale) => Align(
-        alignment: AlignmentDirectional.centerStart,
-        child: LanguageSwitch(
-          isArabic: locale.languageCode == LocaleCubit.arabic.languageCode,
-          onChanged: (isArabic) =>
-              context.read<LocaleCubit>().setArabic(isArabic: isArabic),
-        ),
-      ),
+    return const Align(
+      alignment: AlignmentDirectional.centerStart,
+      child: LanguageSwitch(),
     );
   }
 }

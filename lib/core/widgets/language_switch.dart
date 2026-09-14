@@ -1,88 +1,101 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:movies_app/core/constants/app_assets.dart';
 import 'package:movies_app/core/localization/l10n.dart';
+import 'package:movies_app/core/localization/locale_cubit.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/theme/app_radius.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
-import 'package:movies_app/core/theme/app_theme.dart';
 
-/// Two-option language toggle used on OnBoarding, Login and Profile.
-///
-/// TODO(design): the Figma shows two flag icons. Swap the short labels for
-/// `SvgPicture.asset` once the flag assets land in `AppAssets`.
 class LanguageSwitch extends StatelessWidget {
-  const LanguageSwitch({
-    required this.isArabic,
-    required this.onChanged,
-    super.key,
-  });
-
-  final bool isArabic;
-  final ValueChanged<bool> onChanged;
+  const LanguageSwitch({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: AppRadius.medium,
-      ),
-      child: Padding(
-        padding: EdgeInsetsDirectional.all(AppSpacing.xs),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _LanguageOption(
-              label: context.l10n.englishShort,
-              isSelected: !isArabic,
-              onTap: () => onChanged(false),
+    return BlocBuilder<LocaleCubit, Locale>(
+      builder: (context, locale) => SizedBox(
+        width: AppSizes.languageSwitchWidth,
+        height: AppSizes.languageSwitchHeight,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: AppColors.primary,
+              width: AppSizes.categoryBorderWidth,
             ),
-            SizedBox(width: AppSpacing.xs),
-            _LanguageOption(
-              label: context.l10n.arabicShort,
-              isSelected: isArabic,
-              onTap: () => onChanged(true),
+            borderRadius: AppRadius.large,
+          ),
+          child: Padding(
+            padding: EdgeInsetsDirectional.all(AppSizes.categoryBorderWidth),
+            child: Row(
+              textDirection: TextDirection.ltr,
+              children: [
+                Expanded(
+                  child: _FlagOption(
+                    flagAsset: AppAssets.usaFlag,
+                    semanticLabel: context.l10n.englishShort,
+                    isSelected: locale.languageCode == 'en',
+                    onTap: () =>
+                        context.read<LocaleCubit>().setArabic(isArabic: false),
+                  ),
+                ),
+                Expanded(
+                  child: _FlagOption(
+                    flagAsset: AppAssets.egyptFlag,
+                    semanticLabel: context.l10n.arabicShort,
+                    isSelected: locale.languageCode == 'ar',
+                    onTap: () =>
+                        context.read<LocaleCubit>().setArabic(isArabic: true),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
-class _LanguageOption extends StatelessWidget {
-  const _LanguageOption({
-    required this.label,
+class _FlagOption extends StatelessWidget {
+  const _FlagOption({
+    required this.flagAsset,
+    required this.semanticLabel,
     required this.isSelected,
     required this.onTap,
   });
 
-  final String label;
+  final String flagAsset;
+  final String semanticLabel;
   final bool isSelected;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: AppRadius.small,
-      child: SizedBox(
-        width: AppSizes.languageOptionWidth,
-        height: AppSizes.languageOptionWidth,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: isSelected ? AppColors.primary : Colors.transparent,
-            borderRadius: AppRadius.small,
-          ),
-          child: Center(
-            child: Text(
-              label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: context.textTheme.bodyMedium?.copyWith(
-                color: isSelected
-                    ? AppColors.primaryText
-                    : AppColors.textSecondary,
+    return Semantics(
+      button: true,
+      selected: isSelected,
+      label: semanticLabel,
+      child: GestureDetector(
+        onTap: onTap,
+        behavior: HitTestBehavior.opaque,
+        child: Center(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: isSelected ? AppColors.primary : AppColors.background,
+              shape: BoxShape.circle,
+            ),
+            child: Padding(
+              padding: EdgeInsetsDirectional.all(AppSizes.categoryBorderWidth),
+              child: SizedBox.square(
+                dimension: AppSizes.languageFlag,
+                child: ClipOval(
+                  child: ExcludeSemantics(
+                    child: SvgPicture.asset(flagAsset, fit: BoxFit.cover),
+                  ),
+                ),
               ),
             ),
           ),
