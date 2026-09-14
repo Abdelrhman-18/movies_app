@@ -11,4 +11,6 @@ abstract class AuthRepository {
     int? avatarIndex,
     File? profileImage,
   });
+
+  Future<void> resetPassword(String email);
 }

@@ -12,7 +12,7 @@ import 'package:movies_app/features/auth/presentation/screens/login_screen.dart'
 import 'package:movies_app/features/auth/presentation/screens/register_screen.dart';
 import 'package:movies_app/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:movies_app/features/onboarding/presentation/screens/onboarding_screen.dart';
-import 'package:movies_app/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:movies_app/features/profile/presentation/cubit/profile/profile_cubit.dart';
 import 'package:movies_app/features/profile/presentation/screens/update_profile_screen.dart';
 
 abstract final class AppRouter {

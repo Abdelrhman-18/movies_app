@@ -9,27 +9,28 @@ import 'package:movies_app/features/auth/data/datasources/auth_remote_data_sourc
 import 'package:movies_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:movies_app/features/auth/domain/repositories/auth_repository.dart';
 
-import 'package:movies_app/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:movies_app/features/profile/presentation/cubit/profile/profile_cubit.dart';
+
+import '../../features/auth/domain/usecases/reset_password_use_case.dart';
+import '../../features/profile/presentation/cubit/reset_password/reset_password_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
 
 Future<void> configureDependencies() async {
   getIt
-    ..registerLazySingleton<Dio>(
-      DioFactory.create,
-    )
-    ..registerLazySingleton<ApiClient>(
-          () => ApiClient(getIt<Dio>()),
-    )
+    ..registerLazySingleton<Dio>(DioFactory.create)
+    ..registerLazySingleton<ApiClient>(() => ApiClient(getIt<Dio>()))
     ..registerLazySingleton<AuthRemoteDataSource>(
-          () => AuthRemoteDataSourceImpl(),
+      () => AuthRemoteDataSourceImpl(),
     )
     ..registerLazySingleton<AuthRepository>(
-          () => AuthRepositoryImpl(
-        remoteDataSource: getIt<AuthRemoteDataSource>(),
-      ),
+      () => AuthRepositoryImpl(remoteDataSource: getIt<AuthRemoteDataSource>()),
     )
-    ..registerFactory<ProfileCubit>(
-          () => ProfileCubit(getIt<AuthRepository>()),
+    ..registerFactory<ProfileCubit>(() => ProfileCubit(getIt<AuthRepository>()))
+    ..registerLazySingleton<ResetPasswordUseCase>(
+      () => ResetPasswordUseCase(getIt<AuthRepository>()),
+    )
+    ..registerFactory<ResetPasswordCubit>(
+      () => ResetPasswordCubit(getIt<ResetPasswordUseCase>()),
     );
 }

@@ -11,4 +11,6 @@ abstract class AuthRemoteDataSource {
     int? avatarIndex,
     File? profileImage,
   });
+  Future<void> resetPassword(String email);
+
 }
