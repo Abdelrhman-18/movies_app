@@ -12,11 +12,13 @@ import 'package:movies_app/core/widgets/language_switch.dart';
 
 class LoginFooter extends StatelessWidget {
   const LoginFooter({
+    required this.isLoading,
     required this.onCreateAccount,
     required this.onGoogleLogin,
     super.key,
   });
 
+  final bool isLoading;
   final VoidCallback onCreateAccount;
   final VoidCallback onGoogleLogin;
 
@@ -51,6 +53,7 @@ class LoginFooter extends StatelessWidget {
         AppButton(
           label: context.l10n.loginWithGoogle,
           onPressed: onGoogleLogin,
+          isLoading: isLoading,
           icon: SvgPicture.asset(
             AppAssets.googleIcon,
             width: AppSizes.icon,

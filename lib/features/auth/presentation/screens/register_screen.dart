@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/core/localization/l10n.dart';
 import 'package:movies_app/core/routing/app_routes.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
@@ -10,7 +12,6 @@ import 'package:movies_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:movies_app/features/auth/presentation/widgets/register_avatar_picker.dart';
 import 'package:movies_app/features/auth/presentation/widgets/register_footer.dart';
 import 'package:movies_app/features/auth/presentation/widgets/register_form.dart';
-import 'package:movies_app/services/auth_service.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -18,7 +19,7 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => AuthCubit(AuthService()),
+      create: (_) => getIt<AuthCubit>(),
       child: Scaffold(
         appBar: AppAppBar(
           title: context.l10n.registerTitle,
@@ -26,27 +27,20 @@ class RegisterScreen extends StatelessWidget {
             if (context.canPop()) {
               context.pop();
             } else {
-              context.go(AppRoutes.showcasePath);
+              context.go(AppRoutes.loginPath);
             }
           },
         ),
         body: SafeArea(
           child: SingleChildScrollView(
-            keyboardDismissBehavior:
-            ScrollViewKeyboardDismissBehavior.onDrag,
-            padding: EdgeInsetsDirectional.all(
-              AppSpacing.screenPadding,
-            ),
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            padding: EdgeInsetsDirectional.all(AppSpacing.screenPadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(
-                  height: AppSpacing.md,
-                ),
+                SizedBox(height: AppSpacing.md),
                 const RegisterAvatarPicker(),
-                SizedBox(
-                  height: AppSpacing.sm,
-                ),
+                SizedBox(height: AppSpacing.sm),
                 const RegisterForm(),
                 RegisterFooter(
                   onLogin: () {
@@ -57,9 +51,7 @@ class RegisterScreen extends StatelessWidget {
                     }
                   },
                 ),
-                SizedBox(
-                  height: AppSpacing.xl,
-                ),
+                SizedBox(height: AppSpacing.xl),
               ],
             ),
           ),

@@ -1,15 +1,18 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:movies_app/core/localization/l10n.dart';
 import 'package:movies_app/core/routing/app_routes.dart';
+import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/utils/validators.dart';
 import 'package:movies_app/core/widgets/app_button.dart';
 import 'package:movies_app/core/widgets/app_text_field.dart';
 import 'package:movies_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:movies_app/features/auth/presentation/cubit/auth_state.dart';
+import 'package:movies_app/features/auth/presentation/widgets/register_success_dialog.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -21,10 +24,9 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
 
-  final List<TextEditingController> _controllers =
-  List.generate(
+  final List<TextEditingController> _controllers = List.generate(
     5,
-        (_) => TextEditingController(),
+    (_) => TextEditingController(),
   );
 
   @override
@@ -36,10 +38,7 @@ class _RegisterFormState extends State<RegisterForm> {
     super.dispose();
   }
 
-  String? _validateField(
-      int index,
-      String? value,
-      ) {
+  String? _validateField(int index, String? value) {
     switch (index) {
       case 1:
         return Validators.email(context, value);
@@ -48,20 +47,13 @@ class _RegisterFormState extends State<RegisterForm> {
         return Validators.password(context, value);
 
       case 3:
-        return Validators.confirmPassword(
-          context,
-          value,
-          _controllers[2].text,
-        );
+        return Validators.confirmPassword(context, value, _controllers[2].text);
 
       case 4:
         return Validators.phone(context, value);
 
       default:
-        return Validators.required(
-          context,
-          value,
-        );
+        return Validators.required(context, value);
     }
   }
 
@@ -83,7 +75,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
     final authCubit = context.read<AuthCubit>();
 
-    if (authCubit.state.status == AuthStatus.loading) {
+    if (authCubit.state is AuthLoading) {
       return;
     }
 
@@ -103,35 +95,14 @@ class _RegisterFormState extends State<RegisterForm> {
     await showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (dialogContext) {
-        return AlertDialog(
-          title: Text(
-            context.l10n.registrationSuccess,
-          ),
-          content: Text(
-            context.l10n.accountCreatedSuccessfully,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(dialogContext).pop();
-              },
-              child: Text(
-                context.l10n.ok,
-              ),
-            ),
-          ],
-        );
-      },
+      builder: (_) => const RegisterSuccessDialog(),
     );
 
     if (!mounted) {
       return;
     }
 
-    context.go(
-      AppRoutes.loginPath,
-    );
+    context.go(AppRoutes.loginPath);
   }
 
   @override
@@ -154,67 +125,50 @@ class _RegisterFormState extends State<RegisterForm> {
 
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state.status == AuthStatus.success) {
-          _showSuccessDialog();
-        }
-
-        if (state.status == AuthStatus.failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                state.errorMessage ??
-                    context.l10n.registrationFailed,
+        switch (state) {
+          case AuthSuccess():
+            _showSuccessDialog();
+          case AuthFailure(message: final message):
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: AppColors.error,
+                content: Text(message),
               ),
-            ),
-          );
+            );
+          case AuthInitial():
+          case AuthLoading():
+            break;
         }
       },
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
-          final isLoading =
-              state.status == AuthStatus.loading;
+          final isLoading = state is AuthLoading;
 
           return Form(
             key: _formKey,
             child: Column(
               children: [
-                for (
-                var index = 0;
-                index < labels.length;
-                index++
-                ) ...[
+                for (var index = 0; index < labels.length; index++) ...[
                   AppTextField(
                     hint: labels[index],
                     controller: _controllers[index],
                     prefixIcon: icons[index],
-                    isPassword:
-                    index == 2 || index == 3,
-                    keyboardType:
-                    _keyboardType(index),
+                    isPassword: index == 2 || index == 3,
+                    keyboardType: _keyboardType(index),
                     textInputAction: index == 4
                         ? TextInputAction.done
                         : TextInputAction.next,
-                    onFieldSubmitted: index == 4
-                        ? (_) => _submit()
-                        : null,
+                    onFieldSubmitted: index == 4 ? (_) => _submit() : null,
                     validator: (value) {
-                      return _validateField(
-                        index,
-                        value,
-                      );
+                      return _validateField(index, value);
                     },
                   ),
-                  SizedBox(
-                    height: AppSpacing.xl,
-                  ),
+                  SizedBox(height: AppSpacing.xl),
                 ],
                 AppButton(
-                  label: isLoading
-                      ? context.l10n.creatingAccount
-                      : context.l10n.register,
-                  onPressed: isLoading
-                      ? () {}
-                      : _submit,
+                  label: context.l10n.register,
+                  onPressed: _submit,
+                  isLoading: isLoading,
                 ),
               ],
             ),

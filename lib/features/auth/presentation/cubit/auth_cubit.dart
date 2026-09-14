@@ -1,50 +1,28 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:movies_app/core/utils/app_result.dart';
+import 'package:movies_app/features/auth/domain/usecases/google_sign_in_usecase.dart';
+import 'package:movies_app/features/auth/domain/usecases/login_usecase.dart';
+import 'package:movies_app/features/auth/domain/usecases/register_usecase.dart';
 import 'package:movies_app/features/auth/presentation/cubit/auth_state.dart';
-import 'package:movies_app/services/auth_service.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit(this._authService) : super(const AuthState());
+  AuthCubit(
+    this._loginUseCase,
+    this._registerUseCase,
+    this._googleSignInUseCase,
+  ) : super(const AuthInitial());
 
-  final AuthService _authService;
+  final LoginUseCase _loginUseCase;
+  final RegisterUseCase _registerUseCase;
+  final GoogleSignInUseCase _googleSignInUseCase;
 
-  Future<void> login({
-    required String email,
-    required String password,
-  }) async {
-    emit(
-      const AuthState(
-        status: AuthStatus.loading,
-      ),
-    );
+  Future<void> login({required String email, required String password}) async {
+    emit(const AuthLoading(AuthOperation.emailSignIn));
 
-    try {
-      await _authService.login(
-        email: email,
-        password: password,
-      );
+    final result = await _loginUseCase(email: email, password: password);
 
-      emit(
-        const AuthState(
-          status: AuthStatus.success,
-        ),
-      );
-    } on FirebaseAuthException catch (e) {
-      emit(
-        AuthState(
-          status: AuthStatus.failure,
-          errorMessage: e.message,
-        ),
-      );
-    } catch (e) {
-      emit(
-        AuthState(
-          status: AuthStatus.failure,
-          errorMessage: e.toString(),
-        ),
-      );
-    }
+    emit(_stateFor(result));
   }
 
   Future<void> register({
@@ -53,39 +31,35 @@ class AuthCubit extends Cubit<AuthState> {
     required String password,
     required String phone,
   }) async {
-    emit(
-      const AuthState(
-        status: AuthStatus.loading,
-      ),
+    emit(const AuthLoading(AuthOperation.emailRegistration));
+
+    final result = await _registerUseCase(
+      name: name,
+      email: email,
+      password: password,
+      phone: phone,
     );
 
-    try {
-      await _authService.register(
-        name: name,
-        email: email,
-        password: password,
-        phone: phone,
-      );
+    emit(_stateFor(result));
+  }
 
-      emit(
-        const AuthState(
-          status: AuthStatus.success,
-        ),
-      );
-    } on FirebaseAuthException catch (e) {
-      emit(
-        AuthState(
-          status: AuthStatus.failure,
-          errorMessage: e.message,
-        ),
-      );
-    } catch (e) {
-      emit(
-        AuthState(
-          status: AuthStatus.failure,
-          errorMessage: e.toString(),
-        ),
-      );
-    }
+  Future<void> signInWithGoogle() async {
+    emit(const AuthLoading(AuthOperation.googleSignIn));
+
+    final result = await _googleSignInUseCase();
+
+    emit(switch (result) {
+      Success() => const AuthSuccess(),
+      Failure(error: final error) when error.code == 'cancelled' =>
+        const AuthInitial(),
+      Failure(error: final error) => AuthFailure(error.message ?? error.code),
+    });
+  }
+
+  AuthState _stateFor(AppResult<void> result) {
+    return switch (result) {
+      Success() => const AuthSuccess(),
+      Failure(error: final error) => AuthFailure(error.message ?? error.code),
+    };
   }
 }

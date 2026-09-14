@@ -1,24 +1,36 @@
 import 'package:equatable/equatable.dart';
 
-enum AuthStatus {
-  initial,
-  loading,
-  success,
-  failure,
-}
-
-class AuthState extends Equatable {
-  final AuthStatus status;
-  final String? errorMessage;
-
-  const AuthState({
-    this.status = AuthStatus.initial,
-    this.errorMessage,
-  });
+sealed class AuthState extends Equatable {
+  const AuthState();
 
   @override
-  List<Object?> get props => [
-    status,
-    errorMessage,
-  ];
+  List<Object?> get props => [];
+}
+
+final class AuthInitial extends AuthState {
+  const AuthInitial();
+}
+
+enum AuthOperation { emailSignIn, emailRegistration, googleSignIn }
+
+final class AuthLoading extends AuthState {
+  const AuthLoading(this.operation);
+
+  final AuthOperation operation;
+
+  @override
+  List<Object?> get props => [operation];
+}
+
+final class AuthSuccess extends AuthState {
+  const AuthSuccess();
+}
+
+final class AuthFailure extends AuthState {
+  const AuthFailure(this.message);
+
+  final String message;
+
+  @override
+  List<Object?> get props => [message];
 }
