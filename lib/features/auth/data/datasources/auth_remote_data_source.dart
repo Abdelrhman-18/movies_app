@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:movies_app/features/auth/data/models/user_model.dart';
 
-abstract class AuthRepository {
+abstract class AuthRemoteDataSource {
   Future<UserModel> getCurrentUser();
 
   Future<void> updateProfile({

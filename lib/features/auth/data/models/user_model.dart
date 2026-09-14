@@ -1,3 +1,5 @@
+import 'package:movies_app/features/auth/domain/entities/user.dart';
+
 class UserModel {
   final String id;
   final String name;
@@ -39,19 +41,14 @@ class UserModel {
     };
   }
 
-  UserModel copyWith({
-    String? name,
-    String? phone,
-    int? avatarIndex,
-    String? profileImageUrl,
-  }) {
-    return UserModel(
+  User toEntity() {
+    return User(
       id: id,
-      name: name ?? this.name,
+      name: name,
       email: email,
-      phone: phone ?? this.phone,
-      avatarIndex: avatarIndex ?? this.avatarIndex,
-      profileImageUrl: profileImageUrl ?? this.profileImageUrl,
+      phone: phone,
+      avatarIndex: avatarIndex,
+      profileImageUrl: profileImageUrl,
     );
   }
 }

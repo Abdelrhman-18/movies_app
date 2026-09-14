@@ -1,4 +1,4 @@
-import 'package:movies_app/features/auth/data/models/user_model.dart';
+import 'package:movies_app/features/auth/domain/entities/user.dart';
 
 sealed class ProfileState {}
 
@@ -9,7 +9,7 @@ class ProfileLoading extends ProfileState {}
 class ProfileUserLoaded extends ProfileState {
   ProfileUserLoaded(this.user);
 
-  final UserModel user;
+  final User user;
 }
 
 class ProfileSuccess extends ProfileState {}
