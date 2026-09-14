@@ -12,9 +12,9 @@ import 'package:movies_app/core/widgets/app_button.dart';
 import 'package:movies_app/features/profile/presentation/widgets/profile_avatar_picker.dart';
 import 'package:movies_app/features/profile/presentation/widgets/profile_info_fields.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies_app/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:movies_app/features/profile/presentation/cubit/profile/profile_cubit.dart';
 
-import '../cubit/profile_state.dart';
+import '../cubit/profile/profile_state.dart';
 
 
 class UpdateProfileScreen extends StatefulWidget {

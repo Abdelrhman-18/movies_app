@@ -95,13 +95,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         'phone': phone,
       };
 
-      // Gallery Image
       if (profileImage != null) {
         data['avatarIndex'] = null;
         data['profileImageUrl'] = profileImageUrl;
       }
 
-      // Preset Avatar
       else if (avatarIndex != null) {
         data['avatarIndex'] = avatarIndex;
         data['profileImageUrl'] = null;
@@ -113,6 +111,22 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         merge: true,
       );
     });
+
+    switch (result) {
+      case Success<void>():
+        return;
+
+      case Failure<void>():
+        throw Exception(result.error.message);
+    }
+  }
+  @override
+  Future<void> resetPassword(String email) async {
+    final result = await FirebaseExecute.call<void>(
+          () => _firebaseAuth.sendPasswordResetEmail(
+        email: email,
+      ),
+    );
 
     switch (result) {
       case Success<void>():

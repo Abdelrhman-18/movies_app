@@ -32,4 +32,8 @@ class AuthRepositoryImpl implements AuthRepository {
       profileImage: profileImage,
     );
   }
+  @override
+  Future<void> resetPassword(String email) {
+    return _remoteDataSource.resetPassword(email);
+  }
 }
