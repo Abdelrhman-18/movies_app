@@ -50,7 +50,11 @@
   "searchMovies": "ابحث",
   "moviesFound": "{count, plural, =0{لا توجد أفلام} =1{فيلم واحد} =2{فيلمان} few{{count} أفلام} many{{count} فيلمًا} other{{count} فيلم}}",
   "@moviesFound": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
 
   "watch": "مشاهدة",
@@ -88,5 +92,11 @@
   "phoneInvalid": "أدخل رقم هاتف صحيحًا",
   "registrationUnavailable": "بياناتك صحيحة. إنشاء الحساب سيتوفر قريبًا.",
 
-  "chooseFromGallery": "اختر من المعرض"
+  "chooseFromGallery": "اختر من المعرض",
+
+  "registrationSuccess": "تم بنجاح",
+  "accountCreatedSuccessfully": "تم إنشاء الحساب بنجاح",
+  "creatingAccount": "جاري إنشاء الحساب...",
+  "registrationFailed": "فشل إنشاء الحساب",
+  "ok": "حسنًا"
 }
