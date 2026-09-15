@@ -52,6 +52,10 @@
   "@moviesFound": {
     "placeholders": { "count": { "type": "int" } }
   },
+  "searchPrompt": "ابحث عن أفلامك المفضلة",
+
+  "availableNow": "متاح الآن",
+  "watchNow": "شاهد الآن",
 
   "watch": "مشاهدة",
   "similar": "أفلام مشابهة",

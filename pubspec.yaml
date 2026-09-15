@@ -8,6 +8,7 @@ environment:
   sdk: ^3.12.1
 
 dependencies:
+  carousel_slider: ^5.1.2
   dotted_border: ^2.1.0
   image_picker: ^1.2.1
   flutter:
@@ -28,6 +29,7 @@ dependencies:
   go_router: ^18.0.0
   intl: any
   pretty_dio_logger: ^1.4.0
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
