@@ -15,9 +15,11 @@ import 'package:movies_app/features/onboarding/presentation/screens/onboarding_s
 import 'package:movies_app/features/profile/presentation/cubit/profile/profile_cubit.dart';
 import 'package:movies_app/features/profile/presentation/screens/update_profile_screen.dart';
 
+import 'package:movies_app/app/app_shell_screen.dart';
+
 abstract final class AppRouter {
   static final GoRouter router = GoRouter(
-    initialLocation: AppRoutes.onboardingPath,
+    initialLocation: AppRoutes.homePath,
     routes: [
       GoRoute(
         name: AppRoutes.onboardingName,
@@ -53,6 +55,11 @@ abstract final class AppRouter {
         ),
       ),
 
+      GoRoute(
+        name: AppRoutes.homeName,
+        path: AppRoutes.homePath,
+        builder: (_, _) => const AppShellScreen(),
+      ),
       GoRoute(
         name: AppRoutes.showcaseName,
         path: AppRoutes.showcasePath,

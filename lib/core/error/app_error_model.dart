@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 final class AppErrorModel extends Equatable {
   const AppErrorModel({required this.code, this.message});
@@ -11,6 +12,15 @@ final class AppErrorModel extends Equatable {
 
   factory AppErrorModel.fromFirebaseException(FirebaseException e) {
     return AppErrorModel(code: e.code, message: e.message);
+  }
+
+  factory AppErrorModel.fromGoogleSignInException(GoogleSignInException e) {
+    return AppErrorModel(
+      code: e.code == GoogleSignInExceptionCode.canceled
+          ? 'cancelled'
+          : 'google-sign-in-failed',
+      message: e.description,
+    );
   }
 
   factory AppErrorModel.unexpected([String? message]) {

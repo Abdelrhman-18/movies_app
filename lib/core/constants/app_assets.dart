@@ -13,6 +13,9 @@ abstract final class AppAssets {
 
   static const String forgotPassword = 'assets/images/forgot_password.png';
 
+  static const String homeAvailableNowTitle = 'assets/images/available_now.png';
+  static const String homeWatchNowTitle = 'assets/images/watch_now.png';
+
   static const List<String> onboardingCollages = [
     'assets/images/onboarding_collage_1.jpg',
     'assets/images/onboarding_collage_2.jpg',

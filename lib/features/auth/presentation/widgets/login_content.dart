@@ -16,6 +16,8 @@ class LoginContent extends StatelessWidget {
     required this.formKey,
     required this.emailController,
     required this.passwordController,
+    required this.isEmailLoading,
+    required this.isGoogleLoading,
     required this.onLogin,
     required this.onForgotPassword,
     required this.onCreateAccount,
@@ -26,6 +28,8 @@ class LoginContent extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final TextEditingController emailController;
   final TextEditingController passwordController;
+  final bool isEmailLoading;
+  final bool isGoogleLoading;
   final VoidCallback onLogin;
   final VoidCallback onForgotPassword;
   final VoidCallback onCreateAccount;
@@ -81,9 +85,14 @@ class LoginContent extends StatelessWidget {
             ),
           ),
           SizedBox(height: AppSpacing.xl + AppSpacing.sm),
-          AppButton(label: context.l10n.login, onPressed: onLogin),
+          AppButton(
+            label: context.l10n.login,
+            onPressed: onLogin,
+            isLoading: isEmailLoading,
+          ),
           SizedBox(height: AppSpacing.lg),
           LoginFooter(
+            isLoading: isGoogleLoading,
             onCreateAccount: onCreateAccount,
             onGoogleLogin: onGoogleLogin,
           ),
