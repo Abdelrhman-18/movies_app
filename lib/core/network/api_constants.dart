@@ -1,4 +1,8 @@
 abstract final class ApiConstants {
+  // yts.mx is DNS-blocked/unreliable in many environments. The spec's
+  // https://yts.gg/api/v2/ itself replies with `status_message: "... NOTICE:
+  // Base URL moving to https://movies-api.accel.li/api/v2/"`, so this mirror
+  // is the current official endpoint, not a workaround.
   static const String baseUrl = 'https://movies-api.accel.li/api/v2/';
 
   static const String listMovies = 'list_movies.json';

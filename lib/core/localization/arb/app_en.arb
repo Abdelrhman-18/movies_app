@@ -56,6 +56,13 @@
       }
     }
   },
+  "searchPrompt": "Search for your favorite movies",
+  "@searchPrompt": { "description": "Search tab empty state before a query is typed" },
+
+  "availableNow": "Available Now",
+  "@availableNow": { "description": "Home hero section heading" },
+  "watchNow": "Watch Now",
+  "@watchNow": { "description": "Home section heading above the movie category rows" },
 
   "watch": "Watch",
   "similar": "Similar Movies",

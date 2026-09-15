@@ -1,6 +1,6 @@
 abstract final class AppRoutes {
   static const String onboardingName = 'onboarding';
-  static const String onboardingPath = '/';
+  static const String onboardingPath = '/onboarding';
 
   static const String loginName = 'login';
   static const String loginPath = '/login';
@@ -16,4 +16,7 @@ abstract final class AppRoutes {
 
   static const String updateProfileName = 'updateProfile';
   static const String updateProfilePath = '/updateProfile';
+
+  static const String homeName = 'home';
+  static const String homePath = '/';
 }
