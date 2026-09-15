@@ -4,6 +4,14 @@ import 'package:get_it/get_it.dart';
 import 'package:movies_app/core/network/api_client.dart';
 import 'package:movies_app/core/network/dio_factory.dart';
 
+import 'package:movies_app/features/auth/data/datasources/auth_service.dart';
+import 'package:movies_app/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:movies_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:movies_app/features/auth/domain/usecases/google_sign_in_usecase.dart';
+import 'package:movies_app/features/auth/domain/usecases/login_usecase.dart';
+import 'package:movies_app/features/auth/domain/usecases/register_usecase.dart';
+import 'package:movies_app/features/auth/domain/usecases/reset_password_usecase.dart';
+import 'package:movies_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:movies_app/features/browse/presentation/cubit/browse_cubit.dart';
 import 'package:movies_app/features/home/data/datasources/movies_remote_data_source.dart';
 import 'package:movies_app/features/home/data/repos/movies_repository_impl.dart';
@@ -18,6 +26,29 @@ Future<void> configureDependencies() async {
   getIt
     ..registerLazySingleton<Dio>(DioFactory.create)
     ..registerLazySingleton<ApiClient>(() => ApiClient(getIt<Dio>()))
+    ..registerLazySingleton<AuthService>(AuthService.new)
+    ..registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(getIt<AuthService>()),
+    )
+    ..registerLazySingleton<LoginUseCase>(
+      () => LoginUseCase(getIt<AuthRepository>()),
+    )
+    ..registerLazySingleton<RegisterUseCase>(
+      () => RegisterUseCase(getIt<AuthRepository>()),
+    )
+    ..registerLazySingleton<ResetPasswordUseCase>(
+      () => ResetPasswordUseCase(getIt<AuthRepository>()),
+    )
+    ..registerLazySingleton<GoogleSignInUseCase>(
+      () => GoogleSignInUseCase(getIt<AuthRepository>()),
+    )
+    ..registerFactory<AuthCubit>(
+      () => AuthCubit(
+        getIt<LoginUseCase>(),
+        getIt<RegisterUseCase>(),
+        getIt<GoogleSignInUseCase>(),
+      ),
+    )
     ..registerLazySingleton<MoviesRemoteDataSource>(
       () => MoviesRemoteDataSource(getIt<ApiClient>()),
     )
