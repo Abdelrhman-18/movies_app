@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import 'package:movies_app/core/error/app_error_model.dart';
 
-import 'package:movies_app/core/movies/domain/entities/movie_entity.dart';
+import 'package:movies_app/features/home/domain/entities/movie_entity.dart';
 
 class HomeCategory extends Equatable {
   const HomeCategory({required this.title, required this.movies});

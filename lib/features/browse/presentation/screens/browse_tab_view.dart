@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/core/localization/l10n.dart';
-import 'package:movies_app/core/movies/domain/entities/movie_genres.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/widgets/app_chip.dart';
 import 'package:movies_app/core/widgets/empty_state.dart';
@@ -12,8 +11,8 @@ import 'package:movies_app/core/widgets/movie_list_error_view.dart';
 import 'package:movies_app/core/widgets/poster_card.dart';
 import 'package:movies_app/core/widgets/poster_grid_shimmer.dart';
 
-import 'package:movies_app/features/browse/presentation/controllers/browse_cubit.dart';
-import 'package:movies_app/features/browse/presentation/controllers/browse_state.dart';
+import 'package:movies_app/features/browse/presentation/cubit/browse_cubit.dart';
+import 'package:movies_app/features/browse/presentation/cubit/browse_state.dart';
 
 class BrowseTabView extends StatelessWidget {
   const BrowseTabView({super.key});
@@ -21,7 +20,8 @@ class BrowseTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<BrowseCubit>(
-      create: (_) => getIt<BrowseCubit>()..selectGenre(MovieGenres.all.first),
+      create: (_) =>
+          getIt<BrowseCubit>()..selectGenre(BrowseCubit.genres.first),
       child: const _BrowseTabViewBody(),
     );
   }
@@ -48,10 +48,10 @@ class _BrowseTabViewBody extends StatelessWidget {
                   padding: EdgeInsetsDirectional.symmetric(
                     horizontal: AppSpacing.screenPadding,
                   ),
-                  itemCount: MovieGenres.all.length,
+                  itemCount: BrowseCubit.genres.length,
                   separatorBuilder: (_, _) => SizedBox(width: AppSpacing.sm),
                   itemBuilder: (context, index) {
-                    final genre = MovieGenres.all[index];
+                    final genre = BrowseCubit.genres[index];
                     return AppChip(
                       label: genre,
                       isSelected: genre == state.genre,

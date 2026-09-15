@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:movies_app/core/localization/l10n.dart';
-import 'package:movies_app/core/movies/domain/entities/movie_entity.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 
+import 'package:movies_app/features/home/domain/entities/movie_entity.dart';
 import 'package:movies_app/features/home/presentation/widgets/movie_row.dart';
 import 'package:movies_app/features/home/presentation/widgets/section_header.dart';
 

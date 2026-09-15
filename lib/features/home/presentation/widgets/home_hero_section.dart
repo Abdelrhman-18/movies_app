@@ -5,10 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:movies_app/core/constants/app_assets.dart';
 import 'package:movies_app/core/localization/l10n.dart';
-import 'package:movies_app/core/movies/domain/entities/movie_entity.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 
+import 'package:movies_app/features/home/domain/entities/movie_entity.dart';
 import 'package:movies_app/features/home/presentation/widgets/hero_carousel.dart';
 
 class HomeHeroSection extends StatefulWidget {

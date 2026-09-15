@@ -12,8 +12,8 @@ import 'package:movies_app/core/widgets/movie_list_error_view.dart';
 import 'package:movies_app/core/widgets/poster_card.dart';
 import 'package:movies_app/core/widgets/poster_grid_shimmer.dart';
 
-import 'package:movies_app/features/search/presentation/controllers/search_cubit.dart';
-import 'package:movies_app/features/search/presentation/controllers/search_state.dart';
+import 'package:movies_app/features/search/presentation/cubit/search_cubit.dart';
+import 'package:movies_app/features/search/presentation/cubit/search_state.dart';
 
 class SearchTabView extends StatelessWidget {
   const SearchTabView({super.key});

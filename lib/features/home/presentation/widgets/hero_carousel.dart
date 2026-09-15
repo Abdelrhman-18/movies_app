@@ -1,8 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-import 'package:movies_app/core/movies/domain/entities/movie_entity.dart';
 import 'package:movies_app/core/widgets/poster_card.dart';
+
+import 'package:movies_app/features/home/domain/entities/movie_entity.dart';
 
 class HeroCarousel extends StatefulWidget {
   const HeroCarousel({

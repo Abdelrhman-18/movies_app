@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/core/localization/l10n.dart';
-import 'package:movies_app/core/movies/domain/entities/movie_entity.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/widgets/empty_state.dart';
 import 'package:movies_app/core/widgets/movie_list_error_view.dart';
 
+import 'package:movies_app/features/home/domain/entities/movie_entity.dart';
 import 'package:movies_app/features/home/presentation/cubit/home_cubit.dart';
 import 'package:movies_app/features/home/presentation/cubit/home_state.dart';
 import 'package:movies_app/features/home/presentation/widgets/category_section.dart';

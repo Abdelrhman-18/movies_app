@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:movies_app/core/movies/domain/entities/movie_entity.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/widgets/poster_card.dart';
+
+import 'package:movies_app/features/home/domain/entities/movie_entity.dart';
 
 class MovieRow extends StatelessWidget {
   const MovieRow({required this.movies, super.key});

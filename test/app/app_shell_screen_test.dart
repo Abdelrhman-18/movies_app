@@ -9,14 +9,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/core/localization/l10n.dart';
-import 'package:movies_app/core/movies/data/datasources/movies_remote_data_source.dart';
-import 'package:movies_app/core/movies/data/repos/movies_repository_impl.dart';
-import 'package:movies_app/core/movies/domain/usecases/get_movies_usecase.dart';
 import 'package:movies_app/core/network/api_client.dart';
 
-import 'package:movies_app/features/browse/presentation/controllers/browse_cubit.dart';
+import 'package:movies_app/features/browse/presentation/cubit/browse_cubit.dart';
+import 'package:movies_app/features/home/data/datasources/movies_remote_data_source.dart';
+import 'package:movies_app/features/home/data/repos/movies_repository_impl.dart';
+import 'package:movies_app/features/home/domain/usecases/get_movies_usecase.dart';
 import 'package:movies_app/features/home/presentation/cubit/home_cubit.dart';
-import 'package:movies_app/features/search/presentation/controllers/search_cubit.dart';
+import 'package:movies_app/features/search/presentation/cubit/search_cubit.dart';
 
 import 'package:movies_app/app/app_shell_screen.dart';
 
@@ -75,8 +75,8 @@ void main() {
     final useCase = GetMoviesUseCase(repository);
     getIt
       ..registerFactory<HomeCubit>(() => HomeCubit(useCase))
-      ..registerFactory<BrowseCubit>(() => BrowseCubit(useCase))
-      ..registerFactory<SearchCubit>(() => SearchCubit(useCase));
+      ..registerFactory<BrowseCubit>(BrowseCubit.new)
+      ..registerFactory<SearchCubit>(SearchCubit.new);
   });
 
   tearDown(getIt.reset);
