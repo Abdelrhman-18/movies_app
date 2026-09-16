@@ -12,12 +12,17 @@ import 'package:movies_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:movies_app/features/auth/domain/usecases/register_usecase.dart';
 import 'package:movies_app/features/auth/domain/usecases/reset_password_usecase.dart';
 import 'package:movies_app/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:movies_app/features/auth/presentation/cubit/reset_password/reset_password_cubit.dart';
 import 'package:movies_app/features/browse/presentation/cubit/browse_cubit.dart';
 import 'package:movies_app/features/home/data/datasources/movies_remote_data_source.dart';
 import 'package:movies_app/features/home/data/repos/movies_repository_impl.dart';
 import 'package:movies_app/features/home/domain/repos/movies_repository.dart';
 import 'package:movies_app/features/home/domain/usecases/get_movies_usecase.dart';
 import 'package:movies_app/features/home/presentation/cubit/home_cubit.dart';
+import 'package:movies_app/features/profile/data/datasources/profile_service.dart';
+import 'package:movies_app/features/profile/data/repos/profile_repository_impl.dart';
+import 'package:movies_app/features/profile/domain/repos/profile_repository.dart';
+import 'package:movies_app/features/profile/presentation/cubit/profile/profile_cubit.dart';
 import 'package:movies_app/features/search/presentation/cubit/search_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
@@ -48,6 +53,16 @@ Future<void> configureDependencies() async {
         getIt<RegisterUseCase>(),
         getIt<GoogleSignInUseCase>(),
       ),
+    )
+    ..registerFactory<ResetPasswordCubit>(
+      () => ResetPasswordCubit(getIt<ResetPasswordUseCase>()),
+    )
+    ..registerLazySingleton<ProfileService>(ProfileService.new)
+    ..registerLazySingleton<ProfileRepository>(
+      () => ProfileRepositoryImpl(getIt<ProfileService>()),
+    )
+    ..registerFactory<ProfileCubit>(
+      () => ProfileCubit(getIt<ProfileRepository>()),
     )
     ..registerLazySingleton<MoviesRemoteDataSource>(
       () => MoviesRemoteDataSource(getIt<ApiClient>()),

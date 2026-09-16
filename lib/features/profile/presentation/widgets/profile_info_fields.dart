@@ -4,24 +4,15 @@ import 'package:movies_app/core/localization/l10n.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/widgets/app_text_field.dart';
 
-class ProfileInfoFields extends StatefulWidget {
-  const ProfileInfoFields({super.key});
+class ProfileInfoFields extends StatelessWidget {
+  const ProfileInfoFields({
+    super.key,
+    required this.nameController,
+    required this.phoneController,
+  });
 
-  @override
-  State<ProfileInfoFields> createState() => _ProfileInfoFieldsState();
-}
-
-class _ProfileInfoFieldsState extends State<ProfileInfoFields> {
-  // TODO(phase-2): Seed these from the signed-in user's profile instead of mock data.
-  final _nameController = TextEditingController(text: 'John Safwat');
-  final _phoneController = TextEditingController(text: '01200000000');
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _phoneController.dispose();
-    super.dispose();
-  }
+  final TextEditingController nameController;
+  final TextEditingController phoneController;
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +20,14 @@ class _ProfileInfoFieldsState extends State<ProfileInfoFields> {
       children: [
         AppTextField(
           hint: context.l10n.name,
-          controller: _nameController,
+          controller: nameController,
           prefixIcon: Icons.person_outline,
           textInputAction: TextInputAction.next,
         ),
         SizedBox(height: AppSpacing.md),
         AppTextField(
           hint: context.l10n.phoneNumber,
-          controller: _phoneController,
+          controller: phoneController,
           prefixIcon: Icons.phone_outlined,
           keyboardType: TextInputType.phone,
           textInputAction: TextInputAction.done,

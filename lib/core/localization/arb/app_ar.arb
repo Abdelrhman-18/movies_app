@@ -98,6 +98,10 @@
 
   "chooseFromGallery": "اختر من المعرض",
 
+  "passwordResetEmailSent": "تم إرسال رابط إعادة تعيين كلمة المرور بنجاح.",
+  "profileNameAndPhoneRequired": "من فضلك أدخل الاسم ورقم الهاتف",
+  "profileUpdatedSuccessfully": "تم تحديث الحساب بنجاح",
+
   "registrationSuccess": "تم بنجاح",
   "accountCreatedSuccessfully": "تم إنشاء الحساب بنجاح",
   "creatingAccount": "جاري إنشاء الحساب...",

@@ -99,7 +99,15 @@
   "phoneInvalid": "Enter a valid phone number",
   "registrationUnavailable": "Your data is valid. Account creation will be available soon.",
 
-  "chooseFromGallery": "Choose from gallery",
+  "chooseFromGallery": "Choose from Gallery",
+  "@chooseFromGallery": { "description": "Update Profile: pick an avatar image from the device gallery" },
+
+  "passwordResetEmailSent": "Password reset email sent successfully.",
+  "@passwordResetEmailSent": { "description": "Reset Password: confirmation after the email is sent" },
+  "profileNameAndPhoneRequired": "Please enter your name and phone number",
+  "@profileNameAndPhoneRequired": { "description": "Update Profile: validation when name or phone is empty" },
+  "profileUpdatedSuccessfully": "Profile updated successfully",
+  "@profileUpdatedSuccessfully": { "description": "Update Profile: confirmation after a successful save" },
 
   "registrationSuccess": "Success",
   "accountCreatedSuccessfully": "Account created successfully",
