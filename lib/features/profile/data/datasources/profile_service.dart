@@ -7,6 +7,7 @@ import 'package:movies_app/core/services/firebase/firebase_execute.dart';
 import 'package:movies_app/core/services/firebase/firestore_collections.dart';
 import 'package:movies_app/core/services/firebase/firestore_service.dart';
 import 'package:movies_app/core/utils/app_result.dart';
+
 import 'package:movies_app/features/profile/data/models/user_model.dart';
 
 class ProfileService {

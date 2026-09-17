@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:go_router/go_router.dart';
+
 import 'package:movies_app/core/constants/app_assets.dart';
 import 'package:movies_app/core/localization/l10n.dart';
+import 'package:movies_app/core/routing/app_routes.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/theme/app_theme.dart';
 import 'package:movies_app/core/widgets/app_button.dart';
@@ -53,9 +56,7 @@ class _ProfileTabViewState extends State<ProfileTabView> {
           SizedBox(height: AppSpacing.xl),
           AppButton(
             label: context.l10n.editProfile,
-            onPressed: () {
-              // TODO(phase-2): Navigate to Update Profile once auth wiring lands.
-            },
+            onPressed: () => context.push(AppRoutes.updateProfilePath),
           ),
           SizedBox(height: AppSpacing.sm),
           AppButton(
