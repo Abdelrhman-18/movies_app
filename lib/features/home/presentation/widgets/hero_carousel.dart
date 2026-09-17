@@ -45,7 +45,7 @@ class _HeroCarouselState extends State<HeroCarousel> {
               curve: Curves.easeInOutCubic,
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: sidePadding),
+              padding: EdgeInsetsDirectional.symmetric(horizontal: sidePadding),
               child: PosterCard(
                 posterUrl: widget.movies[index].posterUrl,
                 rating: widget.movies[index].rating,

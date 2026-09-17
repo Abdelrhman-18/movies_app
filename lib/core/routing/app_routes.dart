@@ -19,4 +19,7 @@ abstract final class AppRoutes {
 
   static const String homeName = 'home';
   static const String homePath = '/';
+
+  static const String movieDetailsName = 'movieDetails';
+  static const String movieDetailsPath = '/movie-details';
 }

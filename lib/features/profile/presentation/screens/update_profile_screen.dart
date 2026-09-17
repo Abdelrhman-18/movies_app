@@ -150,6 +150,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 AppButton(
                   label: context.l10n.deleteAccount,
                   variant: AppButtonVariant.danger,
+                  // TODO(phase-2): Dispatch account deletion once a
+                  // delete-account repository method exists.
                   onPressed: () {},
                 ),
 

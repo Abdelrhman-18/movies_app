@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -11,6 +12,7 @@ import 'package:movies_app/core/widgets/design_system_showcase_screen.dart';
 import 'package:movies_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:movies_app/features/auth/presentation/screens/register_screen.dart';
 import 'package:movies_app/features/auth/presentation/screens/reset_password_screen.dart';
+import 'package:movies_app/features/movie_details/presentation/screens/movie_details_screen.dart';
 import 'package:movies_app/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:movies_app/features/profile/presentation/cubit/profile/profile_cubit.dart';
 import 'package:movies_app/features/profile/presentation/screens/update_profile_screen.dart';
@@ -18,8 +20,31 @@ import 'package:movies_app/features/profile/presentation/screens/update_profile_
 import 'package:movies_app/app/app_shell_screen.dart';
 
 abstract final class AppRouter {
+  static const List<String> _publicPaths = [
+    AppRoutes.onboardingPath,
+    AppRoutes.loginPath,
+    AppRoutes.registerPath,
+    AppRoutes.forgotPasswordPath,
+  ];
+
+  // TODO(phase-2): persist a "seen onboarding" flag (shared_preferences) so
+  // a logged-out user who has already seen it lands on login instead.
+  static String? _redirect(BuildContext context, GoRouterState state) {
+    final isLoggedIn = FirebaseAuth.instance.currentUser != null;
+    final isPublicRoute = _publicPaths.contains(state.matchedLocation);
+
+    if (!isLoggedIn && !isPublicRoute) {
+      return AppRoutes.onboardingPath;
+    }
+    if (isLoggedIn && isPublicRoute) {
+      return AppRoutes.homePath;
+    }
+    return null;
+  }
+
   static final GoRouter router = GoRouter(
     initialLocation: AppRoutes.homePath,
+    redirect: _redirect,
     routes: [
       GoRoute(
         name: AppRoutes.onboardingName,
@@ -64,6 +89,11 @@ abstract final class AppRouter {
         name: AppRoutes.showcaseName,
         path: AppRoutes.showcasePath,
         builder: (_, _) => const DesignSystemShowcaseScreen(),
+      ),
+      GoRoute(
+        name: AppRoutes.movieDetailsName,
+        path: AppRoutes.movieDetailsPath,
+        builder: (_, _) => const MovieDetailsScreen(),
       ),
     ],
     errorBuilder: (_, state) => _RouteErrorScreen(

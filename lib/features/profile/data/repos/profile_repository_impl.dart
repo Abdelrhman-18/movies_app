@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:movies_app/core/utils/app_result.dart';
+
 import 'package:movies_app/features/profile/data/datasources/profile_service.dart';
 import 'package:movies_app/features/profile/domain/entities/user.dart';
 import 'package:movies_app/features/profile/domain/repos/profile_repository.dart';

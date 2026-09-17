@@ -9,6 +9,7 @@ import 'package:movies_app/core/routing/app_routes.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/widgets/app_app_bar.dart';
+
 import 'package:movies_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:movies_app/features/auth/presentation/cubit/auth_state.dart';
 import 'package:movies_app/features/auth/presentation/widgets/login_content.dart';
@@ -100,14 +101,7 @@ class _LoginViewState extends State<_LoginView> {
           listener: (context, state) {
             switch (state) {
               case AuthSuccess():
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor: AppColors.success,
-                    content: Text(context.l10n.login),
-                  ),
-                );
-
-              // TODO(phase-2): change this to the Home route when Home is ready.
+                context.go(AppRoutes.homePath);
               case AuthFailure(message: final message):
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

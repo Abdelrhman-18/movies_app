@@ -1,13 +1,8 @@
+import 'package:equatable/equatable.dart';
+
 import 'package:movies_app/features/profile/domain/entities/user.dart';
 
-class UserModel {
-  final String id;
-  final String name;
-  final String email;
-  final String phone;
-  final int? avatarIndex;
-  final String? profileImageUrl;
-
+class UserModel extends Equatable {
   const UserModel({
     required this.id,
     required this.name,
@@ -16,6 +11,13 @@ class UserModel {
     this.avatarIndex,
     this.profileImageUrl,
   });
+
+  final String id;
+  final String name;
+  final String email;
+  final String phone;
+  final int? avatarIndex;
+  final String? profileImageUrl;
 
   factory UserModel.fromJson(Map<String, dynamic> json, String id) {
     return UserModel(
@@ -48,4 +50,14 @@ class UserModel {
       profileImageUrl: profileImageUrl,
     );
   }
+
+  @override
+  List<Object?> get props => [
+    id,
+    name,
+    email,
+    phone,
+    avatarIndex,
+    profileImageUrl,
+  ];
 }
