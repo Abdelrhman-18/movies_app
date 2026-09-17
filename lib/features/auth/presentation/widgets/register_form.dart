@@ -10,6 +10,7 @@ import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/utils/validators.dart';
 import 'package:movies_app/core/widgets/app_button.dart';
 import 'package:movies_app/core/widgets/app_text_field.dart';
+
 import 'package:movies_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:movies_app/features/auth/presentation/cubit/auth_state.dart';
 import 'package:movies_app/features/auth/presentation/widgets/register_success_dialog.dart';

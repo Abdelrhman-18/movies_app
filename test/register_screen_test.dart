@@ -4,15 +4,40 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 
-import 'package:movies_app/core/localization/l10n.dart';
 import 'package:movies_app/core/constants/app_assets.dart';
+import 'package:movies_app/core/di/service_locator.dart';
+import 'package:movies_app/core/localization/l10n.dart';
 import 'package:movies_app/core/localization/locale_cubit.dart';
 import 'package:movies_app/core/theme/app_theme.dart';
+import 'package:movies_app/core/utils/app_result.dart';
 
+import 'package:movies_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:movies_app/features/auth/domain/usecases/google_sign_in_usecase.dart';
+import 'package:movies_app/features/auth/domain/usecases/login_usecase.dart';
+import 'package:movies_app/features/auth/domain/usecases/register_usecase.dart';
+import 'package:movies_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:movies_app/features/auth/presentation/screens/register_screen.dart';
 
+class _MockAuthRepository extends Mock implements AuthRepository {}
+
 void main() {
+  late _MockAuthRepository authRepository;
+
+  setUp(() {
+    authRepository = _MockAuthRepository();
+    getIt.registerFactory<AuthCubit>(
+      () => AuthCubit(
+        LoginUseCase(authRepository),
+        RegisterUseCase(authRepository),
+        GoogleSignInUseCase(authRepository),
+      ),
+    );
+  });
+
+  tearDown(getIt.reset);
+
   Future<void> mount(
     WidgetTester tester, {
     Size size = const Size(430, 932),
@@ -85,6 +110,15 @@ void main() {
   testWidgets(
     'validates required fields, password match and valid submission',
     (tester) async {
+      when(
+        () => authRepository.register(
+          name: any(named: 'name'),
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+          phone: any(named: 'phone'),
+        ),
+      ).thenAnswer((_) async => const Success(null));
+
       await mount(tester);
       await tester.tap(find.text('Create Account'));
       await tester.pumpAndSettle();
@@ -107,12 +141,7 @@ void main() {
       await tester.ensureVisible(find.text('Create Account'));
       await tester.tap(find.text('Create Account'));
       await tester.pumpAndSettle();
-      expect(
-        find.text(
-          'Your details are valid. Account creation will be available soon.',
-        ),
-        findsOneWidget,
-      );
+      expect(find.text('Account created successfully'), findsOneWidget);
     },
   );
 

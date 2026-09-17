@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:movies_app/core/utils/app_result.dart';
+
 import 'package:movies_app/features/auth/domain/usecases/google_sign_in_usecase.dart';
 import 'package:movies_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:movies_app/features/auth/domain/usecases/register_usecase.dart';

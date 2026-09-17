@@ -8,6 +8,7 @@ import 'package:movies_app/core/localization/l10n.dart';
 import 'package:movies_app/core/routing/app_routes.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/widgets/app_app_bar.dart';
+
 import 'package:movies_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:movies_app/features/auth/presentation/widgets/register_avatar_picker.dart';
 import 'package:movies_app/features/auth/presentation/widgets/register_footer.dart';
