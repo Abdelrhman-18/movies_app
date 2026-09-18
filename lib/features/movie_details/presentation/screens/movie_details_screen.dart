@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/core/localization/l10n.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/theme/app_text_styles.dart';
 import 'package:movies_app/core/theme/app_theme.dart';
 
+import 'package:movies_app/features/movie_details/domain/entities/wishlist_item.dart';
+import 'package:movies_app/features/movie_details/presentation/cubit/favorite_cubit.dart';
+import 'package:movies_app/features/movie_details/presentation/cubit/favorite_state.dart';
 import 'package:movies_app/features/movie_details/presentation/widgets/cast_member_card.dart';
 import 'package:movies_app/features/movie_details/presentation/widgets/genre_chip.dart';
 import 'package:movies_app/features/movie_details/presentation/widgets/hero_movie_header.dart';
@@ -56,38 +61,55 @@ class MovieDetailsScreen extends StatelessWidget {
     'Horror',
   ];
 
+  static const WishlistItem _mockMovie = WishlistItem(
+    movieId: 76341,
+    title: _mockTitle,
+    posterUrl: _mockBackdropUrl,
+    rating: 7.6,
+  );
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: CustomScrollView(
-        slivers: [
-          const SliverToBoxAdapter(
-            child: HeroMovieHeader(backdropUrl: _mockBackdropUrl),
-          ),
-          _SliverSection(child: const _MovieInfo()),
-          _SliverSection(
-            topSpacing: AppSpacing.xl,
-            child: SectionTitle(title: context.l10n.screenShots),
-          ),
-          SliverPadding(
-            padding: EdgeInsetsDirectional.only(top: AppSpacing.md),
-            sliver: const SliverToBoxAdapter(child: _ScreenshotsRow()),
-          ),
-          _SliverSection(
-            topSpacing: AppSpacing.xl,
-            child: const _SummarySection(),
-          ),
-          _SliverSection(
-            topSpacing: AppSpacing.xl,
-            child: const _CastSection(),
-          ),
-          _SliverSection(
-            topSpacing: AppSpacing.xl,
-            bottomSpacing: AppSpacing.xl,
-            child: const _GenresSection(),
-          ),
-        ],
+    return BlocProvider<FavoriteCubit>(
+      create: (_) => getIt<FavoriteCubit>()..load(_mockMovie),
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        body: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: BlocBuilder<FavoriteCubit, FavoriteState>(
+                builder: (context, state) => HeroMovieHeader(
+                  backdropUrl: _mockBackdropUrl,
+                  isFavorite: state is FavoriteLoaded && state.isFavorite,
+                  onBookmarkTap: () =>
+                      context.read<FavoriteCubit>().toggle(_mockMovie),
+                ),
+              ),
+            ),
+            _SliverSection(child: const _MovieInfo()),
+            _SliverSection(
+              topSpacing: AppSpacing.xl,
+              child: SectionTitle(title: context.l10n.screenShots),
+            ),
+            SliverPadding(
+              padding: EdgeInsetsDirectional.only(top: AppSpacing.md),
+              sliver: const SliverToBoxAdapter(child: _ScreenshotsRow()),
+            ),
+            _SliverSection(
+              topSpacing: AppSpacing.xl,
+              child: const _SummarySection(),
+            ),
+            _SliverSection(
+              topSpacing: AppSpacing.xl,
+              child: const _CastSection(),
+            ),
+            _SliverSection(
+              topSpacing: AppSpacing.xl,
+              bottomSpacing: AppSpacing.xl,
+              child: const _GenresSection(),
+            ),
+          ],
+        ),
       ),
     );
   }

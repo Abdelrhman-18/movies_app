@@ -6,11 +6,37 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/core/localization/l10n.dart';
+import 'package:movies_app/core/utils/app_result.dart';
 
+import 'package:movies_app/features/movie_details/domain/entities/wishlist_item.dart';
+import 'package:movies_app/features/movie_details/domain/repos/movie_activity_repository.dart';
+import 'package:movies_app/features/movie_details/domain/usecases/add_to_wishlist_usecase.dart';
+import 'package:movies_app/features/movie_details/domain/usecases/check_is_favorite_usecase.dart';
+import 'package:movies_app/features/movie_details/domain/usecases/record_movie_history_usecase.dart';
+import 'package:movies_app/features/movie_details/domain/usecases/remove_from_wishlist_usecase.dart';
+import 'package:movies_app/features/movie_details/presentation/cubit/favorite_cubit.dart';
 import 'package:movies_app/features/movie_details/presentation/screens/movie_details_screen.dart';
 import 'package:movies_app/features/movie_details/presentation/widgets/genre_chip.dart';
 import 'package:movies_app/features/movie_details/presentation/widgets/metric_chip.dart';
+
+class _FakeMovieActivityRepository implements MovieActivityRepository {
+  @override
+  Future<AppResult<bool>> isFavorite(int movieId) async => const Success(false);
+
+  @override
+  Future<AppResult<void>> addToWishlist(WishlistItem movie) async =>
+      const Success(null);
+
+  @override
+  Future<AppResult<void>> removeFromWishlist(int movieId) async =>
+      const Success(null);
+
+  @override
+  Future<AppResult<void>> recordHistory(WishlistItem movie) async =>
+      const Success(null);
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +46,20 @@ void main() {
         pathProviderChannel,
         (call) async => Directory.systemTemp.path,
       );
+
+  setUp(() {
+    final repository = _FakeMovieActivityRepository();
+    getIt.registerFactory<FavoriteCubit>(
+      () => FavoriteCubit(
+        CheckIsFavoriteUseCase(repository),
+        AddToWishlistUseCase(repository),
+        RemoveFromWishlistUseCase(repository),
+        RecordMovieHistoryUseCase(repository),
+      ),
+    );
+  });
+
+  tearDown(getIt.reset);
 
   Future<void> pumpScreen(WidgetTester tester) async {
     tester.view.devicePixelRatio = 1;

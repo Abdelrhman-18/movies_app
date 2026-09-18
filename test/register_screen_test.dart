@@ -17,6 +17,7 @@ import 'package:movies_app/features/auth/domain/repositories/auth_repository.dar
 import 'package:movies_app/features/auth/domain/usecases/google_sign_in_usecase.dart';
 import 'package:movies_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:movies_app/features/auth/domain/usecases/register_usecase.dart';
+import 'package:movies_app/features/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:movies_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:movies_app/features/auth/presentation/screens/register_screen.dart';
 
@@ -32,6 +33,7 @@ void main() {
         LoginUseCase(authRepository),
         RegisterUseCase(authRepository),
         GoogleSignInUseCase(authRepository),
+        SignOutUseCase(authRepository),
       ),
     );
   });

@@ -99,4 +99,12 @@ class AuthService {
       return _auth.sendPasswordResetEmail(email: email.trim());
     });
   }
+
+  Future<AppResult<void>> signOut() {
+    return FirebaseExecute.call(() async {
+      await _ensureGoogleSignInInitialized();
+      await GoogleSignIn.instance.signOut();
+      await _auth.signOut();
+    });
+  }
 }
