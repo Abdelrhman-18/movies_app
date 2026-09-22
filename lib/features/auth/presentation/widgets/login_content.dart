@@ -46,7 +46,7 @@ class LoginContent extends StatelessWidget {
           SizedBox(height: AppSpacing.xl * 2 + AppSpacing.lg),
            LogoAnimation(
             width: 180,
-            height: 180,
+            height: 130,
           ),
           SizedBox(height: AppSpacing.xl * 2 + AppSpacing.lg),
           AppTextField(
