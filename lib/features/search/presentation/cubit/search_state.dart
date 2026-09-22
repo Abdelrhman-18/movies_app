@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import 'package:movies_app/core/error/app_error_model.dart';
-
-typedef DummyMovie = ({int id, String title, double rating, String posterUrl});
+import 'package:movies_app/features/home/domain/entities/movie_entity.dart';
 
 sealed class SearchState extends Equatable {
   const SearchState();
@@ -22,7 +21,7 @@ final class SearchLoading extends SearchState {
 final class SearchSuccess extends SearchState {
   const SearchSuccess(this.movies);
 
-  final List<DummyMovie> movies;
+  final List<MovieEntity> movies;
 
   @override
   List<Object?> get props => [movies];

@@ -74,6 +74,10 @@ Future<void> configureDependencies() async {
       () => GetMoviesUseCase(getIt<MoviesRepository>()),
     )
     ..registerFactory<HomeCubit>(() => HomeCubit(getIt<GetMoviesUseCase>()))
-    ..registerFactory<BrowseCubit>(BrowseCubit.new)
-    ..registerFactory<SearchCubit>(SearchCubit.new);
+    ..registerFactory<BrowseCubit>(
+          () => BrowseCubit(getIt<GetMoviesUseCase>()),
+    )
+    ..registerFactory<SearchCubit>(
+          () => SearchCubit(getIt<GetMoviesUseCase>()),
+    );
 }

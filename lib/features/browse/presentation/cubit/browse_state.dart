@@ -1,46 +1,48 @@
 import 'package:equatable/equatable.dart';
 
 import 'package:movies_app/core/error/app_error_model.dart';
-
-typedef DummyMovie = ({
-  int id,
-  String title,
-  double rating,
-  String posterUrl,
-  List<String> genres,
-});
+import 'package:movies_app/features/home/domain/entities/movie_entity.dart';
 
 sealed class BrowseState extends Equatable {
-  const BrowseState(this.genre);
+  const BrowseState({required this.genres, required this.selectedGenre});
 
-  final String genre;
+  final Set<String> genres;
+  final String? selectedGenre;
 
   @override
-  List<Object?> get props => [genre];
+  List<Object?> get props => [genres, selectedGenre];
 }
 
 final class BrowseLoading extends BrowseState {
-  const BrowseLoading(super.genre);
+  const BrowseLoading({super.genres = const {}, super.selectedGenre});
 }
 
 final class BrowseSuccess extends BrowseState {
-  const BrowseSuccess(super.genre, this.movies);
+  const BrowseSuccess({
+    required super.genres,
+    required super.selectedGenre,
+    required this.movies,
+  });
 
-  final List<DummyMovie> movies;
+  final List<MovieEntity> movies;
 
   @override
-  List<Object?> get props => [genre, movies];
+  List<Object?> get props => [genres, selectedGenre, movies];
 }
 
 final class BrowseEmpty extends BrowseState {
-  const BrowseEmpty(super.genre);
+  const BrowseEmpty({required super.genres, required super.selectedGenre});
 }
 
 final class BrowseError extends BrowseState {
-  const BrowseError(super.genre, this.error);
+  const BrowseError({
+    required super.genres,
+    required super.selectedGenre,
+    required this.error,
+  });
 
   final AppErrorModel error;
 
   @override
-  List<Object?> get props => [genre, error];
+  List<Object?> get props => [genres, selectedGenre, error];
 }
