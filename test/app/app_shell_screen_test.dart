@@ -74,9 +74,12 @@ void main() {
     );
     final useCase = GetMoviesUseCase(repository);
     getIt
+      ..registerSingleton<GetMoviesUseCase>(useCase)
       ..registerFactory<HomeCubit>(() => HomeCubit(useCase))
       ..registerFactory<BrowseCubit>(BrowseCubit.new)
-      ..registerFactory<SearchCubit>(SearchCubit.new);
+      ..registerFactory<SearchCubit>(
+            () => SearchCubit(getIt<GetMoviesUseCase>()),
+      );
   });
 
   tearDown(getIt.reset);

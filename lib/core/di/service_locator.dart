@@ -81,7 +81,9 @@ Future<void> configureDependencies() async {
     )
     ..registerFactory<HomeCubit>(() => HomeCubit(getIt<GetMoviesUseCase>()))
     ..registerFactory<BrowseCubit>(BrowseCubit.new)
-    ..registerFactory<SearchCubit>(SearchCubit.new)
+    ..registerFactory<SearchCubit>(
+          () => SearchCubit(getIt<GetMoviesUseCase>()),
+    )
     ..registerLazySingleton<MovieDetailsRemoteDataSource>(
       () => MovieDetailsRemoteDataSource(getIt<ApiClient>()),
     )

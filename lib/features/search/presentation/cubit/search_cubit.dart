@@ -2,21 +2,16 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:movies_app/core/utils/app_result.dart';
+import 'package:movies_app/features/home/domain/usecases/get_movies_usecase.dart';
 import 'package:movies_app/features/search/presentation/cubit/search_state.dart';
 
-class SearchCubit extends Cubit<SearchState> {
-  SearchCubit() : super(const SearchInitial());
+import '../../../home/domain/entities/movie_entity.dart';
 
-  // TODO: replace with a real Search-scoped movies repository once one
-  // exists; Movies data currently only lives in the Home feature.
-  static const List<DummyMovie> _dummyMovies = [
-    (id: 1, title: 'Neon Horizon', rating: 7.8, posterUrl: ''),
-    (id: 2, title: 'Quiet Streets', rating: 6.5, posterUrl: ''),
-    (id: 3, title: 'Laugh Track', rating: 7.1, posterUrl: ''),
-    (id: 4, title: 'The Basement', rating: 6.9, posterUrl: ''),
-    (id: 5, title: 'Second Orbit', rating: 8.2, posterUrl: ''),
-    (id: 6, title: 'Letters Home', rating: 7.4, posterUrl: ''),
-  ];
+class SearchCubit extends Cubit<SearchState> {
+  SearchCubit(this._getMoviesUseCase) : super(const SearchInitial());
+
+  final GetMoviesUseCase _getMoviesUseCase;
 
   static const Duration _debounceDuration = Duration(milliseconds: 400);
 
@@ -34,15 +29,22 @@ class SearchCubit extends Cubit<SearchState> {
     _debounce = Timer(_debounceDuration, () => _search(trimmed));
   }
 
-  void _search(String query) {
+  Future<void> _search(String query) async {
     emit(const SearchLoading());
 
-    final lowerQuery = query.toLowerCase();
-    final movies = _dummyMovies
-        .where((movie) => movie.title.toLowerCase().contains(lowerQuery))
-        .toList();
+    final result = await _getMoviesUseCase(query: query);
 
-    emit(movies.isEmpty ? const SearchEmpty() : SearchSuccess(movies));
+    switch (result) {
+      case Success<List<MovieEntity>>(:final data):
+        emit(data.isEmpty ? const SearchEmpty() : SearchSuccess(data));
+      case Failure<List<MovieEntity>>(:final error):
+        emit(SearchError(error));
+    }
+  }
+
+  void retry(String query) {
+    final trimmed = query.trim();
+    if (trimmed.isNotEmpty) _search(trimmed);
   }
 
   @override
