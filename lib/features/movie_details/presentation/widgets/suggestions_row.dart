@@ -7,12 +7,12 @@ import 'package:movies_app/core/routing/app_routes.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/widgets/poster_card.dart';
 
-import 'package:movies_app/features/home/domain/entities/movie_entity.dart';
+import 'package:movies_app/features/movie_details/domain/entities/related_movie_entity.dart';
 
-class MovieRow extends StatelessWidget {
-  const MovieRow({required this.movies, super.key});
+class SuggestionsRow extends StatelessWidget {
+  const SuggestionsRow({required this.movies, super.key});
 
-  final List<MovieEntity> movies;
+  final List<RelatedMovieEntity> movies;
 
   static const double _heightDesignPx = 190;
 

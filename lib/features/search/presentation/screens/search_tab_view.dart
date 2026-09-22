@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/core/localization/l10n.dart';
+import 'package:movies_app/core/routing/app_routes.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/theme/app_theme.dart';
 import 'package:movies_app/core/widgets/app_text_field.dart';
@@ -100,9 +102,15 @@ class _SearchTabViewBodyState extends State<_SearchTabViewBody> {
                       childAspectRatio: PosterCard.aspectRatio,
                     ),
                     delegate: SliverChildBuilderDelegate(
-                      (context, index) => PosterCard(
-                        posterUrl: movies[index].posterUrl,
-                        rating: movies[index].rating,
+                      (context, index) => GestureDetector(
+                        onTap: () => context.push(
+                          AppRoutes.movieDetailsPath,
+                          extra: movies[index].id,
+                        ),
+                        child: PosterCard(
+                          posterUrl: movies[index].posterUrl,
+                          rating: movies[index].rating,
+                        ),
                       ),
                       childCount: movies.length,
                     ),

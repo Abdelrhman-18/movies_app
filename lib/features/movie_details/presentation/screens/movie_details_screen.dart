@@ -1,122 +1,170 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
+import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/core/localization/l10n.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/theme/app_text_styles.dart';
 import 'package:movies_app/core/theme/app_theme.dart';
+import 'package:movies_app/core/widgets/movie_list_error_view.dart';
 
+import 'package:movies_app/features/movie_details/domain/entities/cast_member_entity.dart';
+import 'package:movies_app/features/movie_details/domain/entities/movie_details_entity.dart';
+import 'package:movies_app/features/movie_details/domain/entities/related_movie_entity.dart';
+import 'package:movies_app/features/movie_details/presentation/cubit/movie_details_cubit.dart';
+import 'package:movies_app/features/movie_details/presentation/cubit/movie_details_state.dart';
 import 'package:movies_app/features/movie_details/presentation/widgets/cast_member_card.dart';
 import 'package:movies_app/features/movie_details/presentation/widgets/genre_chip.dart';
 import 'package:movies_app/features/movie_details/presentation/widgets/hero_movie_header.dart';
 import 'package:movies_app/features/movie_details/presentation/widgets/metric_chip.dart';
+import 'package:movies_app/features/movie_details/presentation/widgets/movie_details_loading_view.dart';
 import 'package:movies_app/features/movie_details/presentation/widgets/primary_watch_button.dart';
 import 'package:movies_app/features/movie_details/presentation/widgets/screenshot_card.dart';
 import 'package:movies_app/features/movie_details/presentation/widgets/section_title.dart';
+import 'package:movies_app/features/movie_details/presentation/widgets/suggestions_row.dart';
 
-typedef _MockCastMember = ({String name, String character, String avatarUrl});
-
-// TODO(phase-2): replace all mock data below with a real MovieDetails
-// entity loaded via a details use case/repository.
 class MovieDetailsScreen extends StatelessWidget {
-  const MovieDetailsScreen({super.key});
+  const MovieDetailsScreen({required this.movieId, super.key});
 
-  static const String _mockBackdropUrl = '';
-  static const String _mockTitle =
-      'Doctor Strange in the Multiverse of Madness';
-  static const String _mockYear = '2022';
-  static const String _mockLikes = '15';
-  static const String _mockDurationMinutes = '90';
-  static const String _mockRating = '7.6';
+  final int movieId;
 
-  static const String _mockSummary =
-      'Doctor Strange teams up with a mysterious teenage girl who can travel '
-      'across the multiverse to confront a growing threat from an alternate '
-      'reality. As new allies and old foes emerge, the journey pulls Strange '
-      'deeper into a fractured universe where the rules of magic no longer '
-      'hold, forcing him to face a darker side of his own power.';
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<MovieDetailsCubit>(
+      create: (_) => getIt<MovieDetailsCubit>()..load(movieId),
+      child: _MovieDetailsScreenBody(movieId: movieId),
+    );
+  }
+}
 
-  static const List<double> _mockScreenshotWidths = [280, 160, 160, 160];
-  static const List<String> _mockScreenshots = ['', '', '', ''];
+class _MovieDetailsScreenBody extends StatelessWidget {
+  const _MovieDetailsScreenBody({required this.movieId});
 
-  static const List<_MockCastMember> _mockCast = [
-    (name: 'Hayley Atwell', character: 'Captain Carter', avatarUrl: ''),
-    (name: 'Benedict Cumberbatch', character: 'Doctor Strange', avatarUrl: ''),
-    (name: 'Elizabeth Olsen', character: 'Wanda Maximoff', avatarUrl: ''),
-    (name: 'Chiwetel Ejiofor', character: 'Karl Mordo', avatarUrl: ''),
-  ];
-
-  static const List<String> _mockGenres = [
-    'Action',
-    'Sci-Fi',
-    'Adventure',
-    'Fantasy',
-    'Horror',
-  ];
+  final int movieId;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: CustomScrollView(
-        slivers: [
-          const SliverToBoxAdapter(
-            child: HeroMovieHeader(backdropUrl: _mockBackdropUrl),
+      body: ScrollConfiguration(
+        behavior: _NoGlowScrollBehavior(),
+        child: BlocBuilder<MovieDetailsCubit, MovieDetailsState>(
+          builder: (context, state) => switch (state) {
+            MovieDetailsLoading() => const SingleChildScrollView(
+              child: MovieDetailsLoadingView(),
+            ),
+            MovieDetailsError() => Center(
+              child: MovieListErrorView(
+                onRetry: () => context.read<MovieDetailsCubit>().load(movieId),
+              ),
+            ),
+            MovieDetailsSuccess(:final details, :final suggestions) =>
+              _MovieDetailsContent(details: details, suggestions: suggestions),
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _NoGlowScrollBehavior extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(
+    BuildContext context,
+    Widget child,
+    ScrollableDetails details,
+  ) => child;
+}
+
+class _MovieDetailsContent extends StatelessWidget {
+  const _MovieDetailsContent({
+    required this.details,
+    required this.suggestions,
+  });
+
+  final MovieDetailsEntity details;
+  final List<RelatedMovieEntity> suggestions;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: HeroMovieHeader(
+            backdropUrl: details.backdropUrl,
+            onBackTap: () => context.pop(),
           ),
-          _SliverSection(child: const _MovieInfo()),
+        ),
+        _SliverSection(child: _MovieInfo(details: details)),
+        if (details.screenshotUrls.isNotEmpty) ...[
           _SliverSection(
             topSpacing: AppSpacing.xl,
             child: SectionTitle(title: context.l10n.screenShots),
           ),
           SliverPadding(
             padding: EdgeInsetsDirectional.only(top: AppSpacing.md),
-            sliver: const SliverToBoxAdapter(child: _ScreenshotsRow()),
-          ),
-          _SliverSection(
-            topSpacing: AppSpacing.xl,
-            child: const _SummarySection(),
-          ),
-          _SliverSection(
-            topSpacing: AppSpacing.xl,
-            child: const _CastSection(),
-          ),
-          _SliverSection(
-            topSpacing: AppSpacing.xl,
-            bottomSpacing: AppSpacing.xl,
-            child: const _GenresSection(),
+            sliver: SliverToBoxAdapter(
+              child: _ScreenshotsRow(screenshotUrls: details.screenshotUrls),
+            ),
           ),
         ],
-      ),
+        _SliverSection(
+          topSpacing: AppSpacing.xl,
+          child: _SummarySection(summary: details.summary),
+        ),
+        if (details.cast.isNotEmpty)
+          _SliverSection(
+            topSpacing: AppSpacing.xl,
+            child: _CastSection(cast: details.cast),
+          ),
+        if (details.genres.isNotEmpty)
+          _SliverSection(
+            topSpacing: AppSpacing.xl,
+            child: _GenresSection(genres: details.genres),
+          ),
+        if (suggestions.isNotEmpty) ...[
+          _SliverSection(
+            topSpacing: AppSpacing.xl,
+            child: SectionTitle(title: context.l10n.similar),
+          ),
+          SliverPadding(
+            padding: EdgeInsetsDirectional.only(top: AppSpacing.md),
+            sliver: SliverToBoxAdapter(
+              child: SuggestionsRow(movies: suggestions),
+            ),
+          ),
+        ],
+        SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
+      ],
     );
   }
 }
 
 class _SliverSection extends StatelessWidget {
-  const _SliverSection({
-    required this.child,
-    this.topSpacing,
-    this.bottomSpacing,
-  });
+  const _SliverSection({required this.child, this.topSpacing});
 
   final Widget child;
   final double? topSpacing;
-  final double? bottomSpacing;
 
   @override
   Widget build(BuildContext context) {
     return SliverPadding(
       padding: EdgeInsetsDirectional.symmetric(
         horizontal: AppSpacing.screenPadding,
-      ).copyWith(top: topSpacing ?? 0, bottom: bottomSpacing ?? 0),
+      ).copyWith(top: topSpacing ?? 0),
       sliver: SliverToBoxAdapter(child: child),
     );
   }
 }
 
 class _MovieInfo extends StatelessWidget {
-  const _MovieInfo();
+  const _MovieInfo({required this.details});
+
+  final MovieDetailsEntity details;
 
   @override
   Widget build(BuildContext context) {
@@ -124,13 +172,13 @@ class _MovieInfo extends StatelessWidget {
       children: [
         SizedBox(height: AppSpacing.lg),
         Text(
-          MovieDetailsScreen._mockTitle,
+          details.title,
           textAlign: TextAlign.center,
           style: context.textTheme.titleMedium,
         ),
         SizedBox(height: AppSpacing.xs),
         Text(
-          MovieDetailsScreen._mockYear,
+          details.year.toString(),
           style: AppTextStyles.bodyMedium.copyWith(
             color: AppColors.textSecondary,
           ),
@@ -143,21 +191,21 @@ class _MovieInfo extends StatelessWidget {
             Expanded(
               child: MetricChip(
                 icon: Icons.favorite_rounded,
-                value: MovieDetailsScreen._mockLikes,
+                value: details.likeCount.toString(),
               ),
             ),
             SizedBox(width: AppSpacing.sm),
             Expanded(
               child: MetricChip(
                 icon: Icons.access_time_filled_rounded,
-                value: MovieDetailsScreen._mockDurationMinutes,
+                value: details.runtimeMinutes.toString(),
               ),
             ),
             SizedBox(width: AppSpacing.sm),
             Expanded(
               child: MetricChip(
                 icon: Icons.star_rounded,
-                value: MovieDetailsScreen._mockRating,
+                value: details.rating.toStringAsFixed(1),
               ),
             ),
           ],
@@ -168,9 +216,12 @@ class _MovieInfo extends StatelessWidget {
 }
 
 class _ScreenshotsRow extends StatelessWidget {
-  const _ScreenshotsRow();
+  const _ScreenshotsRow({required this.screenshotUrls});
+
+  final List<String> screenshotUrls;
 
   static const double _heightDesignPx = 110;
+  static const double _widthDesignPx = 200;
 
   @override
   Widget build(BuildContext context) {
@@ -181,11 +232,11 @@ class _ScreenshotsRow extends StatelessWidget {
         padding: EdgeInsetsDirectional.symmetric(
           horizontal: AppSpacing.screenPadding,
         ),
-        itemCount: MovieDetailsScreen._mockScreenshots.length,
+        itemCount: screenshotUrls.length,
         separatorBuilder: (_, _) => SizedBox(width: AppSpacing.sm),
         itemBuilder: (context, index) => ScreenshotCard(
-          imageUrl: MovieDetailsScreen._mockScreenshots[index],
-          width: MovieDetailsScreen._mockScreenshotWidths[index].w,
+          imageUrl: screenshotUrls[index],
+          width: _widthDesignPx.w,
         ),
       ),
     );
@@ -193,7 +244,9 @@ class _ScreenshotsRow extends StatelessWidget {
 }
 
 class _SummarySection extends StatelessWidget {
-  const _SummarySection();
+  const _SummarySection({required this.summary});
+
+  final String summary;
 
   @override
   Widget build(BuildContext context) {
@@ -203,7 +256,7 @@ class _SummarySection extends StatelessWidget {
         SectionTitle(title: context.l10n.summary),
         SizedBox(height: AppSpacing.md),
         Text(
-          MovieDetailsScreen._mockSummary,
+          summary,
           style: AppTextStyles.bodySmall.copyWith(
             color: AppColors.textSecondary,
             height: 1.6,
@@ -215,7 +268,9 @@ class _SummarySection extends StatelessWidget {
 }
 
 class _CastSection extends StatelessWidget {
-  const _CastSection();
+  const _CastSection({required this.cast});
+
+  final List<CastMemberEntity> cast;
 
   @override
   Widget build(BuildContext context) {
@@ -224,14 +279,13 @@ class _CastSection extends StatelessWidget {
       children: [
         SectionTitle(title: context.l10n.cast),
         SizedBox(height: AppSpacing.md),
-        for (final member in MovieDetailsScreen._mockCast) ...[
+        for (final member in cast) ...[
           CastMemberCard(
             avatarUrl: member.avatarUrl,
             name: member.name,
             character: member.character,
           ),
-          if (member != MovieDetailsScreen._mockCast.last)
-            SizedBox(height: AppSpacing.sm),
+          if (member != cast.last) SizedBox(height: AppSpacing.sm),
         ],
       ],
     );
@@ -239,7 +293,9 @@ class _CastSection extends StatelessWidget {
 }
 
 class _GenresSection extends StatelessWidget {
-  const _GenresSection();
+  const _GenresSection({required this.genres});
+
+  final List<String> genres;
 
   @override
   Widget build(BuildContext context) {
@@ -251,10 +307,7 @@ class _GenresSection extends StatelessWidget {
         Wrap(
           spacing: AppSpacing.sm,
           runSpacing: AppSpacing.sm,
-          children: [
-            for (final genre in MovieDetailsScreen._mockGenres)
-              GenreChip(label: genre),
-          ],
+          children: [for (final genre in genres) GenreChip(label: genre)],
         ),
       ],
     );
