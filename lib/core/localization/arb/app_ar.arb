@@ -26,6 +26,8 @@
   "login": "تسجيل الدخول",
   "register": "إنشاء حساب",
   "logout": "تسجيل الخروج",
+  "logoutConfirmationMessage": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+  "cancel": "إلغاء",
   "email": "البريد الإلكتروني",
   "password": "كلمة المرور",
   "emailInvalid": "أدخل بريدًا إلكترونيًا صحيحًا",
@@ -78,6 +80,7 @@
   "language": "اللغة",
 
   "emptyWishList": "لا توجد أفلام في قائمة المفضلة",
+  "emptyHistory": "لا توجد أفلام في السجل",
   "noResults": "لا توجد نتائج",
   "somethingWentWrong": "حدث خطأ ما",
   "retry": "إعادة المحاولة",

@@ -13,7 +13,7 @@ class SearchCubit extends Cubit<SearchState> {
 
   final GetMoviesUseCase _getMoviesUseCase;
 
-  static const Duration _debounceDuration = Duration(milliseconds: 400);
+  static const Duration _debounceDuration = Duration(milliseconds: 200);
 
   Timer? _debounce;
 

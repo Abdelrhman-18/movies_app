@@ -13,6 +13,7 @@ import 'package:movies_app/features/movie_details/presentation/widgets/play_butt
 class HeroMovieHeader extends StatelessWidget {
   const HeroMovieHeader({
     required this.backdropUrl,
+    this.isFavorite = false,
     this.onBackTap,
     this.onBookmarkTap,
     this.onPlayTap,
@@ -20,6 +21,7 @@ class HeroMovieHeader extends StatelessWidget {
   });
 
   final String backdropUrl;
+  final bool isFavorite;
   final VoidCallback? onBackTap;
   final VoidCallback? onBookmarkTap;
   final VoidCallback? onPlayTap;
@@ -83,7 +85,10 @@ class HeroMovieHeader extends StatelessWidget {
             top: topInset + AppSpacing.lg,
             end: AppSpacing.screenPadding,
             child: CircleIconButton(
-              icon: Icons.bookmark_border_rounded,
+              icon: isFavorite
+                  ? Icons.bookmark_rounded
+                  : Icons.bookmark_border_rounded,
+              color: isFavorite ? AppColors.primary : AppColors.textPrimary,
               onTap: onBookmarkTap,
             ),
           ),

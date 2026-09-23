@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:movies_app/core/constants/app_assets.dart';
 import 'package:movies_app/core/localization/l10n.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
@@ -10,6 +9,8 @@ import 'package:movies_app/core/widgets/app_button.dart';
 import 'package:movies_app/core/widgets/app_text_field.dart';
 
 import 'package:movies_app/features/auth/presentation/widgets/login_footer.dart';
+
+import 'animated_logo.dart';
 
 class LoginContent extends StatelessWidget {
   const LoginContent({
@@ -43,11 +44,9 @@ class LoginContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SizedBox(height: AppSpacing.xl * 2 + AppSpacing.lg),
-          Image.asset(
-            AppAssets.appLogo,
-            width: AppSizes.loginLogoWidth,
-            height: AppSizes.loginLogoHeight,
-            fit: BoxFit.contain,
+           LogoAnimation(
+            width: 180,
+            height: 130,
           ),
           SizedBox(height: AppSpacing.xl * 2 + AppSpacing.lg),
           AppTextField(

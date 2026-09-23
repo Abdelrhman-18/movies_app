@@ -6,9 +6,15 @@ import 'package:movies_app/core/theme/app_colors.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 
 class CircleIconButton extends StatelessWidget {
-  const CircleIconButton({required this.icon, this.onTap, super.key});
+  const CircleIconButton({
+    required this.icon,
+    this.color = AppColors.textPrimary,
+    this.onTap,
+    super.key,
+  });
 
   final IconData icon;
+  final Color color;
   final VoidCallback? onTap;
 
   static const double _dimensionDesignPx = 40;
@@ -23,11 +29,7 @@ class CircleIconButton extends StatelessWidget {
         customBorder: const CircleBorder(),
         child: SizedBox.square(
           dimension: _dimensionDesignPx.r,
-          child: Icon(
-            icon,
-            size: AppSizes.iconSmall,
-            color: AppColors.textPrimary,
-          ),
+          child: Icon(icon, size: AppSizes.iconSmall, color: color),
         ),
       ),
     );

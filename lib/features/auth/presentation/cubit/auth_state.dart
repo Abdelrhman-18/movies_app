@@ -11,7 +11,7 @@ final class AuthInitial extends AuthState {
   const AuthInitial();
 }
 
-enum AuthOperation { emailSignIn, emailRegistration, googleSignIn }
+enum AuthOperation { emailSignIn, emailRegistration, googleSignIn, signOut }
 
 final class AuthLoading extends AuthState {
   const AuthLoading(this.operation);

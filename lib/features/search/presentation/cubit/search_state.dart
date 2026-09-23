@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import 'package:movies_app/core/error/app_error_model.dart';
-
-import '../../../home/domain/entities/movie_entity.dart';
+import 'package:movies_app/features/home/domain/entities/movie_entity.dart';
 
 sealed class SearchState extends Equatable {
   const SearchState();
