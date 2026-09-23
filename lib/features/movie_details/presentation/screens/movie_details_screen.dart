@@ -15,6 +15,9 @@ import 'package:movies_app/core/widgets/movie_list_error_view.dart';
 import 'package:movies_app/features/movie_details/domain/entities/cast_member_entity.dart';
 import 'package:movies_app/features/movie_details/domain/entities/movie_details_entity.dart';
 import 'package:movies_app/features/movie_details/domain/entities/related_movie_entity.dart';
+import 'package:movies_app/features/movie_details/domain/entities/wishlist_item.dart';
+import 'package:movies_app/features/movie_details/presentation/cubit/favorite_cubit.dart';
+import 'package:movies_app/features/movie_details/presentation/cubit/favorite_state.dart';
 import 'package:movies_app/features/movie_details/presentation/cubit/movie_details_cubit.dart';
 import 'package:movies_app/features/movie_details/presentation/cubit/movie_details_state.dart';
 import 'package:movies_app/features/movie_details/presentation/widgets/cast_member_card.dart';
@@ -91,55 +94,70 @@ class _MovieDetailsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(
-          child: HeroMovieHeader(
-            backdropUrl: details.backdropUrl,
-            onBackTap: () => context.pop(),
-          ),
-        ),
-        _SliverSection(child: _MovieInfo(details: details)),
-        if (details.screenshotUrls.isNotEmpty) ...[
-          _SliverSection(
-            topSpacing: AppSpacing.xl,
-            child: SectionTitle(title: context.l10n.screenShots),
-          ),
-          SliverPadding(
-            padding: EdgeInsetsDirectional.only(top: AppSpacing.md),
-            sliver: SliverToBoxAdapter(
-              child: _ScreenshotsRow(screenshotUrls: details.screenshotUrls),
+    final wishlistItem = WishlistItem(
+      movieId: details.id,
+      title: details.title,
+      posterUrl: details.posterUrl,
+      rating: details.rating,
+    );
+
+    return BlocProvider<FavoriteCubit>(
+      create: (_) => getIt<FavoriteCubit>()..load(wishlistItem),
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: BlocBuilder<FavoriteCubit, FavoriteState>(
+              builder: (context, state) => HeroMovieHeader(
+                backdropUrl: details.backdropUrl,
+                isFavorite: state is FavoriteLoaded && state.isFavorite,
+                onBackTap: () => context.pop(),
+                onBookmarkTap: () =>
+                    context.read<FavoriteCubit>().toggle(wishlistItem),
+              ),
             ),
           ),
-        ],
-        _SliverSection(
-          topSpacing: AppSpacing.xl,
-          child: _SummarySection(summary: details.summary),
-        ),
-        if (details.cast.isNotEmpty)
-          _SliverSection(
-            topSpacing: AppSpacing.xl,
-            child: _CastSection(cast: details.cast),
-          ),
-        if (details.genres.isNotEmpty)
-          _SliverSection(
-            topSpacing: AppSpacing.xl,
-            child: _GenresSection(genres: details.genres),
-          ),
-        if (suggestions.isNotEmpty) ...[
-          _SliverSection(
-            topSpacing: AppSpacing.xl,
-            child: SectionTitle(title: context.l10n.similar),
-          ),
-          SliverPadding(
-            padding: EdgeInsetsDirectional.only(top: AppSpacing.md),
-            sliver: SliverToBoxAdapter(
-              child: SuggestionsRow(movies: suggestions),
+          _SliverSection(child: _MovieInfo(details: details)),
+          if (details.screenshotUrls.isNotEmpty) ...[
+            _SliverSection(
+              topSpacing: AppSpacing.xl,
+              child: SectionTitle(title: context.l10n.screenShots),
             ),
+            SliverPadding(
+              padding: EdgeInsetsDirectional.only(top: AppSpacing.md),
+              sliver: SliverToBoxAdapter(
+                child: _ScreenshotsRow(screenshotUrls: details.screenshotUrls),
+              ),
+            ),
+          ],
+          _SliverSection(
+            topSpacing: AppSpacing.xl,
+            child: _SummarySection(summary: details.summary),
           ),
+          if (details.cast.isNotEmpty)
+            _SliverSection(
+              topSpacing: AppSpacing.xl,
+              child: _CastSection(cast: details.cast),
+            ),
+          if (details.genres.isNotEmpty)
+            _SliverSection(
+              topSpacing: AppSpacing.xl,
+              child: _GenresSection(genres: details.genres),
+            ),
+          if (suggestions.isNotEmpty) ...[
+            _SliverSection(
+              topSpacing: AppSpacing.xl,
+              child: SectionTitle(title: context.l10n.similar),
+            ),
+            SliverPadding(
+              padding: EdgeInsetsDirectional.only(top: AppSpacing.md),
+              sliver: SliverToBoxAdapter(
+                child: SuggestionsRow(movies: suggestions),
+              ),
+            ),
+          ],
+          SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
         ],
-        SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
-      ],
+      ),
     );
   }
 }

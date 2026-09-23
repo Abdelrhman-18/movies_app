@@ -5,6 +5,7 @@ import 'package:movies_app/core/utils/app_result.dart';
 import 'package:movies_app/features/auth/domain/usecases/google_sign_in_usecase.dart';
 import 'package:movies_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:movies_app/features/auth/domain/usecases/register_usecase.dart';
+import 'package:movies_app/features/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:movies_app/features/auth/presentation/cubit/auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
@@ -12,11 +13,13 @@ class AuthCubit extends Cubit<AuthState> {
     this._loginUseCase,
     this._registerUseCase,
     this._googleSignInUseCase,
+    this._signOutUseCase,
   ) : super(const AuthInitial());
 
   final LoginUseCase _loginUseCase;
   final RegisterUseCase _registerUseCase;
   final GoogleSignInUseCase _googleSignInUseCase;
+  final SignOutUseCase _signOutUseCase;
 
   Future<void> login({required String email, required String password}) async {
     emit(const AuthLoading(AuthOperation.emailSignIn));
@@ -55,6 +58,14 @@ class AuthCubit extends Cubit<AuthState> {
         const AuthInitial(),
       Failure(error: final error) => AuthFailure(error.message ?? error.code),
     });
+  }
+
+  Future<void> signOut() async {
+    emit(const AuthLoading(AuthOperation.signOut));
+
+    final result = await _signOutUseCase();
+
+    emit(_stateFor(result));
   }
 
   AuthState _stateFor(AppResult<void> result) {
