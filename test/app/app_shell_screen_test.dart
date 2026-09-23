@@ -112,8 +112,8 @@ void main() {
     final profileListsRepository = _FakeProfileListsRepository();
     getIt
       ..registerFactory<HomeCubit>(() => HomeCubit(useCase))
-      ..registerFactory<BrowseCubit>(BrowseCubit.new)
-      ..registerFactory<SearchCubit>(SearchCubit.new)
+      ..registerFactory<BrowseCubit>(() => BrowseCubit(useCase))
+      ..registerFactory<SearchCubit>(() => SearchCubit(useCase))
       ..registerFactory<WishlistCubit>(
         () => WishlistCubit(GetWishlistUseCase(profileListsRepository)),
       )

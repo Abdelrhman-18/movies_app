@@ -22,8 +22,7 @@ class BrowseTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<BrowseCubit>(
-      create: (_) =>
-          getIt<BrowseCubit>()..selectGenre(BrowseCubit.genres.first),
+      create: (_) => getIt<BrowseCubit>()..loadMovies(),
       child: const _BrowseTabViewBody(),
     );
   }
@@ -35,81 +34,86 @@ class _BrowseTabViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BrowseCubit, BrowseState>(
-      builder: (context, state) => CustomScrollView(
-        slivers: [
-          SliverPadding(
-            padding: EdgeInsetsDirectional.only(
-              top: AppSpacing.md,
-              bottom: AppSpacing.md,
-            ),
-            sliver: SliverToBoxAdapter(
-              child: SizedBox(
-                height: AppSizes.genreChipHeight,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsetsDirectional.symmetric(
-                    horizontal: AppSpacing.screenPadding,
-                  ),
-                  itemCount: BrowseCubit.genres.length,
-                  separatorBuilder: (_, _) => SizedBox(width: AppSpacing.sm),
-                  itemBuilder: (context, index) {
-                    final genre = BrowseCubit.genres[index];
-                    return AppChip(
-                      label: genre,
-                      isSelected: genre == state.genre,
-                      onTap: () =>
-                          context.read<BrowseCubit>().selectGenre(genre),
-                    );
-                  },
+      builder: (context, state) {
+        final genresList = state.genres.toList();
+
+        return CustomScrollView(
+          slivers: [
+            if (genresList.isNotEmpty)
+              SliverPadding(
+                padding: EdgeInsetsDirectional.only(
+                  top: AppSpacing.md,
+                  bottom: AppSpacing.md,
                 ),
-              ),
-            ),
-          ),
-          switch (state) {
-            BrowseLoading() => const SliverToBoxAdapter(
-              child: PosterGridShimmer(),
-            ),
-            BrowseSuccess(:final movies) => SliverPadding(
-              padding: EdgeInsetsDirectional.symmetric(
-                horizontal: AppSpacing.screenPadding,
-              ),
-              sliver: SliverGrid(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: AppSpacing.md,
-                  crossAxisSpacing: AppSpacing.md,
-                  childAspectRatio: PosterCard.aspectRatio,
-                ),
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) => GestureDetector(
-                    onTap: () => context.push(
-                      AppRoutes.movieDetailsPath,
-                      extra: movies[index].id,
-                    ),
-                    child: PosterCard(
-                      posterUrl: movies[index].posterUrl,
-                      rating: movies[index].rating,
+                sliver: SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: AppSizes.genreChipHeight,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsetsDirectional.symmetric(
+                        horizontal: AppSpacing.screenPadding,
+                      ),
+                      itemCount: genresList.length,
+                      separatorBuilder: (_, _) =>
+                          SizedBox(width: AppSpacing.sm),
+                      itemBuilder: (context, index) {
+                        final genre = genresList[index];
+                        return AppChip(
+                          label: genre,
+                          isSelected: genre == state.selectedGenre,
+                          onTap: () =>
+                              context.read<BrowseCubit>().selectGenre(genre),
+                        );
+                      },
                     ),
                   ),
-                  childCount: movies.length,
                 ),
               ),
-            ),
-            BrowseEmpty() => SliverFillRemaining(
-              hasScrollBody: false,
-              child: EmptyState(message: context.l10n.noResults),
-            ),
-            BrowseError() => SliverFillRemaining(
-              hasScrollBody: false,
-              child: MovieListErrorView(
-                onRetry: () =>
-                    context.read<BrowseCubit>().selectGenre(state.genre),
+            switch (state) {
+              BrowseLoading() => const SliverToBoxAdapter(
+                child: PosterGridShimmer(),
               ),
-            ),
-          },
-          SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
-        ],
-      ),
+              BrowseSuccess(:final movies) => SliverPadding(
+                padding: EdgeInsetsDirectional.symmetric(
+                  horizontal: AppSpacing.screenPadding,
+                ),
+                sliver: SliverGrid(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: AppSpacing.md,
+                    crossAxisSpacing: AppSpacing.md,
+                    childAspectRatio: PosterCard.aspectRatio,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) => GestureDetector(
+                      onTap: () => context.push(
+                        AppRoutes.movieDetailsPath,
+                        extra: movies[index].id,
+                      ),
+                      child: PosterCard(
+                        posterUrl: movies[index].posterUrl,
+                        rating: movies[index].rating,
+                      ),
+                    ),
+                    childCount: movies.length,
+                  ),
+                ),
+              ),
+              BrowseEmpty() => SliverFillRemaining(
+                hasScrollBody: false,
+                child: EmptyState(message: context.l10n.noResults),
+              ),
+              BrowseError() => SliverFillRemaining(
+                hasScrollBody: false,
+                child: MovieListErrorView(
+                  onRetry: () => context.read<BrowseCubit>().retry(),
+                ),
+              ),
+            },
+            SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
+          ],
+        );
+      },
     );
   }
 }
