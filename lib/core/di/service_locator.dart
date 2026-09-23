@@ -21,13 +21,19 @@ import 'package:movies_app/features/home/domain/repos/movies_repository.dart';
 import 'package:movies_app/features/home/domain/usecases/get_movies_usecase.dart';
 import 'package:movies_app/features/home/presentation/cubit/home_cubit.dart';
 import 'package:movies_app/features/movie_details/data/datasources/movie_activity_service.dart';
+import 'package:movies_app/features/movie_details/data/datasources/movie_details_remote_data_source.dart';
 import 'package:movies_app/features/movie_details/data/repos/movie_activity_repository_impl.dart';
+import 'package:movies_app/features/movie_details/data/repos/movie_details_repository_impl.dart';
 import 'package:movies_app/features/movie_details/domain/repos/movie_activity_repository.dart';
+import 'package:movies_app/features/movie_details/domain/repos/movie_details_repository.dart';
 import 'package:movies_app/features/movie_details/domain/usecases/add_to_wishlist_usecase.dart';
 import 'package:movies_app/features/movie_details/domain/usecases/check_is_favorite_usecase.dart';
+import 'package:movies_app/features/movie_details/domain/usecases/get_movie_details_usecase.dart';
+import 'package:movies_app/features/movie_details/domain/usecases/get_movie_suggestions_usecase.dart';
 import 'package:movies_app/features/movie_details/domain/usecases/record_movie_history_usecase.dart';
 import 'package:movies_app/features/movie_details/domain/usecases/remove_from_wishlist_usecase.dart';
 import 'package:movies_app/features/movie_details/presentation/cubit/favorite_cubit.dart';
+import 'package:movies_app/features/movie_details/presentation/cubit/movie_details_cubit.dart';
 import 'package:movies_app/features/profile/data/datasources/profile_lists_service.dart';
 import 'package:movies_app/features/profile/data/datasources/profile_service.dart';
 import 'package:movies_app/features/profile/data/repos/profile_lists_repository_impl.dart';
@@ -135,5 +141,23 @@ Future<void> configureDependencies() async {
     )
     ..registerFactory<HomeCubit>(() => HomeCubit(getIt<GetMoviesUseCase>()))
     ..registerFactory<BrowseCubit>(BrowseCubit.new)
-    ..registerFactory<SearchCubit>(SearchCubit.new);
+    ..registerFactory<SearchCubit>(SearchCubit.new)
+    ..registerLazySingleton<MovieDetailsRemoteDataSource>(
+      () => MovieDetailsRemoteDataSource(getIt<ApiClient>()),
+    )
+    ..registerLazySingleton<MovieDetailsRepository>(
+      () => MovieDetailsRepositoryImpl(getIt<MovieDetailsRemoteDataSource>()),
+    )
+    ..registerLazySingleton<GetMovieDetailsUseCase>(
+      () => GetMovieDetailsUseCase(getIt<MovieDetailsRepository>()),
+    )
+    ..registerLazySingleton<GetMovieSuggestionsUseCase>(
+      () => GetMovieSuggestionsUseCase(getIt<MovieDetailsRepository>()),
+    )
+    ..registerFactory<MovieDetailsCubit>(
+      () => MovieDetailsCubit(
+        getIt<GetMovieDetailsUseCase>(),
+        getIt<GetMovieSuggestionsUseCase>(),
+      ),
+    );
 }

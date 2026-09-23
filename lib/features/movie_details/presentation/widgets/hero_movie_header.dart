@@ -30,6 +30,8 @@ class HeroMovieHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final topInset = MediaQuery.paddingOf(context).top;
+
     return SizedBox(
       height: _heightDesignPx.h,
       child: Stack(
@@ -37,16 +39,25 @@ class HeroMovieHeader extends StatelessWidget {
         children: [
           CachedNetworkImage(
             imageUrl: backdropUrl,
+            httpHeaders: const {'Referer': 'https://yts.gg/'},
             fit: BoxFit.cover,
             placeholder: (_, _) => Shimmer.fromColors(
               baseColor: AppColors.surface,
               highlightColor: AppColors.textSecondary,
               child: const ColoredBox(color: AppColors.surface),
             ),
-            errorWidget: (_, _, _) => ColoredBox(
-              color: AppColors.surface,
-              child: Icon(Icons.movie_outlined, color: AppColors.textSecondary),
-            ),
+            errorWidget: (_, _, error) {
+              debugPrint(
+                '[HeroMovieHeader] failed to load $backdropUrl: $error',
+              );
+              return ColoredBox(
+                color: AppColors.surface,
+                child: Icon(
+                  Icons.movie_outlined,
+                  color: AppColors.textSecondary,
+                ),
+              );
+            },
           ),
           DecoratedBox(
             decoration: BoxDecoration(
@@ -63,7 +74,7 @@ class HeroMovieHeader extends StatelessWidget {
             ),
           ),
           PositionedDirectional(
-            top: AppSpacing.lg,
+            top: topInset + AppSpacing.lg,
             start: AppSpacing.screenPadding,
             child: CircleIconButton(
               icon: Icons.arrow_back_rounded,
@@ -71,7 +82,7 @@ class HeroMovieHeader extends StatelessWidget {
             ),
           ),
           PositionedDirectional(
-            top: AppSpacing.lg,
+            top: topInset + AppSpacing.lg,
             end: AppSpacing.screenPadding,
             child: CircleIconButton(
               icon: isFavorite

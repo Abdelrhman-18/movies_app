@@ -93,7 +93,8 @@ abstract final class AppRouter {
       GoRoute(
         name: AppRoutes.movieDetailsName,
         path: AppRoutes.movieDetailsPath,
-        builder: (_, _) => const MovieDetailsScreen(),
+        builder: (_, state) =>
+            MovieDetailsScreen(movieId: state.extra as int? ?? 0),
       ),
     ],
     errorBuilder: (_, state) => _RouteErrorScreen(

@@ -1,6 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+import 'package:go_router/go_router.dart';
+
+import 'package:movies_app/core/routing/app_routes.dart';
 import 'package:movies_app/core/widgets/poster_card.dart';
 
 import 'package:movies_app/features/home/domain/entities/movie_entity.dart';
@@ -39,10 +42,9 @@ class _HeroCarouselState extends State<HeroCarousel> {
           carouselController: _controller,
           itemCount: widget.movies.length,
           itemBuilder: (context, index, pageIndex) => GestureDetector(
-            onTap: () => _controller.animateToPage(
-              index,
-              duration: const Duration(milliseconds: 700),
-              curve: Curves.easeInOutCubic,
+            onTap: () => context.push(
+              AppRoutes.movieDetailsPath,
+              extra: widget.movies[index].id,
             ),
             child: Padding(
               padding: EdgeInsetsDirectional.symmetric(horizontal: sidePadding),
