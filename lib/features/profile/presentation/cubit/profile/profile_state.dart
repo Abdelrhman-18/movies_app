@@ -30,6 +30,14 @@ final class ProfileSuccess extends ProfileState {
   const ProfileSuccess();
 }
 
+final class ProfileAccountDeleted extends ProfileState {
+  const ProfileAccountDeleted();
+}
+
+final class ProfileReauthRequired extends ProfileState {
+  const ProfileReauthRequired();
+}
+
 final class ProfileError extends ProfileState {
   const ProfileError(this.message);
 

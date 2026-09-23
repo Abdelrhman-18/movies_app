@@ -86,4 +86,40 @@ class ProfileService {
       );
     });
   }
+
+  Future<AppResult<void>> deleteAccount() {
+    return FirebaseExecute.call(() async {
+      final firebaseUser = _auth.currentUser;
+
+      if (firebaseUser == null) {
+        throw Exception('No authenticated user found.');
+      }
+
+      final userDocPath = '${FirestoreCollections.users}/${firebaseUser.uid}';
+
+      Map<String, dynamic>? userData;
+      await for (final data
+          in FirestoreService.instance.documentStream<Map<String, dynamic>>(
+            path: userDocPath,
+            builder: (data, _) => data,
+          )) {
+        userData = data;
+        break;
+      }
+
+      await FirestoreService.instance.deleteData(path: userDocPath);
+
+      try {
+        await firebaseUser.delete();
+      } catch (_) {
+        if (userData != null) {
+          await FirestoreService.instance.setData(
+            path: userDocPath,
+            data: userData,
+          );
+        }
+        rethrow;
+      }
+    });
+  }
 }

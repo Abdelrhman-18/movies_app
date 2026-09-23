@@ -6,6 +6,7 @@ class WishlistItemModel extends WishlistItem {
     required super.title,
     required super.posterUrl,
     required super.rating,
+    this.savedAt = 0,
   });
 
   factory WishlistItemModel.fromJson(
@@ -17,6 +18,9 @@ class WishlistItemModel extends WishlistItem {
       title: json['title'] as String? ?? '',
       posterUrl: json['posterUrl'] as String? ?? '',
       rating: (json['rating'] as num?)?.toDouble() ?? 0,
+      savedAt: (json['savedAt'] as num?)?.toInt() ?? 0,
     );
   }
+
+  final int savedAt;
 }

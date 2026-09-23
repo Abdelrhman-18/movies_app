@@ -23,6 +23,8 @@ class AppShellScreen extends StatefulWidget {
 }
 
 class _AppShellScreenState extends State<AppShellScreen> {
+  static const int _profileTab = 3;
+
   int _tabIndex = 0;
 
   Future<void> _signOut() async {
@@ -47,7 +49,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
       const HomeTabView(),
       const SearchTabView(),
       const BrowseTabView(),
-      ProfileTabView(onLogout: _signOut),
+      ProfileTabView(onLogout: _signOut, isActive: _tabIndex == _profileTab),
     ];
 
     return Scaffold(

@@ -13,4 +13,6 @@ abstract interface class ProfileRepository {
     int? avatarIndex,
     File? profileImage,
   });
+
+  Future<AppResult<void>> deleteAccount();
 }

@@ -54,6 +54,9 @@ class _FakeProfileRepository implements ProfileRepository {
     int? avatarIndex,
     File? profileImage,
   }) async => const Success(null);
+
+  @override
+  Future<AppResult<void>> deleteAccount() async => const Success(null);
 }
 
 class _StubAdapter implements HttpClientAdapter {

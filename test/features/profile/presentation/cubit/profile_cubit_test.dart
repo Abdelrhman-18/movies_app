@@ -119,4 +119,43 @@ void main() {
       expect(cubit.state, const ProfileError('Failed'));
     });
   });
+
+  group('deleteAccount', () {
+    test('emits Loading then AccountDeleted on success', () async {
+      when(
+        () => repository.deleteAccount(),
+      ).thenAnswer((_) async => const Success(null));
+
+      final expectation = expectLater(
+        cubit.stream,
+        emitsInOrder([const ProfileLoading(), const ProfileAccountDeleted()]),
+      );
+
+      await cubit.deleteAccount();
+      await expectation;
+    });
+
+    test('emits ReauthRequired when a recent login is required', () async {
+      when(() => repository.deleteAccount()).thenAnswer(
+        (_) async =>
+            const Failure(AppErrorModel(code: 'requires-recent-login')),
+      );
+
+      await cubit.deleteAccount();
+
+      expect(cubit.state, const ProfileReauthRequired());
+    });
+
+    test('emits ProfileError on other failures', () async {
+      when(() => repository.deleteAccount()).thenAnswer(
+        (_) async => const Failure(
+          AppErrorModel(code: 'network-error', message: 'Failed'),
+        ),
+      );
+
+      await cubit.deleteAccount();
+
+      expect(cubit.state, const ProfileError('Failed'));
+    });
+  });
 }

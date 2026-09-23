@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:movies_app/core/utils/app_result.dart';
+
+import 'package:movies_app/features/home/domain/entities/movie_entity.dart';
 import 'package:movies_app/features/home/domain/usecases/get_movies_usecase.dart';
 import 'package:movies_app/features/search/presentation/cubit/search_state.dart';
-
-import '../../../home/domain/entities/movie_entity.dart';
 
 class SearchCubit extends Cubit<SearchState> {
   SearchCubit(this._getMoviesUseCase) : super(const SearchInitial());

@@ -18,6 +18,11 @@ class WishlistItemModel extends WishlistItem {
   }
 
   Map<String, dynamic> toJson() {
-    return {'title': title, 'posterUrl': posterUrl, 'rating': rating};
+    return {
+      'title': title,
+      'posterUrl': posterUrl,
+      'rating': rating,
+      'savedAt': DateTime.now().millisecondsSinceEpoch,
+    };
   }
 }

@@ -10,12 +10,14 @@ class BrowseCubit extends Cubit<BrowseState> {
 
   final GetMoviesUseCase _getMoviesUseCase;
 
+  static const int _moviesLimit = 50;
+
   List<MovieEntity> _allMovies = [];
 
   Future<void> loadMovies() async {
     emit(const BrowseLoading());
 
-    final result = await _getMoviesUseCase();
+    final result = await _getMoviesUseCase(limit: _moviesLimit);
 
     switch (result) {
       case Success<List<MovieEntity>>(:final data):
@@ -50,10 +52,10 @@ class BrowseCubit extends Cubit<BrowseState> {
       filtered.isEmpty
           ? BrowseEmpty(genres: genres, selectedGenre: genre)
           : BrowseSuccess(
-        genres: genres,
-        selectedGenre: genre,
-        movies: filtered,
-      ),
+              genres: genres,
+              selectedGenre: genre,
+              movies: filtered,
+            ),
     );
   }
 

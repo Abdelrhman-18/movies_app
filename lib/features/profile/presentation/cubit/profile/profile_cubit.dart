@@ -43,4 +43,19 @@ class ProfileCubit extends Cubit<ProfileState> {
       Failure(error: final error) => ProfileError(error.message ?? error.code),
     });
   }
+
+  Future<void> deleteAccount() async {
+    emit(const ProfileLoading());
+
+    final result = await _profileRepository.deleteAccount();
+
+    emit(switch (result) {
+      Success() => const ProfileAccountDeleted(),
+      Failure(error: final error) when error.code == _requiresRecentLogin =>
+        const ProfileReauthRequired(),
+      Failure(error: final error) => ProfileError(error.message ?? error.code),
+    });
+  }
+
+  static const String _requiresRecentLogin = 'requires-recent-login';
 }

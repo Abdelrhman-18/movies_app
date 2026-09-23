@@ -35,4 +35,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       profileImage: profileImage,
     );
   }
+
+  @override
+  Future<AppResult<void>> deleteAccount() => _profileService.deleteAccount();
 }

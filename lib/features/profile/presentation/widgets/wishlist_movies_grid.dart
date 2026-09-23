@@ -6,9 +6,14 @@ import 'package:movies_app/core/widgets/poster_card.dart';
 import 'package:movies_app/features/profile/domain/entities/wishlist_item.dart';
 
 class WishlistMoviesGrid extends StatelessWidget {
-  const WishlistMoviesGrid({required this.movies, super.key});
+  const WishlistMoviesGrid({
+    required this.movies,
+    required this.onMovieTap,
+    super.key,
+  });
 
   final List<WishlistItem> movies;
+  final ValueChanged<WishlistItem> onMovieTap;
 
   static const int _crossAxisCount = 3;
 
@@ -26,9 +31,12 @@ class WishlistMoviesGrid extends StatelessWidget {
           childAspectRatio: PosterCard.aspectRatio,
         ),
         delegate: SliverChildBuilderDelegate(
-          (context, index) => PosterCard(
-            posterUrl: movies[index].posterUrl,
-            rating: movies[index].rating,
+          (context, index) => GestureDetector(
+            onTap: () => onMovieTap(movies[index]),
+            child: PosterCard(
+              posterUrl: movies[index].posterUrl,
+              rating: movies[index].rating,
+            ),
           ),
           childCount: movies.length,
         ),

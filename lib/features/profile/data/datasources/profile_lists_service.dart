@@ -34,6 +34,7 @@ class ProfileListsService {
                 '${FirestoreCollections.users}/${firebaseUser.uid}/$collection',
             builder: (data, documentId) =>
                 WishlistItemModel.fromJson(data, documentId),
+            sort: (lhs, rhs) => rhs.savedAt.compareTo(lhs.savedAt),
           )) {
         items = data;
         break;

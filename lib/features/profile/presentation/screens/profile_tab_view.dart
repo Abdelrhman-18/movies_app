@@ -14,6 +14,7 @@ import 'package:movies_app/core/widgets/app_button.dart';
 import 'package:movies_app/core/widgets/empty_state.dart';
 import 'package:movies_app/core/widgets/movie_list_error_view.dart';
 
+import 'package:movies_app/features/profile/domain/entities/wishlist_item.dart';
 import 'package:movies_app/features/profile/presentation/cubit/history/history_cubit.dart';
 import 'package:movies_app/features/profile/presentation/cubit/history/history_state.dart';
 import 'package:movies_app/features/profile/presentation/cubit/profile/profile_cubit.dart';
@@ -26,17 +27,62 @@ import 'package:movies_app/features/profile/presentation/widgets/profile_tab_tog
 import 'package:movies_app/features/profile/presentation/widgets/wishlist_movies_grid.dart';
 
 class ProfileTabView extends StatefulWidget {
-  const ProfileTabView({required this.onLogout, super.key});
+  const ProfileTabView({
+    required this.onLogout,
+    this.isActive = true,
+    super.key,
+  });
 
   final Future<void> Function() onLogout;
+  final bool isActive;
 
   @override
   State<ProfileTabView> createState() => _ProfileTabViewState();
 }
 
 class _ProfileTabViewState extends State<ProfileTabView> {
+  final ProfileCubit _profileCubit = getIt<ProfileCubit>();
+  final WishlistCubit _wishlistCubit = getIt<WishlistCubit>();
+  final HistoryCubit _historyCubit = getIt<HistoryCubit>();
+
   int _selectedSegment = 0;
   bool _isSigningOut = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _refresh();
+  }
+
+  @override
+  void didUpdateWidget(covariant ProfileTabView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isActive && !oldWidget.isActive) _refresh();
+  }
+
+  @override
+  void dispose() {
+    _profileCubit.close();
+    _wishlistCubit.close();
+    _historyCubit.close();
+    super.dispose();
+  }
+
+  void _refresh() {
+    _profileCubit.getCurrentUser();
+    _wishlistCubit.load();
+    _historyCubit.load();
+  }
+
+  Future<void> _openEditProfile() async {
+    await context.push(AppRoutes.updateProfilePath);
+    if (mounted) _refresh();
+  }
+
+  Future<void> _openMovie(WishlistItem movie) async {
+    await context.push(AppRoutes.movieDetailsPath, extra: movie.movieId);
+    if (mounted) _refresh();
+  }
 
   Future<void> _handleLogout() async {
     final confirmed = await showDialog<bool>(
@@ -65,15 +111,9 @@ class _ProfileTabViewState extends State<ProfileTabView> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<ProfileCubit>(
-          create: (_) => getIt<ProfileCubit>()..getCurrentUser(),
-        ),
-        BlocProvider<WishlistCubit>(
-          create: (_) => getIt<WishlistCubit>()..load(),
-        ),
-        BlocProvider<HistoryCubit>(
-          create: (_) => getIt<HistoryCubit>()..load(),
-        ),
+        BlocProvider<ProfileCubit>.value(value: _profileCubit),
+        BlocProvider<WishlistCubit>.value(value: _wishlistCubit),
+        BlocProvider<HistoryCubit>.value(value: _historyCubit),
       ],
       child: CustomScrollView(
         slivers: [
@@ -81,6 +121,7 @@ class _ProfileTabViewState extends State<ProfileTabView> {
             child: _ProfileHeader(
               isSigningOut: _isSigningOut,
               onLogoutTap: _handleLogout,
+              onEditProfileTap: _openEditProfile,
             ),
           ),
           SliverToBoxAdapter(
@@ -92,9 +133,9 @@ class _ProfileTabViewState extends State<ProfileTabView> {
           ),
           SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
           if (_selectedSegment == 0)
-            const _WishlistSliver()
+            _WishlistSliver(onMovieTap: _openMovie)
           else
-            const _HistorySliver(),
+            _HistorySliver(onMovieTap: _openMovie),
           SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
         ],
       ),
@@ -103,10 +144,15 @@ class _ProfileTabViewState extends State<ProfileTabView> {
 }
 
 class _ProfileHeader extends StatelessWidget {
-  const _ProfileHeader({required this.isSigningOut, required this.onLogoutTap});
+  const _ProfileHeader({
+    required this.isSigningOut,
+    required this.onLogoutTap,
+    required this.onEditProfileTap,
+  });
 
   final bool isSigningOut;
   final VoidCallback onLogoutTap;
+  final VoidCallback onEditProfileTap;
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +210,7 @@ class _ProfileHeader extends StatelessWidget {
           SizedBox(height: AppSpacing.xl),
           AppButton(
             label: context.l10n.editProfile,
-            onPressed: () => context.push(AppRoutes.updateProfilePath),
+            onPressed: onEditProfileTap,
           ),
           SizedBox(height: AppSpacing.sm),
           AppButton(
@@ -219,14 +265,19 @@ class _ProfileTabsRow extends StatelessWidget {
 }
 
 class _WishlistSliver extends StatelessWidget {
-  const _WishlistSliver();
+  const _WishlistSliver({required this.onMovieTap});
+
+  final ValueChanged<WishlistItem> onMovieTap;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WishlistCubit, WishlistState>(
       builder: (context, state) => switch (state) {
         WishlistLoading() => const _SliverLoadingIndicator(),
-        WishlistSuccess(:final movies) => WishlistMoviesGrid(movies: movies),
+        WishlistSuccess(:final movies) => WishlistMoviesGrid(
+          movies: movies,
+          onMovieTap: onMovieTap,
+        ),
         WishlistEmpty() => SliverToBoxAdapter(
           child: EmptyState(message: context.l10n.emptyWishList),
         ),
@@ -241,14 +292,19 @@ class _WishlistSliver extends StatelessWidget {
 }
 
 class _HistorySliver extends StatelessWidget {
-  const _HistorySliver();
+  const _HistorySliver({required this.onMovieTap});
+
+  final ValueChanged<WishlistItem> onMovieTap;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HistoryCubit, HistoryState>(
       builder: (context, state) => switch (state) {
         HistoryLoading() => const _SliverLoadingIndicator(),
-        HistorySuccess(:final movies) => WishlistMoviesGrid(movies: movies),
+        HistorySuccess(:final movies) => WishlistMoviesGrid(
+          movies: movies,
+          onMovieTap: onMovieTap,
+        ),
         HistoryEmpty() => SliverToBoxAdapter(
           child: EmptyState(
             message: context.l10n.emptyHistory,

@@ -18,6 +18,7 @@ import 'package:movies_app/core/widgets/app_button.dart';
 
 import 'package:movies_app/features/profile/presentation/cubit/profile/profile_cubit.dart';
 import 'package:movies_app/features/profile/presentation/cubit/profile/profile_state.dart';
+import 'package:movies_app/features/profile/presentation/widgets/delete_account_confirmation_dialog.dart';
 import 'package:movies_app/features/profile/presentation/widgets/profile_avatar_picker.dart';
 import 'package:movies_app/features/profile/presentation/widgets/profile_info_fields.dart';
 
@@ -78,6 +79,17 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     );
   }
 
+  Future<void> _deleteAccount() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (_) => const DeleteAccountConfirmationDialog(),
+    );
+
+    if (confirmed != true || !mounted) return;
+
+    context.read<ProfileCubit>().deleteAccount();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileCubit, ProfileState>(
@@ -104,6 +116,18 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(context.l10n.profileUpdatedSuccessfully)),
           );
+        }
+
+        if (state is ProfileReauthRequired) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(context.l10n.deleteAccountRequiresRecentLogin),
+            ),
+          );
+        }
+
+        if (state is ProfileAccountDeleted) {
+          context.go(AppRoutes.onboardingPath);
         }
       },
       builder: (context, state) {
@@ -161,9 +185,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         AppButton(
                           label: context.l10n.deleteAccount,
                           variant: AppButtonVariant.danger,
-                          // TODO(phase-2): Dispatch account deletion once a
-                          // delete-account repository method exists.
-                          onPressed: () {},
+                          onPressed: _deleteAccount,
                         ),
 
                         SizedBox(height: AppSpacing.sm),

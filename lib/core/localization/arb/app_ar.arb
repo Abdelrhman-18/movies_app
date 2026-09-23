@@ -77,6 +77,8 @@
   "editProfile": "تعديل الحساب",
   "updateData": "حفظ التعديلات",
   "deleteAccount": "حذف الحساب",
+  "deleteAccountConfirmationMessage": "هل أنت متأكد أنك تريد حذف حسابك نهائيًا؟",
+  "deleteAccountRequiresRecentLogin": "لحماية حسابك، سجّل الخروج ثم سجّل الدخول مرة أخرى قبل حذف الحساب.",
   "language": "اللغة",
 
   "emptyWishList": "لا توجد أفلام في قائمة المفضلة",
