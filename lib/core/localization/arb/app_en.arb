@@ -26,6 +26,8 @@
   "login": "Login",
   "register": "Create Account",
   "logout": "Exit",
+  "logoutConfirmationMessage": "Are you sure you want to log out?",
+  "cancel": "Cancel",
   "email": "Email",
   "password": "Password",
   "emailInvalid": "Enter a valid email address",
@@ -81,6 +83,7 @@
   "language": "Language",
 
   "emptyWishList": "No movies in your wishlist",
+  "emptyHistory": "No movies in your history",
   "noResults": "No Results",
   "somethingWentWrong": "Something went wrong",
   "retry": "Retry",

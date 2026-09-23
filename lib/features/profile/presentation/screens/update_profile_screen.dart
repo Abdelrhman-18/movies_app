@@ -3,11 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'package:movies_app/core/localization/l10n.dart';
 import 'package:movies_app/core/routing/app_routes.dart';
 import 'package:movies_app/core/theme/app_colors.dart';
+import 'package:movies_app/core/theme/app_radius.dart';
 import 'package:movies_app/core/theme/app_spacing.dart';
 import 'package:movies_app/core/theme/app_text_styles.dart';
 import 'package:movies_app/core/widgets/app_app_bar.dart';
@@ -77,7 +80,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ProfileCubit, ProfileState>(
+    return BlocConsumer<ProfileCubit, ProfileState>(
       listener: (context, state) {
         if (state is ProfileUserLoaded && !_isUserLoaded) {
           _isUserLoaded = true;
@@ -103,70 +106,131 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           );
         }
       },
-      child: Scaffold(
-        backgroundColor: AppColors.background,
-        appBar: AppAppBar(title: context.l10n.editProfile),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: EdgeInsetsDirectional.all(AppSpacing.screenPadding),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(height: AppSpacing.xl),
+      builder: (context, state) {
+        final isLoadingInitialUser = !_isUserLoaded && state is! ProfileError;
+        final isSubmitting = _isUserLoaded && state is ProfileLoading;
 
-                Center(
-                  child: ProfileAvatarPicker(
-                    selectedAvatar: _selectedAvatar,
-                    selectedImage: _selectedImage,
-                    selectedImageUrl: _profileImageUrl,
-                    onAvatarSelected: _onAvatarSelected,
-                    onGalleryImageSelected: _onGalleryImageSelected,
-                  ),
-                ),
+        return Scaffold(
+          backgroundColor: AppColors.background,
+          appBar: AppAppBar(title: context.l10n.editProfile),
+          body: SafeArea(
+            child: isLoadingInitialUser
+                ? const _EditProfileLoadingView()
+                : SingleChildScrollView(
+                    padding: EdgeInsetsDirectional.all(
+                      AppSpacing.screenPadding,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        SizedBox(height: AppSpacing.xl),
 
-                SizedBox(height: AppSpacing.xl),
+                        Center(
+                          child: ProfileAvatarPicker(
+                            selectedAvatar: _selectedAvatar,
+                            selectedImage: _selectedImage,
+                            selectedImageUrl: _profileImageUrl,
+                            onAvatarSelected: _onAvatarSelected,
+                            onGalleryImageSelected: _onGalleryImageSelected,
+                          ),
+                        ),
 
-                ProfileInfoFields(
-                  nameController: _nameController,
-                  phoneController: _phoneController,
-                ),
+                        SizedBox(height: AppSpacing.xl),
 
-                SizedBox(height: AppSpacing.lg),
+                        ProfileInfoFields(
+                          nameController: _nameController,
+                          phoneController: _phoneController,
+                        ),
 
-                Align(
-                  alignment: AlignmentDirectional.centerStart,
-                  child: TextButton(
-                    onPressed: () =>
-                        context.pushNamed(AppRoutes.forgotPasswordName),
-                    child: Text(
-                      context.l10n.resetPassword,
-                      style: AppTextStyles.titleSmall,
+                        SizedBox(height: AppSpacing.lg),
+
+                        Align(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: TextButton(
+                            onPressed: () =>
+                                context.pushNamed(AppRoutes.forgotPasswordName),
+                            child: Text(
+                              context.l10n.resetPassword,
+                              style: AppTextStyles.titleSmall,
+                            ),
+                          ),
+                        ),
+
+                        SizedBox(height: AppSpacing.xl),
+
+                        AppButton(
+                          label: context.l10n.deleteAccount,
+                          variant: AppButtonVariant.danger,
+                          // TODO(phase-2): Dispatch account deletion once a
+                          // delete-account repository method exists.
+                          onPressed: () {},
+                        ),
+
+                        SizedBox(height: AppSpacing.sm),
+
+                        AppButton(
+                          label: context.l10n.updateData,
+                          isLoading: isSubmitting,
+                          onPressed: _updateProfile,
+                        ),
+
+                        SizedBox(height: AppSpacing.xl),
+                      ],
                     ),
                   ),
-                ),
-
-                SizedBox(height: AppSpacing.xl),
-
-                AppButton(
-                  label: context.l10n.deleteAccount,
-                  variant: AppButtonVariant.danger,
-                  // TODO(phase-2): Dispatch account deletion once a
-                  // delete-account repository method exists.
-                  onPressed: () {},
-                ),
-
-                SizedBox(height: AppSpacing.sm),
-
-                AppButton(
-                  label: context.l10n.updateData,
-                  onPressed: _updateProfile,
-                ),
-
-                SizedBox(height: AppSpacing.xl),
-              ],
-            ),
           ),
+        );
+      },
+    );
+  }
+}
+
+class _EditProfileLoadingView extends StatelessWidget {
+  const _EditProfileLoadingView();
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: AppColors.surface,
+      highlightColor: AppColors.textSecondary,
+      child: Padding(
+        padding: EdgeInsetsDirectional.all(AppSpacing.screenPadding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(height: AppSpacing.xl),
+            Center(
+              child: _block(
+                width: AppSizes.profileAvatarPreview,
+                height: AppSizes.profileAvatarPreview,
+                borderRadius: BorderRadius.circular(
+                  AppSizes.profileAvatarPreview / 2,
+                ),
+              ),
+            ),
+            SizedBox(height: AppSpacing.xl),
+            _block(height: AppSizes.fieldHeight),
+            SizedBox(height: AppSpacing.md),
+            _block(height: AppSizes.fieldHeight),
+            SizedBox(height: AppSpacing.lg),
+            _block(height: 20.h, width: 140.w),
+            SizedBox(height: AppSpacing.xl),
+            _block(height: AppSizes.buttonHeight),
+            SizedBox(height: AppSpacing.sm),
+            _block(height: AppSizes.buttonHeight),
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget _block({double? width, double? height, BorderRadius? borderRadius}) {
+    return ClipRRect(
+      borderRadius: borderRadius ?? AppRadius.medium,
+      child: SizedBox(
+        width: width,
+        height: height,
+        child: const ColoredBox(color: AppColors.surface),
       ),
     );
   }

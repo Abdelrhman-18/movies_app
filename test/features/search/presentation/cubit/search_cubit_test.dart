@@ -14,12 +14,54 @@ void main() {
 
   // نفس الأفلام الوهمية اللي كانت جوه الـ Cubit، دلوقتي بنتحكم فيها إحنا من برا
   const dummyMovies = [
-    MovieEntity(id: 1, title: 'Neon Horizon', year: 2020, rating: 7.8, posterUrl: '', genres: []),
-    MovieEntity(id: 2, title: 'Quiet Streets', year: 2019, rating: 6.5, posterUrl: '', genres: []),
-    MovieEntity(id: 3, title: 'Laugh Track', year: 2021, rating: 7.1, posterUrl: '', genres: []),
-    MovieEntity(id: 4, title: 'The Basement', year: 2018, rating: 6.9, posterUrl: '', genres: []),
-    MovieEntity(id: 5, title: 'Second Orbit', year: 2022, rating: 8.2, posterUrl: '', genres: []),
-    MovieEntity(id: 6, title: 'Letters Home', year: 2017, rating: 7.4, posterUrl: '', genres: []),
+    MovieEntity(
+      id: 1,
+      title: 'Neon Horizon',
+      year: 2020,
+      rating: 7.8,
+      posterUrl: '',
+      genres: [],
+    ),
+    MovieEntity(
+      id: 2,
+      title: 'Quiet Streets',
+      year: 2019,
+      rating: 6.5,
+      posterUrl: '',
+      genres: [],
+    ),
+    MovieEntity(
+      id: 3,
+      title: 'Laugh Track',
+      year: 2021,
+      rating: 7.1,
+      posterUrl: '',
+      genres: [],
+    ),
+    MovieEntity(
+      id: 4,
+      title: 'The Basement',
+      year: 2018,
+      rating: 6.9,
+      posterUrl: '',
+      genres: [],
+    ),
+    MovieEntity(
+      id: 5,
+      title: 'Second Orbit',
+      year: 2022,
+      rating: 8.2,
+      posterUrl: '',
+      genres: [],
+    ),
+    MovieEntity(
+      id: 6,
+      title: 'Letters Home',
+      year: 2017,
+      rating: 7.4,
+      posterUrl: '',
+      genres: [],
+    ),
   ];
 
   setUp(() {
@@ -46,9 +88,9 @@ void main() {
 
     test(
       'queryChanged debounces and emits SearchSuccess for a match',
-          () async {
+      () async {
         when(() => mockGetMoviesUseCase(query: 'orbit')).thenAnswer(
-              (_) async => Success([
+          (_) async => Success([
             dummyMovies.firstWhere((m) => m.title == 'Second Orbit'),
           ]),
         );
@@ -68,8 +110,9 @@ void main() {
     );
 
     test('queryChanged emits SearchEmpty when nothing matches', () async {
-      when(() => mockGetMoviesUseCase(query: 'nonexistent movie'))
-          .thenAnswer((_) async => const Success([]));
+      when(
+        () => mockGetMoviesUseCase(query: 'nonexistent movie'),
+      ).thenAnswer((_) async => const Success([]));
 
       final cubit = SearchCubit(mockGetMoviesUseCase);
       addTearDown(cubit.close);
@@ -83,13 +126,14 @@ void main() {
 
     test(
       'rapid queryChanged calls cancel the previous debounce timer',
-          () async {
+      () async {
         // مش المفروض تتنادى خالص - الـ debounce المفروض يلغيها
-        when(() => mockGetMoviesUseCase(query: 'quiet'))
-            .thenAnswer((_) async => const Success([]));
+        when(
+          () => mockGetMoviesUseCase(query: 'quiet'),
+        ).thenAnswer((_) async => const Success([]));
 
         when(() => mockGetMoviesUseCase(query: 'orbit')).thenAnswer(
-              (_) async => Success([
+          (_) async => Success([
             dummyMovies.firstWhere((m) => m.title == 'Second Orbit'),
           ]),
         );
@@ -98,7 +142,7 @@ void main() {
         addTearDown(cubit.close);
 
         cubit.queryChanged('quiet');
-        await Future<void>.delayed(const Duration(milliseconds: 200));
+        await Future<void>.delayed(const Duration(milliseconds: 100));
         cubit.queryChanged('orbit');
 
         await Future<void>.delayed(const Duration(milliseconds: 500));

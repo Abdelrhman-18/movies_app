@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -11,14 +12,49 @@ import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/core/localization/l10n.dart';
 import 'package:movies_app/core/network/api_client.dart';
 
+import 'package:movies_app/core/utils/app_result.dart';
+
 import 'package:movies_app/features/browse/presentation/cubit/browse_cubit.dart';
 import 'package:movies_app/features/home/data/datasources/movies_remote_data_source.dart';
 import 'package:movies_app/features/home/data/repos/movies_repository_impl.dart';
 import 'package:movies_app/features/home/domain/usecases/get_movies_usecase.dart';
 import 'package:movies_app/features/home/presentation/cubit/home_cubit.dart';
+import 'package:movies_app/features/profile/domain/entities/user.dart';
+import 'package:movies_app/features/profile/domain/entities/wishlist_item.dart';
+import 'package:movies_app/features/profile/domain/repos/profile_lists_repository.dart';
+import 'package:movies_app/features/profile/domain/repos/profile_repository.dart';
+import 'package:movies_app/features/profile/domain/usecases/get_history_usecase.dart';
+import 'package:movies_app/features/profile/domain/usecases/get_wishlist_usecase.dart';
+import 'package:movies_app/features/profile/presentation/cubit/history/history_cubit.dart';
+import 'package:movies_app/features/profile/presentation/cubit/profile/profile_cubit.dart';
+import 'package:movies_app/features/profile/presentation/cubit/wishlist/wishlist_cubit.dart';
 import 'package:movies_app/features/search/presentation/cubit/search_cubit.dart';
 
 import 'package:movies_app/app/app_shell_screen.dart';
+
+class _FakeProfileListsRepository implements ProfileListsRepository {
+  @override
+  Future<AppResult<List<WishlistItem>>> getWishlist() async =>
+      const Success([]);
+
+  @override
+  Future<AppResult<List<WishlistItem>>> getHistory() async => const Success([]);
+}
+
+class _FakeProfileRepository implements ProfileRepository {
+  @override
+  Future<AppResult<User>> getCurrentUser() async => const Success(
+    User(id: '1', name: 'Test User', email: 'test@example.com', phone: ''),
+  );
+
+  @override
+  Future<AppResult<void>> updateProfile({
+    required String name,
+    required String phone,
+    int? avatarIndex,
+    File? profileImage,
+  }) async => const Success(null);
+}
 
 class _StubAdapter implements HttpClientAdapter {
   @override
@@ -73,13 +109,19 @@ void main() {
       MoviesRemoteDataSource(ApiClient(dio)),
     );
     final useCase = GetMoviesUseCase(repository);
+    final profileListsRepository = _FakeProfileListsRepository();
     getIt
       ..registerFactory<HomeCubit>(() => HomeCubit(useCase))
-      ..registerFactory<BrowseCubit>(
-            () => BrowseCubit(getIt<GetMoviesUseCase>()),
+      ..registerFactory<BrowseCubit>(() => BrowseCubit(useCase))
+      ..registerFactory<SearchCubit>(() => SearchCubit(useCase))
+      ..registerFactory<WishlistCubit>(
+        () => WishlistCubit(GetWishlistUseCase(profileListsRepository)),
       )
-      ..registerFactory<SearchCubit>(
-            () => SearchCubit(getIt<GetMoviesUseCase>()),
+      ..registerFactory<HistoryCubit>(
+        () => HistoryCubit(GetHistoryUseCase(profileListsRepository)),
+      )
+      ..registerFactory<ProfileCubit>(
+        () => ProfileCubit(_FakeProfileRepository()),
       );
   });
 
