@@ -28,16 +28,23 @@ class ScreenshotCard extends StatelessWidget {
           borderRadius: AppRadius.small,
           child: CachedNetworkImage(
             imageUrl: imageUrl,
+            httpHeaders: const {'Referer': 'https://yts.gg/'},
             fit: BoxFit.cover,
             placeholder: (_, _) => Shimmer.fromColors(
               baseColor: AppColors.surface,
               highlightColor: AppColors.textSecondary,
               child: const ColoredBox(color: AppColors.surface),
             ),
-            errorWidget: (_, _, _) => ColoredBox(
-              color: AppColors.surface,
-              child: Icon(Icons.image_outlined, color: AppColors.textSecondary),
-            ),
+            errorWidget: (_, _, error) {
+              debugPrint('[ScreenshotCard] failed to load $imageUrl: $error');
+              return ColoredBox(
+                color: AppColors.surface,
+                child: Icon(
+                  Icons.image_outlined,
+                  color: AppColors.textSecondary,
+                ),
+              );
+            },
           ),
         ),
       ),
