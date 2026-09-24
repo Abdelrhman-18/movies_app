@@ -22,6 +22,8 @@ import 'package:movies_app/features/profile/presentation/widgets/delete_account_
 import 'package:movies_app/features/profile/presentation/widgets/profile_avatar_picker.dart';
 import 'package:movies_app/features/profile/presentation/widgets/profile_info_fields.dart';
 
+import '../../../auth/presentation/screens/reset_password_screen.dart';
+
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
 
@@ -78,7 +80,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       profileImage: _selectedImage,
     );
   }
-
   Future<void> _deleteAccount() async {
     final confirmed = await showDialog<bool>(
       context: context,
@@ -116,6 +117,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(context.l10n.profileUpdatedSuccessfully)),
           );
+          if (context.mounted) context.pop();
         }
 
         if (state is ProfileReauthRequired) {
@@ -171,8 +173,15 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         Align(
                           alignment: AlignmentDirectional.centerStart,
                           child: TextButton(
-                            onPressed: () =>
-                                context.pushNamed(AppRoutes.forgotPasswordName),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                       ResetPasswordScreen()
+                                ));
+                            }
+                              ,
                             child: Text(
                               context.l10n.resetPassword,
                               style: AppTextStyles.titleSmall,

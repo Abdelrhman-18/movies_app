@@ -280,13 +280,17 @@ class _WishlistSliver extends StatelessWidget {
           movies: movies,
           onMovieTap: onMovieTap,
         ),
-        WishlistEmpty() => SliverFillRemaining(
-          hasScrollBody: false,
 
-          child: EmptyState(
-              message: context.l10n.emptyWishList,
-            imagePath: AppAssets.emptyIllustration,
+        WishlistEmpty() => SliverToBoxAdapter(
 
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: EmptyState(
+
+                message: context.l10n.emptyWishList,
+              imagePath: AppAssets.emptyIllustration,
+
+            ),
           ),
 
         ),
