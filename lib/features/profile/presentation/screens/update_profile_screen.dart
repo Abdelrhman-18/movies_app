@@ -180,7 +180,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           ),
                         ),
 
-                        SizedBox(height: AppSpacing.xl),
+                        SizedBox(height: AppSizes.updateProfileIllustration),
 
                         AppButton(
                           label: context.l10n.deleteAccount,

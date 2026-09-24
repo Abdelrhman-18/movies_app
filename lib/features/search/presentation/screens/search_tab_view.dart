@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movies_app/core/constants/app_assets.dart';
 
 import 'package:movies_app/core/di/service_locator.dart';
 import 'package:movies_app/core/localization/l10n.dart';
@@ -66,7 +67,7 @@ class _SearchTabViewBodyState extends State<_SearchTabViewBody> {
               hasScrollBody: false,
               child: EmptyState(
                 message: context.l10n.searchPrompt,
-                icon: Icons.search,
+                imagePath: AppAssets.emptyIllustration,
               ),
             ),
             SearchLoading() => const SliverToBoxAdapter(

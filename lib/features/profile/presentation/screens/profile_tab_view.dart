@@ -209,6 +209,7 @@ class _ProfileHeader extends StatelessWidget {
           ),
           SizedBox(height: AppSpacing.xl),
           AppButton(
+            icon: Icon(Icons.edit_rounded, color: Colors.black),
             label: context.l10n.editProfile,
             onPressed: onEditProfileTap,
           ),
@@ -218,6 +219,7 @@ class _ProfileHeader extends StatelessWidget {
             variant: AppButtonVariant.danger,
             isLoading: isSigningOut,
             onPressed: onLogoutTap,
+            icon: Icon(Icons.logout_rounded, color: Colors.white ,size: 20),
           ),
         ],
       ),
@@ -278,8 +280,15 @@ class _WishlistSliver extends StatelessWidget {
           movies: movies,
           onMovieTap: onMovieTap,
         ),
-        WishlistEmpty() => SliverToBoxAdapter(
-          child: EmptyState(message: context.l10n.emptyWishList),
+        WishlistEmpty() => SliverFillRemaining(
+          hasScrollBody: false,
+
+          child: EmptyState(
+              message: context.l10n.emptyWishList,
+            imagePath: AppAssets.emptyIllustration,
+
+          ),
+
         ),
         WishlistError() => SliverToBoxAdapter(
           child: MovieListErrorView(
@@ -308,7 +317,7 @@ class _HistorySliver extends StatelessWidget {
         HistoryEmpty() => SliverToBoxAdapter(
           child: EmptyState(
             message: context.l10n.emptyHistory,
-            icon: Icons.history_rounded,
+            imagePath: AppAssets.emptyIllustration,
           ),
         ),
         HistoryError() => SliverToBoxAdapter(

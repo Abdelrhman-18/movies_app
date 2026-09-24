@@ -38,7 +38,7 @@ abstract final class AppSizes {
   static double get badgeVerticalPadding => 8.h;
 
   static double get languageFlag => 28.r;
-
+  static double get updateProfileIllustration  => 260.h;
   static double get loginLogoWidth => 170.w;
   static double get loginLogoHeight => 166.h;
   static double get loginDividerWidth => 230.w;
